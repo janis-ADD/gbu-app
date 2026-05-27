@@ -20,7 +20,15 @@ import type { BundleSetupState } from '@/lib/forms/states';
 type CreateResult =
   | { kind: 'go-bundle'; id: string }
   | { kind: 'go-login' }
-  | { kind: 'go-list-with-error'; code: 'create_failed' | 'service_unavailable' };
+  | {
+      kind: 'go-list-with-error';
+      code: 'create_failed' | 'service_unavailable';
+      // TEMP DEBUG (Real User Validation Sprint): trägt die echte Fehler­
+      // meldung in die Redirect-URL, damit der Preview die DB-Ursache
+      // surfaced (statt nur den generischen Code zu schlucken). Nach
+      // Root-Cause-Klärung wieder entfernen.
+      debug?: string;
+    };
 
 async function attemptCreate(): Promise<CreateResult> {
   try {
@@ -75,7 +83,10 @@ async function attemptCreate(): Promise<CreateResult> {
         title_length: defaultTitle.length,
         title_has_middledot: defaultTitle.includes('·')
       });
-      return { kind: 'go-list-with-error', code: 'create_failed' };
+      const debug = error
+        ? `[${error.code ?? 'no-code'}] ${error.message ?? 'no-message'}${error.details ? ` — ${error.details}` : ''}${error.hint ? ` (hint: ${error.hint})` : ''}`
+        : 'no-error-but-no-data';
+      return { kind: 'go-list-with-error', code: 'create_failed', debug };
     }
 
     await supabase.from('ra_audit_events').insert({
@@ -94,7 +105,11 @@ async function attemptCreate(): Promise<CreateResult> {
       message: err instanceof Error ? err.message : String(err),
       stack: err instanceof Error ? err.stack?.split('\n').slice(0, 6).join('\n') : null
     });
-    return { kind: 'go-list-with-error', code: 'service_unavailable' };
+    const debug =
+      err instanceof Error
+        ? `${err.name}: ${err.message}`
+        : `thrown: ${String(err)}`;
+    return { kind: 'go-list-with-error', code: 'service_unavailable', debug };
   }
 }
 
@@ -102,7 +117,10 @@ export async function createBundleAction(): Promise<void> {
   const result = await attemptCreate();
   if (result.kind === 'go-login') redirect('/login');
   if (result.kind === 'go-list-with-error') {
-    redirect(`/app/bundles?error=${result.code}`);
+    // TEMP DEBUG: echte Fehlermeldung in die URL gepackt, damit die
+    // Preview-Runtime ohne Function-Log-Zugriff debugbar ist.
+    const dbg = result.debug ? `&debug=${encodeURIComponent(result.debug.slice(0, 500))}` : '';
+    redirect(`/app/bundles?error=${result.code}${dbg}`);
   }
   redirect(`/app/bundles/${result.id}/setup?ev=bundle_create`);
 }
