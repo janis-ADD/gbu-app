@@ -21,10 +21,20 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'SU24 — KI-Gefährdungsbeurteilung in 60 Sekunden',
+  title: {
+    default: 'SU24 — Strukturierte Gefährdungsbeurteilung',
+    template: '%s · SU24'
+  },
   description:
-    'Konservativ, BG-/DGUV-orientiert, quellenbasiert. Strukturierte ' +
-    'Entwürfe, die der Arbeitgeber fachlich freigibt — in einer Minute fertig.',
+    'Revisionssichere Gefährdungsbeurteilung nach ArbSchG §5 & §6. ' +
+    'Strukturierte Ableitung aus dokumentierten Tätigkeiten gegen einen ' +
+    'geprüften DGUV-/BG-/ASR-Quellenkatalog. Reproduzierbar, auditierbar, ' +
+    'kryptografisch eingefroren.',
+  applicationName: 'sicherheitsunterweisung24.de',
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png'
+  },
   robots: { index: false, follow: false }
 };
 

@@ -11,12 +11,10 @@ export function QuotaCard({ quota }: { quota: Quota | null }) {
         <div className="quota-body">
           <div className="quota-title">{quota.plan_name}-Plan aktiv</div>
           <div className="quota-desc">
-            Unbegrenzte Beurteilungen freigeben. Vielen Dank, dass du SU24 nutzt!
+            Unbegrenzte freigegebene GBUs. {quota.used} bereits freigegeben.
           </div>
         </div>
-        <Link href="/app/account" className="btn btn-secondary">
-          Plan verwalten
-        </Link>
+        <Link href="/app/account" className="btn btn-secondary">Plan verwalten</Link>
       </div>
     );
   }
@@ -26,21 +24,18 @@ export function QuotaCard({ quota }: { quota: Quota | null }) {
 
   return (
     <div className="quota-card">
-      <div className="quota-icon">{exhausted ? '🔒' : '🧠'}</div>
+      <div className="quota-icon">{exhausted ? '🔒' : '📊'}</div>
       <div className="quota-body">
         <div className="quota-title">
-          {quota.plan_name}-Plan · {quota.used} von {quota.max} Releases verbraucht
+          {quota.plan_name}-Plan · {quota.used} von {quota.max} GBUs freigegeben
         </div>
         <div className="quota-desc">
           {exhausted
-            ? 'Dein Free-Limit ist erreicht. Du kannst weiter Entwürfe bearbeiten — für eine weitere Freigabe ist ein Upgrade nötig.'
-            : 'Im Free-Plan kannst du eine Gefährdungsbeurteilung freigeben und als PDF exportieren.'}
+            ? 'Free-Limit erreicht. Du kannst weiter Entwürfe bearbeiten — für weitere Freigaben ist ein Upgrade nötig.'
+            : 'Free enthält drei freigegebene GBUs. Entwürfe sind unbegrenzt möglich.'}
         </div>
         <div className="quota-progress-wrap">
-          <div
-            className={`quota-progress ${exhausted ? 'is-full' : ''}`}
-            style={{ width: `${pct}%` }}
-          />
+          <div className={`quota-progress ${exhausted ? 'is-full' : ''}`} style={{ width: `${pct}%` }} />
         </div>
       </div>
       <Link href="/app/upgrade" className="btn btn-primary">

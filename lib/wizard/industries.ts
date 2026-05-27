@@ -15,3 +15,9 @@ export const INDUSTRIES = [
 ] as const;
 
 export type IndustrySlug = (typeof INDUSTRIES)[number]['value'];
+
+/** UI-Label für einen gespeicherten Industry-Slug. Fallback = raw slug. */
+export function industryLabel(slug: string | null | undefined): string {
+  if (!slug) return '—';
+  return INDUSTRIES.find((i) => i.value === slug)?.label ?? slug;
+}

@@ -70,8 +70,9 @@ export function SignUpForm() {
             <Link href="/" style={{ color: 'var(--petrol)', fontWeight: 600 }}>
               Datenschutzerklärung
             </Link>
-            . Mir ist bekannt, dass die KI strukturierte Entwürfe erzeugt und
-            keine Fachkraft für Arbeitssicherheit ersetzt.
+            . Mir ist bekannt, dass das System strukturierte Entwürfe auf Basis
+            kuratierter Quellen erzeugt und keine Fachkraft für Arbeitssicherheit
+            ersetzt.
           </span>
         </label>
       </div>
