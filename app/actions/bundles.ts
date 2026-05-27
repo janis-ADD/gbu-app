@@ -62,6 +62,19 @@ async function attemptCreate(): Promise<CreateResult> {
 
     if (error || !data) {
       logSafe('bundle.create.fail', { code: error?.code ?? 'unknown' }, 'warn');
+      // Full diagnostic dump for Netlify Function Logs — bewusst console.error
+      // (umgeht die SAFE_KEYS-Whitelist, weil wir hier die echte DB-Ursache
+      // sehen müssen). Kein PII im Payload — title ist eine generische
+      // Datums-Default, company_profile-Inhalt wird bewusst NICHT geloggt.
+      console.error('[bundle.create.fail] supabase insert failed', {
+        pg_code: error?.code ?? null,
+        pg_message: error?.message ?? null,
+        pg_details: error?.details ?? null,
+        pg_hint: error?.hint ?? null,
+        data_present: !!data,
+        title_length: defaultTitle.length,
+        title_has_middledot: defaultTitle.includes('·')
+      });
       return { kind: 'go-list-with-error', code: 'create_failed' };
     }
 
@@ -74,8 +87,13 @@ async function attemptCreate(): Promise<CreateResult> {
     });
     logSafe('bundle.create.ok', { user_id: userId });
     return { kind: 'go-bundle', id: data.id };
-  } catch {
+  } catch (err) {
     logSafe('bundle.create.error', { code: 'service_unavailable' }, 'error');
+    console.error('[bundle.create.error] uncaught exception', {
+      name: err instanceof Error ? err.name : null,
+      message: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack?.split('\n').slice(0, 6).join('\n') : null
+    });
     return { kind: 'go-list-with-error', code: 'service_unavailable' };
   }
 }
@@ -281,13 +299,28 @@ export async function seedGbusFromIndustryAction(bundleId: string): Promise<void
       const { error } = await supabase.from('ra_gbus').insert(rows);
       if (error) {
         logSafe('gbu.seed.fail', { code: error.code ?? 'unknown' }, 'warn');
+        console.error('[gbu.seed.fail] supabase insert failed', {
+          pg_code: error.code ?? null,
+          pg_message: error.message ?? null,
+          pg_details: error.details ?? null,
+          pg_hint: error.hint ?? null,
+          row_count: rows.length,
+          scopes: rows.map((r) => r.scope_slug),
+          first_title_length: rows[0]?.title.length ?? null,
+          any_title_has_middledot: rows.some((r) => r.title.includes('·'))
+        });
       } else {
         logSafe('gbu.seed.ok', { stage: String(rows.length) });
       }
     }
     okRedirect = true;
-  } catch {
+  } catch (err) {
     logSafe('gbu.seed.error', { code: 'service_unavailable' }, 'error');
+    console.error('[gbu.seed.error] uncaught exception', {
+      name: err instanceof Error ? err.name : null,
+      message: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack?.split('\n').slice(0, 6).join('\n') : null
+    });
   }
   if (okRedirect) {
     redirect(`/app/bundles/${bundleId}?ev=gbu_seed`);

@@ -100,6 +100,15 @@ async function attemptCreateGbu(
 
     if (error || !data) {
       logSafe('gbu.create.fail', { code: error?.code ?? 'unknown' }, 'warn');
+      console.error('[gbu.create.fail] supabase insert failed', {
+        pg_code: error?.code ?? null,
+        pg_message: error?.message ?? null,
+        pg_details: error?.details ?? null,
+        pg_hint: error?.hint ?? null,
+        scope_slug: scopeSlug,
+        title_length: title.length,
+        title_has_middledot: title.includes('·')
+      });
       return { kind: 'go-bundle-error', bundleId, code: 'create_failed' };
     }
 
@@ -113,8 +122,14 @@ async function attemptCreateGbu(
     });
 
     return { kind: 'go-gbu', bundleId, gbuId: data.id };
-  } catch {
+  } catch (err) {
     logSafe('gbu.create.error', { code: 'service_unavailable' }, 'error');
+    console.error('[gbu.create.error] uncaught exception', {
+      name: err instanceof Error ? err.name : null,
+      message: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack?.split('\n').slice(0, 6).join('\n') : null,
+      scope_slug: scopeSlug
+    });
     return { kind: 'go-bundle-error', bundleId, code: 'service_unavailable' };
   }
 }
@@ -210,6 +225,14 @@ async function persistGbuStep(
     const { error } = await supabase.from('ra_gbus').update(merged).eq('id', gbuId);
     if (error) {
       logSafe('gbu.save.fail', { code: error.code ?? 'unknown', stage: String(stepNo) }, 'warn');
+      console.error('[gbu.save.fail] supabase update failed', {
+        pg_code: error.code ?? null,
+        pg_message: error.message ?? null,
+        pg_details: error.details ?? null,
+        pg_hint: error.hint ?? null,
+        step: stepNo,
+        patch_keys: Object.keys(patch)
+      });
       return { ok: false, error: 'Speichern fehlgeschlagen.' };
     }
     await supabase.from('ra_audit_events').insert({
@@ -221,8 +244,14 @@ async function persistGbuStep(
       metadata: { stage: String(stepNo) }
     });
     return { ok: true };
-  } catch {
+  } catch (err) {
     logSafe('gbu.save.error', { code: 'service_unavailable' }, 'error');
+    console.error('[gbu.save.error] uncaught exception', {
+      name: err instanceof Error ? err.name : null,
+      message: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack?.split('\n').slice(0, 6).join('\n') : null,
+      step: stepNo
+    });
     return { ok: false, error: 'Dienst gerade nicht verfügbar.' };
   }
 }
