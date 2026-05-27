@@ -54,12 +54,17 @@ where slug = 'laerm-mess-gehoerschutz';
 -- DELETE wäre destruktiv und könnte FK-Verweise brechen falls später
 -- jemand eine FK definiert. Konservativer Ansatz: trigger_conditions
 -- auf leeres jsonb setzen → Risk triggert nie mehr.
+-- HINWEIS: severity_default/likelihood_default müssen ∈ [1..5] sein
+-- (CHECK aus Migration 0007). Wir nutzen den minimal-gültigen Wert 1.
+-- Funktional egal: trigger_conditions = '{}' sorgt dafür, dass das
+-- deprecated Risiko durch die Engine ohnehin nie mehr ausgelöst wird —
+-- severity/likelihood werden in dem Pfad nie ausgewertet.
 update ra_risk_catalog set
   name              = '[Deprecated v3] Lärm/Staub/Dämpfe — bitte einzelne Risiken nutzen',
   data_source       = 'deprecated-v3',
   trigger_conditions = '{}'::jsonb,
-  severity_default   = 0,
-  likelihood_default = 0,
+  severity_default   = 1,
+  likelihood_default = 1,
   requires_betriebsanweisung = false,
   requires_psa               = false,
   requires_unterweisung      = false
