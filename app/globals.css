@@ -893,19 +893,74 @@ button { font: inherit; cursor: pointer; }
     print-color-adjust: exact;
   }
 
-  /* Bildschirm-only Elemente verstecken */
-  .sidebar, .topbar, .alert-banner, .kpi-grid, .quota-card,
+  /* ─── HARTE PRINT-STERILISIERUNG ──────────────────────────────────
+     Alles, was nicht zum eingefrorenen Compliance-Dokument gehört,
+     wird per !important ausgeschlossen. Das schließt explizit ein:
+       * Netlify Deploy-Preview-Drawer (auf Preview-Builds injiziert)
+       * Branch-Deploy / Build-Marker / Debug-Bots
+       * App-Shell (Sidebar, Topbar, Mobile-Toggle, Backdrop)
+       * Web-only Page-Header (h1, content-head, Buttons, Banner)
+       * Audit-Details-Toggle (technische Prüfinfos — gehören NICHT
+         ins Druck-Artefakt, sind UI-only)
+       * KPI-/Quota-/Trust-/Wizard-Reste
+     Alles auf .muster und seine Kinder runtergedampft. */
+
+  /* App-Shell und Layout-Container */
+  .sidebar, .topbar, .mobile-backdrop, .menu-toggle,
+  .layout > nav, .main > header,
+
+  /* Page-Header und Web-only UI vor dem Muster */
+  .content-head, .content > .alert-banner, .content > details,
+  .content > .quota-card, .content > .kpi-grid, .content > .trust-strip,
+  details.audit-details,
+
+  /* Wizard-/Old-V1-Reste */
   .wizard-side, .wizard-head, .wizard-actions, .trust-banner,
-  .content-head .btn,
-  .content-head a, .content-head p,
-  .content-head h1 { display: none !important; }
-  .main { margin-left: 0; }
-  .content { padding: 0; }
+  .quota-card, .kpi-grid,
+
+  /* Generische Web-only Komponenten */
+  .alert-banner, .trust-strip, .badge,
+
+  /* Analytics + Consent */
+  [class*="consent"], [id*="consent"],
+  [data-analytics], [data-tracking],
+
+  /* Netlify Deploy Preview Drawer / Collaboration Widget */
+  #netlify-collab-drawer, netlify-collab-drawer,
+  netlify-deploy-bar, netlify-deploy-status,
+  .nf-collab, .nf-collab-drawer, .nf-deploy-bar,
+  iframe[src*="netlify"], iframe[id*="netlify"],
+  iframe[src*="deploy-preview"], iframe[src*="netlify.app"],
+  [class*="netlify-"], [id*="netlify-"], [data-netlify],
+  /* Browser-Extensions, dev tools */
+  [id*="devtools"], [class*="devtools"],
+  /* Skip-Links (sind im normalen Flow versteckt, aber paranoid) */
+  .sr-only:focus {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Layout-Container auf Block reduzieren */
+  .layout { display: block !important; }
+  .main { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+  .content { padding: 0 !important; max-width: 100% !important; }
   .wizard-layout { display: block; }
   .wizard-main { border: none; }
-  .muster { border: none; border-radius: 0; box-shadow: none; }
+  .muster {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
   .muster-head { display: none !important; }
-  .muster-body { padding: 0; }
+  .muster-body { padding: 0 !important; }
+  body, html {
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 
   .print-only { display: block !important; }
   .print-page-break { display: block !important; page-break-before: always; }
@@ -924,61 +979,72 @@ button { font: inherit; cursor: pointer; }
   .print-cover .pc-brand {
     display: flex;
     align-items: center;
-    gap: 10mm;
-    font-size: 10pt;
+    gap: 6mm;
+    font-size: 9pt;
     color: #64748b;
-    letter-spacing: .08em;
+    letter-spacing: .06em;
     text-transform: uppercase;
     font-weight: 600;
   }
   .print-cover .pc-brand-mark {
-    width: 16mm;
-    height: 16mm;
-    border-radius: 4mm;
+    width: 10mm;
+    height: 10mm;
+    border-radius: 2mm;
     background: linear-gradient(135deg, #1B6CA8, #0c3a5c);
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Times New Roman', serif;
-    font-size: 14pt;
+    font-size: 9pt;
     font-weight: 700;
     letter-spacing: 0;
   }
+  /* Logo deutlich verkleinert — Auditdokument, nicht Marketingseite. */
   .print-cover .pc-brand-mark-img {
-    width: 18mm;
-    height: 18mm;
+    width: 10mm;
+    height: 10mm;
     object-fit: contain;
     flex-shrink: 0;
   }
-  .print-cover .pc-brand-text { line-height: 1.4; }
-  .print-cover .pc-brand-text .pc-brand-name { font-size: 12pt; color: #0c3a5c; letter-spacing: .04em; }
-  .print-cover .pc-brand-text .pc-brand-tagline { font-size: 9pt; color: #94a3b8; letter-spacing: .04em; }
+  .print-cover .pc-brand-text { line-height: 1.35; }
+  .print-cover .pc-brand-text .pc-brand-name {
+    font-size: 9pt; color: #0c3a5c; letter-spacing: .04em; font-weight: 700;
+  }
+  .print-cover .pc-brand-text .pc-brand-tagline {
+    font-size: 7.5pt; color: #94a3b8; letter-spacing: .05em; text-transform: none;
+  }
 
-  .print-cover .pc-spacer { flex: 1; min-height: 30mm; }
+  .print-cover .pc-spacer { flex: 1; min-height: 40mm; }
 
   .print-cover .pc-eyebrow {
-    font-size: 9.5pt;
+    font-size: 8.5pt;
     font-weight: 700;
-    color: #1B6CA8;
-    letter-spacing: .14em;
+    color: #475569;
+    letter-spacing: .16em;
     text-transform: uppercase;
-    margin-bottom: 6mm;
+    margin-bottom: 5mm;
+    padding-bottom: 3mm;
+    border-bottom: 0.5pt solid #cbd5e1;
+    display: inline-block;
+    padding-right: 10mm;
   }
+  /* Auditdokument-Titel — ruhig, ohne Marketing-Größe. */
   .print-cover .pc-title {
     font-family: 'Georgia', 'Times New Roman', serif;
-    font-size: 34pt;
+    font-size: 24pt;
     font-weight: 700;
-    line-height: 1.1;
+    line-height: 1.15;
     color: #0c3a5c;
-    margin: 0 0 8mm;
-    letter-spacing: -.015em;
+    margin: 0 0 6mm;
+    letter-spacing: -.005em;
   }
   .print-cover .pc-sub {
-    font-size: 13pt;
-    color: #334155;
-    margin: 0 0 14mm;
-    line-height: 1.4;
+    font-size: 11pt;
+    color: #475569;
+    margin: 0 0 12mm;
+    line-height: 1.45;
+    font-weight: 400;
   }
 
   .print-cover .pc-meta-grid {
@@ -1024,38 +1090,55 @@ button { font: inherit; cursor: pointer; }
 
   /* ─── Inhalts-Sektionen ───────────────────────────────────────────── */
   .pdf-section {
-    margin-bottom: 14mm;
+    margin-bottom: 16mm;
     page-break-inside: auto;
   }
   .pdf-section + .pdf-section { margin-top: 0; }
+  /* Kapitel-Header (Anhang) sollen visuell hängen lassen, dass sie
+     auf einer neuen Seite anfangen — bringen einen subtilen Vertical-
+     Buffer mit. */
+  .pdf-section h3 {
+    page-break-after: avoid;
+  }
 
   .pdf-section-num {
     display: block !important;
     font-size: 8pt;
     color: #94a3b8;
-    letter-spacing: .14em;
+    letter-spacing: .16em;
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 2mm;
   }
 
-  .muster-body h3 {
+  /* Kapitel-Überschrift mit feiner Trennlinie — wie in klassischen
+     Audit-Dokumenten. */
+  .muster-body h3,
+  .pdf-section h3 {
     font-family: 'Georgia', 'Times New Roman', serif;
-    font-size: 15pt;
+    font-size: 16pt;
     font-weight: 700;
-    margin: 0 0 6mm;
+    margin: 0 0 4mm;
+    padding: 0 0 3mm;
     color: #0c3a5c;
     border: none;
-    padding: 0;
+    border-bottom: 0.5pt solid #0c3a5c;
     line-height: 1.2;
     letter-spacing: -.005em;
   }
 
-  .muster-body p {
-    font-size: 10.5pt;
+  .muster-body p,
+  .pdf-section > p {
+    font-size: 10pt;
     color: #334155;
-    line-height: 1.6;
-    margin: 0 0 3mm;
+    line-height: 1.65;
+    margin: 0 0 4mm;
+  }
+
+  /* Heading-Pair (pdf-section-num + h3) zusammenhalten */
+  .pdf-section-num + h3,
+  .pdf-section-num + h3 + p {
+    page-break-before: avoid;
   }
 
   /* ─── Data-Box: ruhige Definition-List statt Card ─────────────────── */
