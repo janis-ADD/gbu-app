@@ -1,0 +1,1425 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>SU24 · PDF-Design-Ziel V6 · Büroarbeitsplätze · Addelivery</title>
+<style>
+  /* ─── @page: A4 Querformat ──────────────────────────────────────── */
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  /* ─── Reset ───────────────────────────────────────────────────── */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --ink: #0f172a;
+    --ink-2: #334155;
+    --ink-3: #64748b;
+    --ink-4: #94a3b8;
+    --line: #e2e8f0;
+    --line-strong: #cbd5e1;
+    --bg-soft: #fafbfc;
+    --bg-band: #f4f8fb;
+    --petrol: #0c3a5c;
+    --petrol-2: #1B6CA8;
+    --serif: 'Source Serif Pro', 'Georgia', 'Times New Roman', serif;
+    --sans: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', 'Menlo', monospace;
+  }
+
+  html, body {
+    font-family: var(--sans);
+    color: var(--ink);
+    font-feature-settings: 'ss01', 'ss02', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ─── Bildschirm-Vorschau: Seiten als Karten ────────────────────── */
+  @media screen {
+    body {
+      background: #e8ecf1;
+      padding: 30px 0;
+    }
+    .page {
+      width: 297mm;
+      height: 210mm;
+      background: #fff;
+      box-shadow:
+        0 1px 0 rgba(0,0,0,.04),
+        0 18px 40px -8px rgba(15,23,42,.18),
+        0 4px 12px -2px rgba(15,23,42,.08);
+      margin: 0 auto 22px;
+      padding: 14mm 18mm 12mm;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+    }
+    .preview-bar {
+      max-width: 297mm;
+      margin: 0 auto 24px;
+      padding: 10px 18mm;
+      font: 12px/1.5 var(--sans);
+      color: var(--ink-3);
+    }
+    .preview-bar strong { color: var(--ink); }
+    .preview-bar a {
+      color: var(--petrol);
+      text-decoration: underline dotted;
+    }
+  }
+
+  /* ─── Druck ────────────────────────────────────────────────────── */
+  @media print {
+    body { background: none; }
+    .preview-bar { display: none; }
+    .page {
+      width: 297mm; height: 210mm;
+      padding: 14mm 18mm 12mm;
+      page-break-after: always;
+      position: relative;
+      overflow: hidden;
+    }
+    .page:last-child { page-break-after: auto; }
+  }
+
+  /* ─── Cover ─────────────────────────────────────────────────────── */
+  .cover { display: flex; flex-direction: column; height: 100%; }
+  .cover-brand {
+    display: flex; align-items: center; gap: 3mm;
+    font-size: 8pt; color: var(--ink-3);
+    text-transform: uppercase; letter-spacing: .14em;
+    font-weight: 600;
+  }
+  .cover-brand-mark {
+    width: 8mm; height: 8mm; border-radius: 1.5mm;
+    background: linear-gradient(135deg, var(--petrol-2), var(--petrol));
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-weight: 700; font-size: 10pt;
+    letter-spacing: 0;
+  }
+  .cover-brand-text { line-height: 1.3; }
+  .cover-brand-name {
+    font-size: 9pt; color: var(--petrol); letter-spacing: .03em; font-weight: 700;
+  }
+  .cover-brand-tag {
+    font-size: 7.5pt; color: var(--ink-4); letter-spacing: .03em; text-transform: none;
+  }
+
+  .cover-eyebrow {
+    margin-top: 18mm;
+    font-size: 8.5pt; font-weight: 700; color: var(--ink-2);
+    letter-spacing: .2em; text-transform: uppercase;
+    padding-bottom: 2.5mm;
+    border-bottom: .5pt solid var(--line-strong);
+    display: inline-block; padding-right: 14mm;
+  }
+  .cover-title {
+    font-family: var(--serif);
+    font-size: 44pt; font-weight: 700;
+    color: var(--petrol);
+    line-height: 1.04;
+    margin-top: 6mm; margin-bottom: 3mm;
+    letter-spacing: -.012em;
+  }
+  .cover-sub {
+    font-size: 12pt; color: var(--ink-2); line-height: 1.45;
+    max-width: 200mm;
+  }
+
+  .cover-meta {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6mm 14mm;
+    padding-top: 6mm; padding-bottom: 6mm;
+    border-top: .5pt solid var(--line-strong);
+    border-bottom: .5pt solid var(--line-strong);
+  }
+  .cover-meta-cell { line-height: 1.35; }
+  .cover-meta-cell .label {
+    display: block;
+    font-size: 7.5pt; color: var(--ink-4);
+    text-transform: uppercase; letter-spacing: .1em;
+    font-weight: 700; margin-bottom: 1mm;
+  }
+  .cover-meta-cell .value {
+    font-size: 10.5pt; color: var(--ink); font-weight: 600;
+  }
+
+  .cover-foot {
+    margin-top: 5mm;
+    font-size: 8.5pt; color: var(--ink-3); line-height: 1.55;
+  }
+  .cover-foot strong { color: var(--petrol); font-weight: 600; }
+  .cover-hash {
+    margin-top: 2mm;
+    font-family: var(--mono);
+    font-size: 7.5pt; color: var(--ink-4); letter-spacing: 0;
+  }
+
+  /* ─── Standard-Section ──────────────────────────────────────────── */
+  .section-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    border-bottom: .5pt solid var(--petrol);
+    padding-bottom: 2mm; margin-bottom: 4mm;
+  }
+  .section-num {
+    font-size: 8pt; color: var(--ink-4);
+    text-transform: uppercase; letter-spacing: .18em;
+    font-weight: 700; display: block; margin-bottom: 1mm;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: 18pt; font-weight: 700;
+    color: var(--petrol);
+    line-height: 1.1;
+    letter-spacing: -.005em;
+  }
+  .section-meta {
+    font-size: 8.5pt; color: var(--ink-4);
+    text-align: right;
+  }
+  .section-lead {
+    font-size: 9.5pt; color: var(--ink-2);
+    line-height: 1.55;
+    margin-bottom: 5mm;
+    max-width: 220mm;
+  }
+
+  /* ─── Two-column layout (Kapitel 1+2) ───────────────────────────── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 10mm;
+  }
+
+  /* ─── Data box ──────────────────────────────────────────────────── */
+  .data-box {
+    width: 100%;
+    border: .5pt solid var(--line);
+    background: #fff;
+  }
+  .data-box-row {
+    display: grid;
+    grid-template-columns: 42mm 1fr;
+    border-bottom: .25pt solid var(--line);
+  }
+  .data-box-row:last-child { border-bottom: none; }
+  .data-box-row dt {
+    padding: 2mm 3mm;
+    background: var(--bg-soft);
+    font-size: 8pt; color: var(--ink-3);
+    text-transform: uppercase; letter-spacing: .06em;
+    font-weight: 700;
+    border-right: .25pt solid var(--line);
+  }
+  .data-box-row dd {
+    padding: 2mm 3mm;
+    font-size: 9.5pt; color: var(--ink); font-weight: 500;
+  }
+
+  /* ─── KPI tiles ─────────────────────────────────────────────────── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4mm;
+    margin-top: 4mm;
+  }
+  .kpi {
+    padding: 3.5mm 4mm;
+    border: .5pt solid var(--line);
+    background: #fff;
+    border-radius: 1mm;
+  }
+  .kpi-label {
+    font-size: 7.5pt; color: var(--ink-4);
+    text-transform: uppercase; letter-spacing: .08em;
+    font-weight: 700; margin-bottom: 1.5mm;
+  }
+  .kpi-value {
+    font-family: var(--serif);
+    font-size: 26pt; font-weight: 700;
+    color: var(--petrol); line-height: .95;
+    letter-spacing: -.01em;
+  }
+  .kpi-sub {
+    font-size: 7.5pt; color: var(--ink-3);
+    margin-top: 1mm;
+  }
+
+  /* ─── Tätigkeits-Hinweis ────────────────────────────────────────── */
+  .context-note {
+    margin-top: 4mm;
+    padding: 3mm 4mm;
+    background: var(--bg-band);
+    border-left: 2pt solid var(--petrol-2);
+    font-size: 9pt; color: var(--ink-2); line-height: 1.5;
+  }
+  .context-note strong { color: var(--petrol); font-weight: 700; }
+
+  /* ─── Audit table ───────────────────────────────────────────────── */
+  table.audit {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.5pt;
+  }
+  table.audit thead th {
+    background: var(--petrol);
+    color: #fff;
+    text-align: left;
+    padding: 1.8mm 3mm;
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    vertical-align: middle;
+  }
+  table.audit thead th:first-child { padding-left: 3mm; }
+  table.audit tbody td {
+    padding: 1.8mm 3mm;
+    border-bottom: .25pt solid var(--line);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  table.audit tbody tr:nth-child(even) td {
+    background: var(--bg-soft);
+  }
+  table.audit .nr {
+    font-family: var(--mono);
+    color: var(--ink-4); font-weight: 600;
+    font-size: 8pt;
+  }
+  table.audit .title { font-weight: 600; color: var(--ink); }
+  table.audit .meta {
+    font-size: 7.5pt; color: var(--ink-3);
+    margin-top: .5mm;
+  }
+
+  /* ─── Pills + chips ─────────────────────────────────────────────── */
+  .pill {
+    display: inline-block;
+    padding: 0 6px;
+    border-radius: 100px;
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    line-height: 1.75;
+    vertical-align: 1px;
+  }
+  .pill-hoch   { background: #fee2e2; color: #b91c1c; }
+  .pill-mittel { background: #fef3c7; color: #92400e; }
+  .pill-gering { background: #d1fae5; color: #047857; }
+  .pill-pflicht    { background: #fde2e4; color: #9d174d; }
+  .pill-empfehlung { background: #dbeafe; color: #1e3a8a; }
+  .pill-ok    { background: #d1fae5; color: #065f46; }
+  .pill-offen { background: #fef3c7; color: #92400e; }
+  .pill-mono {
+    background: #f1f5f9; color: var(--ink-2);
+    font-family: var(--mono); font-size: 7.5pt;
+    padding: 0 5px;
+  }
+
+  .src-chip {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 7pt;
+    background: rgba(27,108,168,.08);
+    color: var(--petrol-2);
+    padding: 0 5px;
+    border-radius: 2px;
+    margin: 0 2px 1px 0;
+    line-height: 1.7;
+    white-space: nowrap;
+  }
+
+  /* ─── Group bars in Maßnahmenplan ───────────────────────────────── */
+  .group-bar {
+    display: flex; align-items: baseline; gap: 6mm;
+    padding: 1.8mm 3mm;
+    background: var(--bg-band);
+    border-left: 2.5pt solid var(--petrol);
+    margin: 5mm 0 0;
+  }
+  .group-bar:first-child { margin-top: 0; }
+  .group-bar-title {
+    font-size: 10pt; font-weight: 700; color: var(--petrol);
+  }
+  .group-bar-meta {
+    font-size: 7.5pt; color: var(--ink-3);
+  }
+  .group-bar-meta strong { color: var(--ink-2); font-weight: 600; }
+
+  .group-table {
+    margin-top: 0;
+  }
+  .group-table th { padding-top: 1.5mm; padding-bottom: 1.5mm; }
+
+  /* ─── Sources list ──────────────────────────────────────────────── */
+  .sources-grid {
+    margin-top: 2mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1mm 6mm;
+    font-size: 8.5pt; line-height: 1.45;
+  }
+  .sources-grid li {
+    list-style: none;
+    padding: 1mm 0;
+    border-bottom: .25pt dotted var(--line);
+  }
+  .sources-grid li code {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--petrol-2);
+    background: rgba(27,108,168,.08);
+    padding: 0 5px;
+    border-radius: 2px;
+    margin-right: 4px;
+  }
+  .sources-grid li strong { color: var(--ink); font-weight: 500; }
+
+  /* ─── Signature block ───────────────────────────────────────────── */
+  .approval {
+    margin-top: 4mm;
+    padding: 5mm 6mm;
+    border: .75pt solid var(--petrol);
+    background: #fff;
+  }
+  .approval-title {
+    font-size: 9pt; color: var(--petrol);
+    text-transform: uppercase; letter-spacing: .14em;
+    font-weight: 700;
+    padding-bottom: 2mm;
+    border-bottom: .25pt solid var(--line);
+    margin-bottom: 4mm;
+  }
+  .sig-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10mm;
+  }
+  .sig-num {
+    font-size: 7.5pt; color: var(--petrol);
+    text-transform: uppercase; letter-spacing: .1em;
+    font-weight: 700; margin-bottom: 1.5mm;
+  }
+  .sig-role {
+    font-size: 10pt; color: var(--ink); font-weight: 600;
+    margin-bottom: 16mm;
+  }
+  .sig-role.empty {
+    color: var(--ink-4); font-weight: 400; font-style: italic;
+  }
+  .sig-line {
+    font-size: 7.5pt; color: var(--ink-4);
+    text-transform: uppercase; letter-spacing: .06em;
+    border-top: .5pt solid var(--ink-3);
+    padding-top: 1.5mm; margin-bottom: 10mm;
+  }
+  .approval-foot {
+    margin-top: 3mm;
+    padding-top: 3mm;
+    border-top: .25pt solid var(--line);
+    font-size: 8pt; color: var(--ink-3); line-height: 1.55;
+  }
+  .approval-foot code {
+    font-family: var(--mono); font-size: 8pt;
+    background: var(--bg-soft); padding: 0 4px; border-radius: 2px;
+    color: var(--petrol);
+  }
+
+  /* ─── Detail card grid (Anhang C) ───────────────────────────────── */
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3mm 8mm;
+    margin-top: 3mm;
+  }
+  .detail-card {
+    border-top: .5pt solid var(--line-strong);
+    padding-top: 1.8mm; padding-bottom: 1mm;
+    break-inside: avoid;
+  }
+  .detail-card-head {
+    display: flex; align-items: baseline; gap: 2mm; flex-wrap: wrap;
+    margin-bottom: 1.2mm;
+  }
+  .detail-card-nr {
+    font-family: var(--mono);
+    font-weight: 700; color: var(--petrol);
+    font-size: 8.5pt;
+  }
+  .detail-card-title {
+    font-weight: 700; color: var(--ink);
+    font-size: 9pt;
+    flex: 1 1 50%;
+  }
+  .detail-card-body {
+    font-size: 8pt; color: var(--ink-2);
+    line-height: 1.5;
+    margin-bottom: 1.2mm;
+  }
+  .detail-card-why {
+    font-size: 7.5pt; color: var(--ink-3);
+    line-height: 1.5;
+    margin-bottom: 1.2mm;
+  }
+  .detail-card-why strong { color: var(--petrol); font-weight: 700; }
+  .detail-card-sources {
+    line-height: 1.7;
+  }
+
+  /* ─── Doc footer (jede Seite) ───────────────────────────────────── */
+  .doc-footer {
+    position: absolute;
+    bottom: 8mm; left: 18mm; right: 18mm;
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 7pt; color: var(--ink-4);
+    border-top: .25pt solid var(--line);
+    padding-top: 2mm;
+  }
+  .doc-footer-mono {
+    font-family: var(--mono); letter-spacing: 0;
+  }
+
+  /* ─── Helpers ───────────────────────────────────────────────────── */
+  .h-spacer-4 { height: 4mm; }
+  .h-spacer-6 { height: 6mm; }
+  .nowrap { white-space: nowrap; }
+  .text-3 { color: var(--ink-3); }
+  .text-4 { color: var(--ink-4); }
+  small  { font-size: inherit; }
+</style>
+</head>
+<body>
+
+<div class="preview-bar">
+  <strong>SU24 · PDF-Design-Ziel V6</strong> &nbsp;·&nbsp;
+  8 Seiten Querformat &nbsp;·&nbsp;
+  Beispieldaten aus echtem V4-Print (Addelivery / Büroarbeitsplätze, 11 Risiken, 20 Maßnahmen) &nbsp;·&nbsp;
+  Druckbar via <em>⌘P → „Als PDF speichern" → A4 quer, Ränder „Keine"</em>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SEITE 1 · COVER                                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-brand">
+    <div class="cover-brand-mark">SU</div>
+    <div class="cover-brand-text">
+      <div class="cover-brand-name">sicherheitsunterweisung24.de</div>
+      <div class="cover-brand-tag">Strukturierte Gefährdungsbeurteilung</div>
+    </div>
+  </div>
+
+  <div class="cover-eyebrow">Gefährdungsbeurteilung · ArbSchG §5 / §6</div>
+  <h1 class="cover-title">Büroarbeitsplätze</h1>
+  <p class="cover-sub">Addelivery · Andere / Mischbetrieb</p>
+
+  <div class="cover-meta">
+    <div class="cover-meta-cell">
+      <span class="label">Mappe</span>
+      <span class="value">Gefährdungsbeurteilung 27.05.2026</span>
+    </div>
+    <div class="cover-meta-cell">
+      <span class="label">Arbeitsbereich</span>
+      <span class="value">Büroarbeitsplätze</span>
+    </div>
+    <div class="cover-meta-cell">
+      <span class="label">Standort</span>
+      <span class="value">45875 Kaarst · NW</span>
+    </div>
+    <div class="cover-meta-cell">
+      <span class="label">Mitarbeitende</span>
+      <span class="value">2–5</span>
+    </div>
+    <div class="cover-meta-cell">
+      <span class="label">Verantwortliche Rolle</span>
+      <span class="value">Janis</span>
+    </div>
+    <div class="cover-meta-cell">
+      <span class="label">Bestätigte BG</span>
+      <span class="value">VBG</span>
+    </div>
+    <div class="cover-meta-cell">
+      <span class="label">Version</span>
+      <span class="value">v1 · freigegeben am 28.05.2026</span>
+    </div>
+    <div class="cover-meta-cell">
+      <span class="label">Nächste Wirksamkeitsprüfung</span>
+      <span class="value">28.05.2027</span>
+    </div>
+  </div>
+
+  <div class="cover-foot">
+    <strong>Reproduzierbares Compliance-Dokument.</strong>
+    Tätigkeitsbezogene GBU gem. ArbSchG §5 &amp; §6, deterministisch aus dokumentierten
+    Tätigkeits-Angaben gegen einen kuratierten DGUV-/BG-/ASR-Quellenkatalog erstellt
+    und zur Freigabe-Zeit kryptografisch eingefroren. Ersetzt nicht die fachkundige
+    Prüfung durch Arbeitgeber, verantwortliche Person oder Fachkraft für Arbeitssicherheit.
+  </div>
+  <div class="cover-hash">
+    ✓ Inhalt unverändert · Berechnung 1.1.0 · Katalog 62f1fe4e934e · Kennung 2d4c5d4a9365
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SEITE 2 · KAPITEL 1+2 (Überblick + Tätigkeiten + KPIs)              -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-head">
+    <div>
+      <span class="section-num">Kapitel 1</span>
+      <h2 class="section-title">Überblick &amp; Tätigkeiten</h2>
+    </div>
+    <div class="section-meta">
+      Beurteilungs-Kennung <span class="doc-footer-mono">v1 · 2d4c5d4a9365</span>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <dl class="data-box">
+        <div class="data-box-row"><dt>Unternehmen</dt><dd>Addelivery</dd></div>
+        <div class="data-box-row"><dt>Branche</dt><dd>Andere / Mischbetrieb</dd></div>
+        <div class="data-box-row"><dt>Standort</dt><dd>45875 Kaarst · NW</dd></div>
+        <div class="data-box-row"><dt>Arbeitsbereich</dt><dd>Büroarbeitsplätze</dd></div>
+        <div class="data-box-row"><dt>Bestätigte BG</dt><dd>VBG</dd></div>
+        <div class="data-box-row"><dt>Erstellt am (Freigabe)</dt><dd>28.05.2026</dd></div>
+        <div class="data-box-row"><dt>Verantwortlich</dt><dd>Janis</dd></div>
+        <div class="data-box-row"><dt>Nächste Wirksamkeitsprüfung</dt><dd>28.05.2027 <span class="text-3">· aktuell (365 Tage)</span></dd></div>
+      </dl>
+    </div>
+
+    <div>
+      <h3 style="font-size:9pt;font-weight:700;color:var(--petrol);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2mm">
+        Tätigkeiten
+      </h3>
+      <p style="font-size:10pt;line-height:1.6;color:var(--ink-2);margin-bottom:3mm">
+        In nahezu jedem Betrieb vorhanden: regelmäßige Bildschirmarbeit,
+        Tätigkeit in Innenräumen, gelegentlich Werkstatt-/Lager-Einsätze,
+        Einsatz von Leitern oder Tritten, gelegentlich Alleinarbeit.
+      </p>
+      <div class="context-note">
+        <strong>Kontext berücksichtigt:</strong> Die Bewertung berücksichtigt
+        Ihre Angabe zu „regelmäßig".
+      </div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label">Gefährdungen</div>
+      <div class="kpi-value">11</div>
+      <div class="kpi-sub">davon 4 Pflicht</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Maßnahmen</div>
+      <div class="kpi-value">20</div>
+      <div class="kpi-sub">davon 18 Pflicht</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Risiko-Score Max.</div>
+      <div class="kpi-value">12</div>
+      <div class="kpi-sub">mittel · Schwere hoch</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Quellen</div>
+      <div class="kpi-value">25</div>
+      <div class="kpi-sub">DGUV / ArbSchG / ASR</div>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <span>Büroarbeitsplätze · Addelivery</span>
+    <span class="doc-footer-mono">Seite 2 / 8 · Snapshot 2d4c5d4a9365</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SEITE 3 · KAPITEL 2 · ERKANNTE GEFÄHRDUNGEN                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-head">
+    <div>
+      <span class="section-num">Kapitel 2</span>
+      <h2 class="section-title">Erkannte Gefährdungen</h2>
+    </div>
+    <div class="section-meta">11 Einträge · sortiert nach Risiko</div>
+  </div>
+  <p class="section-lead">
+    Aus den dokumentierten Tätigkeitsangaben deterministisch abgeleitet.
+    Pflicht-Gefährdungen erfordern Betriebsanweisung, PSA-Bereitstellung
+    und/oder Unterweisung. Spalte „Quellen" verweist auf den
+    kuratierten Quellenkatalog (Kapitel 4).
+  </p>
+
+  <table class="audit">
+    <colgroup>
+      <col style="width:8mm">
+      <col style="width:74mm">
+      <col style="width:44mm">
+      <col style="width:54mm">
+      <col>
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Nr.</th>
+        <th>Gefährdung</th>
+        <th>Bewertung</th>
+        <th>Quellen</th>
+        <th>Auslöser</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="nr">01</td>
+        <td><span class="title">Absturz von Leitern und Tritten</span> <span class="pill pill-pflicht">Pflicht</span><div class="meta">leitern-tritte</div></td>
+        <td><span class="pill pill-mittel">Risiko mittel</span><div class="meta">Schwere hoch · selten</div></td>
+        <td><span class="src-chip">DGUV I 208-016</span><span class="src-chip">BG BAU B 198</span><span class="src-chip">BetrSichV</span></td>
+        <td>Einsatz von Leitern oder Tritten</td>
+      </tr>
+      <tr>
+        <td class="nr">02</td>
+        <td><span class="title">Arbeiten unter Spannung</span> <span class="pill pill-pflicht">Pflicht</span><div class="meta">arbeiten-unter-spannung</div></td>
+        <td><span class="pill pill-mittel">Risiko mittel</span><div class="meta">Schwere sehr hoch · selten</div></td>
+        <td><span class="src-chip">DGUV V3</span><span class="src-chip">DGUV V3 §6</span></td>
+        <td>Stationäre Maschinen · Werkstatt</td>
+      </tr>
+      <tr>
+        <td class="nr">03</td>
+        <td><span class="title">Lärm-, Staub- und Dampfexposition</span> <span class="pill pill-pflicht">Pflicht</span><div class="meta">laerm-staub-daempfe</div></td>
+        <td><span class="pill pill-mittel">Risiko mittel</span><div class="meta">Schwere mittel · gelegentlich</div></td>
+        <td><span class="src-chip">GefStoffV</span><span class="src-chip">LärmVibrationsArbSchV</span></td>
+        <td>Stationäre Maschinen</td>
+      </tr>
+      <tr>
+        <td class="nr">04</td>
+        <td><span class="title">PSA — Persönliche Schutzausrüstung</span> <span class="pill pill-pflicht">Pflicht</span><div class="meta">psa-schutzausruestung</div></td>
+        <td><span class="pill pill-mittel">Risiko mittel</span><div class="meta">Schwere mittel · gelegentlich</div></td>
+        <td><span class="src-chip">DGUV I 212-016</span><span class="src-chip">ArbSchG</span></td>
+        <td>Stationäre Maschinen</td>
+      </tr>
+      <tr>
+        <td class="nr">05</td>
+        <td><span class="title">Brand- und Evakuierungsrisiko</span><div class="meta">brand-fluchtwege</div></td>
+        <td><span class="pill pill-mittel">Risiko mittel</span><div class="meta">Schwere sehr hoch · selten</div></td>
+        <td><span class="src-chip">ASR A2.2</span><span class="src-chip">DGUV I 205-001</span></td>
+        <td>Innenräume · Werkstatt</td>
+      </tr>
+      <tr>
+        <td class="nr">06</td>
+        <td><span class="title">Elektrischer Schlag / Lichtbogen</span><div class="meta">elektrische-betriebsmittel</div></td>
+        <td><span class="pill pill-mittel">Risiko mittel</span><div class="meta">Schwere mittel · gelegentlich</div></td>
+        <td><span class="src-chip">DGUV V3</span><span class="src-chip">BetrSichV</span><span class="src-chip">TRBS 1201</span></td>
+        <td>Stationäre Maschinen · Bildschirm</td>
+      </tr>
+      <tr>
+        <td class="nr">07</td>
+        <td><span class="title">Manuelles Heben, Tragen, Ziehen</span><div class="meta">manuelles-heben-tragen</div></td>
+        <td><span class="pill pill-mittel">Risiko mittel</span><div class="meta">Schwere mittel · gelegentlich</div></td>
+        <td><span class="src-chip">LasthandhabV</span><span class="src-chip">DGUV I 208-033</span></td>
+        <td>Tätigkeit in der Werkstatt</td>
+      </tr>
+      <tr>
+        <td class="nr">08</td>
+        <td><span class="title">Psychische Belastung</span><div class="meta">psychische-belastung</div></td>
+        <td><span class="pill pill-mittel">Risiko mittel</span><div class="meta">Schwere mittel · gelegentlich</div></td>
+        <td><span class="src-chip">ArbSchG</span><span class="src-chip">DGUV I 206-007</span></td>
+        <td>Emotional belastende Situationen</td>
+      </tr>
+      <tr>
+        <td class="nr">09</td>
+        <td><span class="title">Notfallbewältigung bei Alleinarbeit</span><div class="meta">alleinarbeit</div></td>
+        <td><span class="pill pill-gering">Risiko gering</span><div class="meta">Schwere hoch · selten</div></td>
+        <td><span class="src-chip">ArbSchG</span><span class="src-chip">DGUV V1</span><span class="src-chip">DGUV R 112-139</span></td>
+        <td>Alleinarbeit</td>
+      </tr>
+      <tr>
+        <td class="nr">10</td>
+        <td><span class="title">Bildschirm-/Büroarbeitsplatz (Ergonomie + Augen)</span><div class="meta">buero-bildschirm</div></td>
+        <td><span class="pill pill-gering">Risiko gering</span><div class="meta">Schwere gering · gelegentlich</div></td>
+        <td><span class="src-chip">ArbStättV Anh. 6</span><span class="src-chip">ArbMedVV Anh. 4</span></td>
+        <td>Bildschirmarbeit · Homeoffice</td>
+      </tr>
+      <tr>
+        <td class="nr">11</td>
+        <td><span class="title">Erste Hilfe</span><div class="meta">erste-hilfe</div></td>
+        <td><span class="pill pill-gering">Risiko gering</span><div class="meta">Schwere mittel · selten</div></td>
+        <td><span class="src-chip">ArbSchG</span><span class="src-chip">DGUV V1</span></td>
+        <td>Innenräume · Werkstatt</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="doc-footer">
+    <span>Büroarbeitsplätze · Addelivery</span>
+    <span class="doc-footer-mono">Seite 3 / 8 · Snapshot 2d4c5d4a9365</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SEITE 4 · KAPITEL 3 · MASSNAHMENPLAN (kompakt)                      -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-head">
+    <div>
+      <span class="section-num">Kapitel 3</span>
+      <h2 class="section-title">Maßnahmenplan</h2>
+    </div>
+    <div class="section-meta">20 Einträge · Detail in Anhang C</div>
+  </div>
+  <p class="section-lead">
+    Auditfähiger Plan nach Wirksamkeits-Hierarchie (STOP-Prinzip, ArbSchG §4).
+    Sortierung pro Gruppe nach Pflicht und Risiko. Ausführliche Beschreibung,
+    Begründung und vollständige Quellenliste je Maßnahme: siehe <strong>Anhang C #NN</strong>.
+  </p>
+
+  <div class="group-bar">
+    <span class="group-bar-title">Jetzt wichtig</span>
+    <span class="group-bar-meta">18 Maßnahmen · <strong>Empfohlene Frist:</strong> innerhalb 14 Tagen · <strong>Verantwortlich:</strong> Janis</span>
+  </div>
+  <table class="audit group-table">
+    <colgroup>
+      <col style="width:8mm">
+      <col>
+      <col style="width:12mm">
+      <col style="width:18mm">
+      <col style="width:18mm">
+      <col style="width:30mm">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Nr.</th><th>Maßnahme</th><th>STOP</th><th>Pflicht</th><th>Status</th><th>Rechtsgrundlage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="nr">01</td><td><span class="title">5 Sicherheitsregeln bei Elektroarbeiten</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-ok">✓ umgesetzt</span></td><td><span class="src-chip">DGUV V3 §6</span></td></tr>
+      <tr><td class="nr">02</td><td><span class="title">Elektrofachkraft (EFK / EuP) schriftlich bestellt</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-ok">✓ umgesetzt</span></td><td><span class="src-chip">DGUV V3</span></td></tr>
+      <tr><td class="nr">03</td><td><span class="title">PSA tätigkeitsbezogen, kostenfrei, mit Tragepflicht</span></td><td><span class="pill pill-mono">P</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-ok">✓ umgesetzt</span></td><td><span class="src-chip">DGUV I 212-016</span></td></tr>
+      <tr><td class="nr">04</td><td><span class="title">Raumklima + Lüftung nach ASR A3.5 / A3.6</span></td><td><span class="pill pill-mono">T</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">ASR A3.5</span></td></tr>
+      <tr><td class="nr">05</td><td><span class="title">Bildschirmarbeitsplatz ArbStättV Anh. 6 + G37</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">ArbStättV Anh. 6</span></td></tr>
+      <tr><td class="nr">06</td><td><span class="title">DGUV-V3-Prüfung elektrischer Betriebsmittel</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">DGUV V3</span></td></tr>
+      <tr><td class="nr">07</td><td><span class="title">Ersthelfer benennen (DGUV V1 §26)</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">DGUV V1</span></td></tr>
+      <tr><td class="nr">08</td><td><span class="title">Feuerlöscher — Prüfung alle 2 Jahre, ASR A2.2</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">ASR A2.2</span></td></tr>
+      <tr><td class="nr">09</td><td><span class="title">Flucht- und Rettungswege freihalten, beschildern</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">ASR A2.2</span></td></tr>
+      <tr><td class="nr">10</td><td><span class="title">Jährliche Leiterprüfung durch befähigte Person</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">DGUV I 208-016</span></td></tr>
+      <tr><td class="nr">11</td><td><span class="title">Lärmmessung + Gehörschutz ab 80 dB(A)</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">LärmVibrationsArbSchV</span></td></tr>
+      <tr><td class="nr">12</td><td><span class="title">Personen-Notsignal-Anlage (PNA) oder Check-in</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">DGUV R 112-139</span></td></tr>
+      <tr><td class="nr">13</td><td><span class="title">Psychische Belastung systematisch beurteilen</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">ArbSchG</span></td></tr>
+      <tr><td class="nr">14</td><td><span class="title">Sichtprüfung Leitern vor jedem Einsatz</span></td><td><span class="pill pill-mono">P</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">DGUV I 208-016</span></td></tr>
+      <tr><td class="nr">15</td><td><span class="title">Staubabsaugung + Atemschutz nach Expositionsklasse</span></td><td><span class="pill pill-mono">T</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">GefStoffV</span></td></tr>
+      <tr><td class="nr">16</td><td><span class="title">Tägliche Sichtprüfung elektr. Geräte</span></td><td><span class="pill pill-mono">P</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">DGUV V3</span></td></tr>
+      <tr><td class="nr">17</td><td><span class="title">Transporthilfen + Lastgrenzen nach LasthandhabV</span></td><td><span class="pill pill-mono">T</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">LasthandhabV</span></td></tr>
+      <tr><td class="nr">18</td><td><span class="title">Verbandbuch nach DGUV I 204-021, 5 Jahre Archiv</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-pflicht">Pflicht</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">DGUV V1</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="group-bar" style="margin-top:4mm">
+    <span class="group-bar-title">Als Nächstes sinnvoll</span>
+    <span class="group-bar-meta">2 Maßnahmen · <strong>Empfohlene Frist:</strong> innerhalb 3 Monaten · <strong>Verantwortlich:</strong> Janis</span>
+  </div>
+  <table class="audit group-table">
+    <colgroup>
+      <col style="width:8mm">
+      <col>
+      <col style="width:12mm">
+      <col style="width:18mm">
+      <col style="width:18mm">
+      <col style="width:30mm">
+    </colgroup>
+    <tbody>
+      <tr><td class="nr">19</td><td><span class="title">Jährliche Inspektion der Lagerregale</span></td><td><span class="pill pill-mono">O</span></td><td><span class="pill pill-empfehlung">Empfehlung</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">DGUV R 108-007</span></td></tr>
+      <tr><td class="nr">20</td><td><span class="title">PSA gegen Absturz (PSAgA) mit geprüften Anschlagpunkten</span></td><td><span class="pill pill-mono">P</span></td><td><span class="pill pill-empfehlung">Empfehlung</span></td><td><span class="pill pill-offen">offen</span></td><td><span class="src-chip">RAB 32</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="doc-footer">
+    <span>Büroarbeitsplätze · Addelivery</span>
+    <span class="doc-footer-mono">Seite 4 / 8 · Snapshot 2d4c5d4a9365</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SEITE 5 · KAPITEL 4+5 (Verantwortlichkeit + Quellen)                -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-head">
+    <div>
+      <span class="section-num">Kapitel 4</span>
+      <h2 class="section-title">Verantwortlichkeit, Prüfintervalle &amp; Quellen</h2>
+    </div>
+    <div class="section-meta">Audit-Belege auf einer Seite</div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3 style="font-size:9pt;font-weight:700;color:var(--petrol);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2mm">
+        Verantwortlichkeit (ArbSchG §6)
+      </h3>
+      <dl class="data-box">
+        <div class="data-box-row"><dt>Umsetzung Maßnahmen</dt><dd>Janis</dd></div>
+        <div class="data-box-row"><dt>Erstellt / freigegeben</dt><dd>28.05.2026</dd></div>
+        <div class="data-box-row"><dt>Pflicht-Disclaimer</dt><dd>ja · siehe Anhang A · Cell 3</dd></div>
+        <div class="data-box-row"><dt>Fachliche Prüfung (DGUV V2)</dt><dd class="text-3">siehe Anhang A · Cell 2</dd></div>
+      </dl>
+
+      <h3 style="font-size:9pt;font-weight:700;color:var(--petrol);text-transform:uppercase;letter-spacing:.1em;margin-top:5mm;margin-bottom:2mm">
+        Prüf- &amp; Aktualisierungsintervalle
+      </h3>
+      <dl class="data-box">
+        <div class="data-box-row"><dt>Nächste Wirksamkeitsprüfung</dt><dd>28.05.2027</dd></div>
+        <div class="data-box-row"><dt>Aktualitätsstatus</dt><dd><span class="pill pill-ok">aktuell (365 Tage)</span></dd></div>
+        <div class="data-box-row"><dt>Standard-Intervall</dt><dd>alle 6 Monate</dd></div>
+        <div class="data-box-row"><dt>Außerplanmäßige Anlässe</dt><dd class="text-3"><em>keine festgelegt</em></dd></div>
+      </dl>
+    </div>
+
+    <div>
+      <h3 style="font-size:9pt;font-weight:700;color:var(--petrol);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2mm">
+        Quellen &amp; Rechtsgrundlagen (Auszug · 25 insgesamt)
+      </h3>
+      <ul class="sources-grid">
+        <li><code>ArbSchG</code> <strong>Arbeitsschutzgesetz</strong></li>
+        <li><code>DGUV V1</code> <strong>Grundsätze der Prävention</strong></li>
+        <li><code>DGUV V3</code> <strong>Elektrische Anlagen u. Betriebsmittel</strong></li>
+        <li><code>DGUV V3 §6</code> <strong>5 Sicherheitsregeln</strong></li>
+        <li><code>BetrSichV</code> <strong>Betriebssicherheitsverordnung</strong></li>
+        <li><code>GefStoffV</code> <strong>Gefahrstoffverordnung</strong></li>
+        <li><code>LasthandhabV</code> <strong>Lastenhandhabungsverordnung</strong></li>
+        <li><code>LärmVibrationsArbSchV</code> <strong>Lärm-/Vibrations-ArbSchV</strong></li>
+        <li><code>ArbStättV Anh. 6</code> <strong>Bildschirmarbeitsplätze</strong></li>
+        <li><code>ArbMedVV Anh. 4</code> <strong>G37 Bildschirm-Vorsorge</strong></li>
+        <li><code>ASR A2.2</code> <strong>Maßnahmen gegen Brände</strong></li>
+        <li><code>ASR A3.5</code> <strong>Raumtemperatur</strong></li>
+        <li><code>ASR A3.6</code> <strong>Lüftung</strong></li>
+        <li><code>TRBS 1201</code> <strong>Prüfungen Arbeitsmittel</strong></li>
+        <li><code>TRBS 2121 Teil 2</code> <strong>Gefährdungen Leitern</strong></li>
+        <li><code>DGUV I 205-001</code> <strong>Betrieblicher Brandschutz</strong></li>
+        <li><code>DGUV I 206-007</code> <strong>Psychische Belastung</strong></li>
+        <li><code>DGUV I 208-016</code> <strong>Leitern und Tritte</strong></li>
+        <li><code>DGUV I 208-033</code> <strong>Manuelle Lastenhandhabung</strong></li>
+        <li><code>DGUV I 212-016</code> <strong>Persönliche Schutzausrüstung</strong></li>
+        <li><code>DGUV R 108-007</code> <strong>Regalprüfung</strong></li>
+        <li><code>DGUV R 112-139</code> <strong>Personen-Notsignal-Anlagen</strong></li>
+        <li><code>BG BAU B 198</code> <strong>Leitern und Tritte</strong></li>
+        <li><code>RAB 32</code> <strong>PSA gegen Absturz</strong></li>
+      </ul>
+      <p style="margin-top:3mm;font-size:7.5pt;color:var(--ink-4);line-height:1.5">
+        Kuratierter Quellenkatalog — zur Freigabe-Zeit eingefroren.
+        Fachredaktion vor produktiver Nutzung empfohlen.
+      </p>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <span>Büroarbeitsplätze · Addelivery</span>
+    <span class="doc-footer-mono">Seite 5 / 8 · Snapshot 2d4c5d4a9365</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SEITE 6 · ANHANG A (Genehmigung) + ANHANG B (Reproduzierbarkeit)    -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-head">
+    <div>
+      <span class="section-num">Anhang A &amp; B</span>
+      <h2 class="section-title">Genehmigung &amp; Reproduzierbarkeit</h2>
+    </div>
+    <div class="section-meta">Audit-konformer Bestätigungsraum</div>
+  </div>
+
+  <p class="section-lead">
+    Bestätigungsraum für externe Vorlage (Auditor:in, SiBe, Aufsichtsbehörde, BG).
+    Digitale Freigabe ist durch die Snapshot-Kennung unten kryptografisch verifizierbar.
+  </p>
+
+  <div class="approval">
+    <div class="approval-title">Bestätigung der Wirksamkeit · ArbSchG §6 / DGUV V1 §3</div>
+    <div class="sig-grid">
+      <div class="sig-cell">
+        <div class="sig-num">1 · Verantwortlich für Umsetzung</div>
+        <div class="sig-role">Janis</div>
+        <div class="sig-line">Name (in Druckbuchstaben)</div>
+        <div class="sig-line">Datum · Unterschrift</div>
+      </div>
+      <div class="sig-cell">
+        <div class="sig-num">2 · Fachlich geprüft durch</div>
+        <div class="sig-role empty">z. B. Fachkraft für Arbeitssicherheit, SiBe</div>
+        <div class="sig-line">Name · Funktion</div>
+        <div class="sig-line">Datum · Unterschrift</div>
+      </div>
+      <div class="sig-cell">
+        <div class="sig-num">3 · Freigegeben durch Arbeitgeber</div>
+        <div class="sig-role empty">digital bestätigt am 28.05.2026</div>
+        <div class="sig-line">Name · Funktion</div>
+        <div class="sig-line">Datum · Unterschrift</div>
+      </div>
+    </div>
+    <div class="approval-foot">
+      Digitale Freigabe bestätigt am 28.05.2026. Diese Version ist unveränderlich
+      eingefroren und trägt die Kennung <code>2d4c5d4a9365</code> (Inhalt unverändert).
+      Eine inhaltliche Nachänderung wäre an der Kennung erkennbar.
+    </div>
+  </div>
+
+  <h3 style="font-size:9pt;font-weight:700;color:var(--petrol);text-transform:uppercase;letter-spacing:.1em;margin-top:6mm;margin-bottom:2mm">
+    Anhang B · Technische Prüfinformationen
+  </h3>
+  <dl class="data-box">
+    <div class="data-box-row"><dt>Versions-ID</dt><dd class="doc-footer-mono">sha256:ebbb53d39c6a…</dd></div>
+    <div class="data-box-row"><dt>Snapshot-Kennung (SHA-256)</dt><dd class="doc-footer-mono">2d4c5d4a9365 · Inhalt unverändert</dd></div>
+    <div class="data-box-row"><dt>Katalog-Kennung</dt><dd class="doc-footer-mono">62f1fe4e934e</dd></div>
+    <div class="data-box-row"><dt>Berechnungs-Version</dt><dd>1.1.0</dd></div>
+    <div class="data-box-row"><dt>Schema-Version</dt><dd>v2</dd></div>
+  </dl>
+
+  <div class="doc-footer">
+    <span>Büroarbeitsplätze · Addelivery</span>
+    <span class="doc-footer-mono">Seite 6 / 8 · Snapshot 2d4c5d4a9365</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SEITE 7 · ANHANG C · Detail 1/2 (Karten 01–10 in 2-Spalten)         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-head">
+    <div>
+      <span class="section-num">Anhang C · 1/2</span>
+      <h2 class="section-title">Ausführliche Maßnahmen-Beschreibungen</h2>
+    </div>
+    <div class="section-meta">Karten 01–10 · Detail zu Kapitel 3</div>
+  </div>
+
+  <div class="detail-grid">
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#01</span>
+        <span class="detail-card-title">5 Sicherheitsregeln bei Elektroarbeiten (DGUV V3 §6)</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        In fester Reihenfolge anwenden: (1) Freischalten, (2) gegen Wiedereinschalten
+        sichern, (3) Spannungsfreiheit feststellen, (4) Erden &amp; kurzschließen,
+        (5) benachbarte unter Spannung stehende Teile abdecken. Reihenfolge nicht
+        verhandelbar; Arbeiten unter Spannung nur EFK + Ausnahme.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Arbeiten unter Spannung" und „Elektrischer Schlag".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">DGUV V3</span><span class="src-chip">DGUV V3 §6</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#02</span>
+        <span class="detail-card-title">Elektrofachkraft (EFK / EuP) schriftlich bestellt</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        EFK gem. DGUV V3 §2 schriftlich bestellt. Bei Standard-Schalthandlungen EuP unter
+        Leitung einer EFK möglich. Bestellungsurkunde + Qualifikationsnachweis erforderlich.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Arbeiten unter Spannung" und „Elektrische Betriebsmittel".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">DGUV V3</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#03</span>
+        <span class="detail-card-title">PSA tätigkeitsbezogen, kostenfrei, mit Tragepflicht</span>
+        <span class="pill pill-mono">P</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        PSA tätigkeitsbezogen ermitteln (Schutzbrille, Atemschutz, Handschuhe Cat. I–III,
+        Sicherheitsschuhe S1–S5). Kostenfrei bereitstellen (ArbSchG §3), Tragepflicht
+        schriftlich, dokumentierte Erst-Einweisung.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „PSA" und „Lärm-/Staub-/Dampfexposition".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">DGUV I 212-016</span><span class="src-chip">ArbSchG</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#04</span>
+        <span class="detail-card-title">Raumklima + Lüftung nach ASR A3.5 / A3.6</span>
+        <span class="pill pill-mono">T</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Lufttemperatur abhängig von Arbeitsschwere (sitzend +20 °C, mittel +17 °C).
+        Bei &gt;26 °C Außentemperatur Zusatzmaßnahmen. Raumlüftung gem. ASR A3.6 — bei
+        nicht ausreichend natürlicher Lüftung mechanisch.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Bildschirm-/Büroarbeitsplatz".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">ASR A3.5</span><span class="src-chip">ASR A3.6</span><span class="src-chip">ArbStättV Anh. 6</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#05</span>
+        <span class="detail-card-title">Bildschirmarbeitsplatz ArbStättV Anh. 6 + G37</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Höhenverstellbarer Stuhl mit Lordosenstütze, Bildschirm in Augenhöhe (50–70 cm),
+        blendfreie Beleuchtung (≥500 Lux). G37-Angebotsvorsorge vor Aufnahme der Tätigkeit
+        und in regelmäßigen Abständen.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Bildschirm-/Büroarbeitsplatz".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">ArbStättV Anh. 6</span><span class="src-chip">ArbMedVV Anh. 4</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#06</span>
+        <span class="detail-card-title">DGUV-V3-Prüfung elektrischer Betriebsmittel</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Ortsveränderliche und ortsfeste Betriebsmittel im Intervall nach TRBS 1201
+        (i. d. R. 6–24 Monate) durch EFK / EuP prüfen. Sichtbare Prüfplakette pro Gerät.
+        Prüfbuch oder digitales Prüfregister.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Elektrische Betriebsmittel".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">DGUV V3</span><span class="src-chip">BetrSichV</span><span class="src-chip">TRBS 1201</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#07</span>
+        <span class="detail-card-title">Ersthelfer benennen (DGUV V1 §26)</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        5 % der Beschäftigten in Verwaltung/Handel, 10 % sonst. Grundausbildung (9 UE),
+        Auffrischung alle 2 Jahre. Bestellung + aktuelle Ausbildungs-/Fortbildungsnachweise.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Erste Hilfe".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">ArbSchG</span><span class="src-chip">DGUV V1</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#08</span>
+        <span class="detail-card-title">Feuerlöscher — Prüfung alle 2 Jahre, ASR A2.2</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Löschmittel-Einheiten (LE) gem. ASR A2.2 nach Grundfläche und Brandgefährdung.
+        Alle 2 Jahre Sachkundenprüfung. ASR A1.3-Brandschutzzeichen.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Brand-/Evakuierungsrisiko".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">ASR A2.2</span><span class="src-chip">DGUV I 205-001</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#09</span>
+        <span class="detail-card-title">Flucht- und Rettungswege freihalten, beschildern</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Frei von Hindernissen (auch keine temporäre Lagerung), Sicherheitsbeleuchtung
+        nach ASR A3.4/3, Rettungszeichen nach ASR A1.3. Monatliche Sichtkontrolle.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Brand-/Evakuierungsrisiko".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">ASR A2.2</span><span class="src-chip">ArbSchG</span><span class="src-chip">DGUV I 205-001</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#10</span>
+        <span class="detail-card-title">Jährliche Leiterprüfung durch befähigte Person</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Jährliche Prüfung nach TRBS 1203 auf mechanische Festigkeit, Spreizsicherung,
+        Rutschsicherheit, Kennzeichnung. Prüfprotokoll mind. 2 Jahre archivieren.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Absturz von Leitern und Tritten".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">DGUV I 208-016</span><span class="src-chip">BG BAU B 198</span><span class="src-chip">TRBS 2121-2</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="doc-footer">
+    <span>Büroarbeitsplätze · Addelivery</span>
+    <span class="doc-footer-mono">Seite 7 / 8 · Snapshot 2d4c5d4a9365</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SEITE 8 · ANHANG C · Detail 2/2 (Karten 11–20)                      -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-head">
+    <div>
+      <span class="section-num">Anhang C · 2/2</span>
+      <h2 class="section-title">Ausführliche Maßnahmen-Beschreibungen</h2>
+    </div>
+    <div class="section-meta">Karten 11–20 · Detail zu Kapitel 3</div>
+  </div>
+
+  <div class="detail-grid">
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#11</span>
+        <span class="detail-card-title">Lärmmessung + Gehörschutz ab 80 dB(A)</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Tages-Lärmexpositionspegel ermitteln. Ab 80 dB(A) oder 135 dB(C) Spitze:
+        Gehörschutz + G20-Angebotsvorsorge. Ab 85 dB(A) Tragepflicht + Lärmminderungsprogramm.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Lärm-/Staub-/Dampfexposition".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">LärmVibrationsArbSchV</span><span class="src-chip">DGUV I 212-016</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#12</span>
+        <span class="detail-card-title">Personen-Notsignal-Anlage (PNA) oder Check-in</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Bei Alleinarbeit mit erhöhter Gefährdung: PNA-11 gem. DGUV R 112-139.
+        Sonst schriftliches Check-in-Verfahren mit Eskalationskette.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Notfallbewältigung bei Alleinarbeit".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">DGUV R 112-139</span><span class="src-chip">ArbSchG</span><span class="src-chip">DGUV V1</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#13</span>
+        <span class="detail-card-title">Psychische Belastung systematisch beurteilen</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Eigener Beurteilungsschritt nach ArbSchG §5. Standardisierte Befragung
+        (COPSOQ, KFZA) oder strukturiertes Beobachtungsinterview entlang der 5
+        GDA-Merkmalsbereiche. Wirksamkeitsprüfung nach 1–2 Jahren.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Psychische Belastung".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">ArbSchG</span><span class="src-chip">DGUV I 206-007</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#14</span>
+        <span class="detail-card-title">Sichtprüfung Leitern vor jedem Einsatz</span>
+        <span class="pill pill-mono">P</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Vor jedem Einsatz Sichtprüfung auf verbogene Holme, gebrochene Sprossen,
+        fehlende Spreizsicherung, defekte Füße. Mängel-Leitern sofort kennzeichnen.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Absturz von Leitern und Tritten".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">DGUV I 208-016</span><span class="src-chip">BetrSichV</span><span class="src-chip">TRBS 2121-2</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#15</span>
+        <span class="detail-card-title">Staubabsaugung + Atemschutz nach Expositionsklasse</span>
+        <span class="pill pill-mono">T</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Werkzeug mit integrierter Absaugung (Klasse M / H). Ergänzend Atemschutz:
+        FFP2 für mineralische Stäube ohne CMR, FFP3 bei Quarz/Asbest-Verdacht/CMR.
+        Tragezeitbegrenzung gem. DGUV R 112-190.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Lärm-/Staub-/Dampfexposition".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">GefStoffV</span><span class="src-chip">DGUV I 212-016</span><span class="src-chip">LärmVibrationsArbSchV</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#16</span>
+        <span class="detail-card-title">Tägliche Sichtprüfung elektrischer Geräte</span>
+        <span class="pill pill-mono">P</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Vor jedem Arbeitsbeginn Anschlussleitung, Stecker, Gehäuse, Bedienelemente
+        sichten. Defekte Geräte sofort kennzeichnen + zur EFK.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Elektrische Betriebsmittel".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">DGUV V3</span><span class="src-chip">BetrSichV</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#17</span>
+        <span class="detail-card-title">Transporthilfen + Lastgrenzen nach LasthandhabV</span>
+        <span class="pill pill-mono">T</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Sackkarre, Hubwagen, Hebebühne, Saugheber bereitstellen. Schwellenwerte
+        (Männer &gt;25 kg, Frauen &gt;15 kg) möglichst zu zweit. Rückenschule anbieten.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Manuelles Heben, Tragen, Ziehen".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">LasthandhabV</span><span class="src-chip">DGUV I 208-033</span><span class="src-chip">ArbSchG</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#18</span>
+        <span class="detail-card-title">Verbandbuch nach DGUV I 204-021, 5 Jahre Archiv</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-pflicht">Pflicht</span>
+      </div>
+      <div class="detail-card-body">
+        Jede Erste-Hilfe-Leistung unverzüglich dokumentieren (Datum, Zeit, Ort,
+        Hergang, Verletzung, Maßnahme, Ersthelfer). 5 Jahre archivieren — auch
+        vermeintlich unerhebliche Vorfälle (Berufskrankheits-Nachweis).
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Erste Hilfe".
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">DGUV V1</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#19</span>
+        <span class="detail-card-title">Jährliche Inspektion der Lagerregale</span>
+        <span class="pill pill-mono">O</span>
+        <span class="pill pill-empfehlung">Empfehlung</span>
+      </div>
+      <div class="detail-card-body">
+        Jährlich durch sachkundige Person (Schulung DIN EN 15635) auf Standsicherheit,
+        Verformungen, Beschilderung, Sicherungselemente. Beschädigungen in Risikoklassen
+        (grün/gelb/rot) bewerten.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Manuelles Heben, Tragen, Ziehen".
+        Fachliche Empfehlung — keine harte Pflicht.
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">DGUV R 108-007</span><span class="src-chip">BetrSichV</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-head">
+        <span class="detail-card-nr">#20</span>
+        <span class="detail-card-title">PSA gegen Absturz (PSAgA) + geprüfte Anschlagpunkte</span>
+        <span class="pill pill-mono">P</span>
+        <span class="pill pill-empfehlung">Empfehlung</span>
+      </div>
+      <div class="detail-card-body">
+        Bei Absturz &gt;2 m: Auffanggurt Klasse A, Verbindungsmittel mit Falldämpfer,
+        Anschlagpunkte ≥10 kN. Jährliche Theorie- + Praxis-Unterweisung
+        (DGUV Grundsatz 312-906). Vorrang: kollektive Absturzsicherung.
+      </div>
+      <div class="detail-card-why">
+        <strong>Warum:</strong> Adressiert „Absturz von Leitern und Tritten".
+        Fachliche Empfehlung — keine harte Pflicht.
+      </div>
+      <div class="detail-card-sources">
+        <span class="src-chip">RAB 32</span><span class="src-chip">DGUV I 212-016</span><span class="src-chip">BetrSichV</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="doc-footer">
+    <span>Büroarbeitsplätze · Addelivery</span>
+    <span class="doc-footer-mono">Seite 8 / 8 · Snapshot 2d4c5d4a9365 · Ende</span>
+  </div>
+</div>
+
+</body>
+</html>
