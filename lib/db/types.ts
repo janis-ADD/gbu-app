@@ -1,9 +1,5 @@
 /**
- * Manuelle Row-Types für die wichtigsten Tabellen.
- * Bewusst ohne automatische Supabase-Generierung im MVP — kleines Set,
- * leicht synchron zu halten mit den SQL-Migrationen (web/db/migrations/).
- *
- * Bei Schema-Änderungen: hier ergänzen.
+ * Manuelle Row-Types — synchron zu web/db/migrations/*.sql halten.
  */
 
 export type EmployeeBucket = '1' | '2-5' | '6-20' | '21-50' | '51-250' | '250+';
@@ -69,30 +65,132 @@ export type RaSubscription = {
   updated_at: string;
 };
 
-export type AssessmentStatus = 'draft' | 'in_review' | 'released' | 'archived';
+/* ─── Bundle/GBU-Architektur (Migration 0005) ────────────────────────── */
 
-export type RaAssessment = {
+export type BundleStatus = 'in_setup' | 'active' | 'archived';
+
+export type CompanyProfile = {
+  company_name?: string;
+  industry?: string;       // Slug aus INDUSTRIES
+  street?: string;
+  postal_code?: string;
+  city?: string;
+  employee_bucket?: EmployeeBucket;
+  state?: GermanState;
+  role_in_company?: string;
+  short_description?: string;
+};
+
+export type BgAssignment = {
+  confirmed_bg_slugs?: string[];
+  state?: GermanState;
+  unclear?: boolean;
+  self_verified?: boolean;
+  self_verified_at?: string;
+};
+
+export type RaBundle = {
   id: string;
   tenant_id: string;
   owner_user_id: string;
   title: string;
-  status: AssessmentStatus;
-  current_step: 1 | 2 | 3 | 4 | 5 | 6;
-  current_version: number;
-  step1_company: Record<string, unknown>;
-  step2_bg: Record<string, unknown>;
-  step3_areas: Record<string, unknown>;
-  step4_hazards: Record<string, unknown>;
-  step5_measures: Record<string, unknown>;
-  step6_review: Record<string, unknown>;
+  status: BundleStatus;
+  company_profile: CompanyProfile;
+  bg_assignment: BgAssignment;
+  setup_completed_at: string | null;
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
 };
 
-export type RaAssessmentVersion = {
+export type GbuStatus = 'draft' | 'in_review' | 'released' | 'stale';
+
+export type GbuActivities = {
+  description?: string;
+  // Strukturierte Tätigkeits-Tags — Fundament der Ableitungs-Engine
+  // (siehe lib/wizard/activities.ts für die zulässigen Werte je Dimension)
+  tags?: {
+    work_height?: string;
+    mobility?: string;
+    environment?: string[];
+    tools?: string[];
+    hazardous_substances?: string[];
+    workforce?: string[];
+    psychological?: string[];
+  };
+  // Optional zusätzliche Tätigkeitsdetails pro Scope
+  details?: Record<string, string>;
+};
+
+export type GbuHazards = {
+  risk_slugs?: string[];
+  custom_hazards?: Array<{ label: string; description?: string }>;
+};
+
+export type GbuMeasures = {
+  measure_acknowledgements?: Record<string, {
+    confirmed: boolean;            // ist umgesetzt
+    note?: string;
+    top_category?: 'technisch' | 'organisatorisch' | 'personenbezogen';
+  }>;
+};
+
+export type GbuOpenItem = {
   id: string;
-  assessment_id: string;
+  category: 'fehlende-doku' | 'pruefung-faellig' | 'unklar';
+  description: string;
+  priority: 'low' | 'medium' | 'high';
+  source_refs: string[];
+  resolved?: boolean;
+};
+
+/** Anlässe, bei denen eine GBU bewusst überprüft werden soll (ArbSchG §3). */
+export type ReviewTriggerEvent =
+  | 'unfall'
+  | 'neue-maschine'
+  | 'neuer-gefahrstoff'
+  | 'neue-taetigkeit'
+  | 'gesetzesaenderung';
+
+export const REVIEW_TRIGGER_EVENTS: ReadonlyArray<{ value: ReviewTriggerEvent; label: string; description: string }> = [
+  { value: 'unfall',             label: 'Nach Unfall / Beinahe-Unfall', description: 'Vorfall im Tätigkeitsbereich, der eine Neubewertung verlangt.' },
+  { value: 'neue-maschine',      label: 'Neue Maschine / Arbeitsmittel', description: 'Anschaffung oder größere Umrüstung eines Geräts.' },
+  { value: 'neuer-gefahrstoff',  label: 'Neuer Gefahrstoff',             description: 'Einsatz eines bisher nicht verwendeten Stoffs.' },
+  { value: 'neue-taetigkeit',    label: 'Neue Tätigkeit',                description: 'Erweiterung des Leistungsumfangs / neue Prozesse.' },
+  { value: 'gesetzesaenderung',  label: 'Gesetzes- / Regeländerung',     description: 'Neue oder geänderte Vorschrift (DGUV, ArbSchG, GefStoffV …).' }
+];
+
+/** Erlaubte Standard-Intervalle. NULL = nur Datum, kein automatisches Intervall. */
+export type ReviewIntervalMonths = 6 | 12 | 24;
+
+export type RaGbu = {
+  id: string;
+  bundle_id: string;
+  tenant_id: string;
+  scope_slug: string;
+  title: string;
+  activities: GbuActivities;
+  hazards: GbuHazards;
+  measures: GbuMeasures;
+  open_items: GbuOpenItem[];
+  responsible_role: string | null;
+  review_due_date: string | null;
+  review_interval_months: ReviewIntervalMonths | null;
+  review_trigger_events: ReviewTriggerEvent[];
+  status: GbuStatus;
+  current_step: 1 | 2 | 3 | 4 | 5;
+  current_version: number;
+  is_stale: boolean;
+  stale_reason: string | null;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+};
+
+export type RaGbuVersion = {
+  id: string;
+  gbu_id: string;
+  bundle_id: string;
   tenant_id: string;
   version_number: number;
   snapshot: Record<string, unknown>;
@@ -102,6 +200,8 @@ export type RaAssessmentVersion = {
   disclaimer_acknowledged: boolean;
   source_refs: string[];
 };
+
+/* ─── Stammdaten ────────────────────────────────────────────────────── */
 
 export type RaBgCatalog = {
   slug: string;
@@ -119,6 +219,13 @@ export type RaRiskCatalog = {
   typical_areas: string[];
   source_ref_slugs: string[];
   data_source: string;
+  /* Migration 0007 */
+  trigger_conditions?: Record<string, string[]>;
+  severity_default?: number | null;
+  likelihood_default?: number | null;
+  requires_betriebsanweisung?: boolean;
+  requires_psa?: boolean;
+  requires_unterweisung?: boolean;
 };
 
 export type RaMeasureCatalog = {
@@ -130,6 +237,12 @@ export type RaMeasureCatalog = {
   source_ref_slugs: string[];
   confidence: 'high' | 'medium';
   data_source: string;
+  /* Migration 0007 */
+  is_mandatory_when?: {
+    risks?: string[];
+    any_substance?: boolean;
+    work_height?: string[];
+  };
 };
 
 export type RaLegalRef = {

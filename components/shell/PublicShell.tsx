@@ -1,23 +1,25 @@
 import type { ReactNode } from 'react';
+import Link from 'next/link';
+import { BrandMark } from '@/components/brand/BrandMark';
 
 /**
- * Minimaler Public-Wrap für die 4 Auth-Pages.
- * Keine Marketing-Landingpage — die läuft später über bestehende
- * SU24-LP-/Funnel-Systeme. Hier nur: Logo + Footer + zentrierte Card.
+ * Minimaler Public-Wrap für Auth- und Onboarding-Pages.
+ * Echtes Wort-Bild-Logo im Header, ruhiger Footer.
  */
 export function PublicShell({ children }: { children: ReactNode }) {
   return (
     <div className="public-shell">
       <header className="public-topbar">
-        <span className="logo-badge">
-          <span className="logo-icon">🛡️</span>
-          <span>SU24 · Gefährdungsbeurteilung</span>
-        </span>
+        <Link href="/" aria-label="Zur Startseite" style={{ textDecoration: 'none', display: 'inline-flex' }}>
+          <BrandMark variant="wordmark" size="md" priority />
+        </Link>
       </header>
 
       <main className="public-main">{children}</main>
 
-      <footer className="public-foot">© SU24 · Prototyp</footer>
+      <footer className="public-foot">
+        © {new Date().getFullYear()} sicherheitsunterweisung24.de · Gefährdungsbeurteilung nach ArbSchG §5 / §6
+      </footer>
     </div>
   );
 }

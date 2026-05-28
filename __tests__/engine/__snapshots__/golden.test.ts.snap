@@ -1,0 +1,3382 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Vitest-Snapshots (Diff-Hilfe bei Engine-Änderungen) > 'Büro' — voller Engine-Snapshot 1`] = `
+{
+  "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+  "catalog_size": {
+    "measures": 16,
+    "risks": 12,
+  },
+  "derived_measures": [
+    {
+      "for_risks": [
+        "bildschirmbelastung",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "bildschirmbelastung",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Höhenverstellbarer Stuhl mit Lordosenstütze, Bildschirm in Augenhöhe (Sehabstand 50–70 cm), blendfreie Beleuchtung ≥500 Lux am Arbeitsplatz. Allen Bildschirmbeschäftigten wird die arbeitsmedizinische Angebotsvorsorge G37 gem. ArbMedVV vor Aufnahme und in regelmäßigen Abständen angeboten.",
+        "short_text": "Ergonomischer Bildschirmarbeitsplatz nach ArbStättV Anh. 6 + G37-Vorsorge",
+        "slug": "bildschirm-ergonomie",
+        "source_ref_slugs": [
+          "arbstaettv-6",
+          "arbmedvv-g37",
+        ],
+      },
+      "obligation_type": "empfehlung",
+      "priority": "langfristig",
+      "urgency": "niedrig",
+    },
+    {
+      "for_risks": [
+        "psychische-belastung-zeitdruck",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "psychische-belastung-zeitdruck",
+        ],
+        "category": "organisatorisch",
+        "confidence": "medium",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Erfassung gem. ArbSchG §5 entlang der 5 Merkmalsbereiche der GDA-Leitlinie. Maßnahmen werden abgeleitet und nach 1–2 Jahren auf Wirksamkeit geprüft.",
+        "short_text": "Psychische Belastung systematisch beurteilen (GDA-Leitlinie)",
+        "slug": "gefaehrdungsbeurteilung-psyche",
+        "source_ref_slugs": [
+          "arbschg-5",
+        ],
+      },
+      "obligation_type": "hinweis",
+      "priority": "langfristig",
+      "urgency": "niedrig",
+    },
+  ],
+  "derived_risks": [
+    {
+      "is_mandatory": false,
+      "likelihood": 3,
+      "risk": {
+        "category": "psychosozial",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Psychische Belastung (Zeitdruck, Verantwortung)",
+        "requires_betriebsanweisung": false,
+        "requires_psa": false,
+        "requires_unterweisung": false,
+        "severity_default": 3,
+        "slug": "psychische-belastung-zeitdruck",
+        "source_ref_slugs": [
+          "arbschg-5",
+        ],
+        "trigger_conditions": {
+          "psychological": [
+            "zeitdruck",
+            "emotionale_belastung",
+          ],
+        },
+        "typical_areas": [
+          "buero",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "psychological",
+          "label": "Belastung: Hoher Zeitdruck",
+          "value": "zeitdruck",
+        },
+      ],
+    },
+    {
+      "is_mandatory": false,
+      "likelihood": 4,
+      "risk": {
+        "category": "ergonomisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 4,
+        "name": "Belastung durch Bildschirmarbeit",
+        "requires_betriebsanweisung": false,
+        "requires_psa": false,
+        "requires_unterweisung": true,
+        "severity_default": 2,
+        "slug": "bildschirmbelastung",
+        "source_ref_slugs": [
+          "arbstaettv-6",
+          "arbmedvv-g37",
+        ],
+        "trigger_conditions": {
+          "tools": [
+            "bildschirm",
+          ],
+        },
+        "typical_areas": [
+          "buero",
+        ],
+      },
+      "severity": 2,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Bildschirmarbeitsplatz",
+          "value": "bildschirm",
+        },
+      ],
+    },
+  ],
+  "engine_version": "1.1.0",
+  "generated_at": "<EXCLUDED>",
+  "input_tags": {
+    "environment": [
+      "innen",
+    ],
+    "hazardous_substances": [
+      "keine",
+    ],
+    "mobility": "stationaer",
+    "psychological": [
+      "zeitdruck",
+    ],
+    "tools": [
+      "bildschirm",
+    ],
+    "workforce": [],
+  },
+  "legal_refs": {
+    "arbmedvv-g37": {
+      "citation": "ArbMedVV G37",
+      "kind": "gesetz",
+      "slug": "arbmedvv-g37",
+      "title": "Angebotsvorsorge Bildschirmarbeit",
+      "url": null,
+    },
+    "arbschg-5": {
+      "citation": "ArbSchG §5",
+      "kind": "gesetz",
+      "slug": "arbschg-5",
+      "title": "Beurteilung der Arbeitsbedingungen",
+      "url": null,
+    },
+    "arbstaettv-6": {
+      "citation": "ArbStättV §6",
+      "kind": "verordnung",
+      "slug": "arbstaettv-6",
+      "title": "Bildschirmarbeitsplätze",
+      "url": null,
+    },
+  },
+  "mandatory_reasons": {
+    "bildschirm-ergonomie": null,
+    "gefaehrdungsbeurteilung-psyche": null,
+  },
+  "measure_acknowledgements": {},
+  "missing_controls": [],
+  "plausibility": [],
+  "schema_version": 2,
+  "severity_scores": {
+    "bildschirmbelastung": {
+      "likelihood": 4,
+      "score": 8,
+      "severity": 2,
+    },
+    "psychische-belastung-zeitdruck": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+  },
+  "snapshot_hash": "<COMPUTED>",
+  "summary": {
+    "n_mandatory_measures": 0,
+    "n_missing_controls": 0,
+    "n_risks": 2,
+  },
+  "trigger_map": {
+    "bildschirmbelastung": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Bildschirmarbeitsplatz",
+        "value": "bildschirm",
+      },
+    ],
+    "psychische-belastung-zeitdruck": [
+      {
+        "dimension": "psychological",
+        "label": "Belastung: Hoher Zeitdruck",
+        "value": "zeitdruck",
+      },
+    ],
+  },
+  "user_selected_risk_slugs": [
+    "bildschirmbelastung",
+    "psychische-belastung-zeitdruck",
+  ],
+}
+`;
+
+exports[`Vitest-Snapshots (Diff-Hilfe bei Engine-Änderungen) > 'Elektrikerbetrieb' — voller Engine-Snapshot 1`] = `
+{
+  "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+  "catalog_size": {
+    "measures": 16,
+    "risks": 12,
+  },
+  "derived_measures": [
+    {
+      "for_risks": [
+        "laerm-exposition",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): laerm-exposition",
+      "measure": {
+        "applies_to_risks": [
+          "laerm-exposition",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v3",
+        "is_mandatory_when": {
+          "risks": [
+            "laerm-exposition",
+          ],
+        },
+        "long_text": "Beschäftigten mit ≥85 dB(A) Tages-Lärmexpositionspegel wird die arbeitsmedizinische Pflichtvorsorge G20 nach ArbMedVV angeboten. Erstvorsorge vor Aufnahme, danach Nachuntersuchung im ersten Jahr und alle 36 Monate. Nachweis im Audit: Vorsorgekartei beim Betriebsarzt.",
+        "short_text": "Pflichtvorsorge G20 (Lärm) ab 85 dB(A) Tages-Lärmexpositionspegel",
+        "slug": "vorsorge-g20-laerm",
+        "source_ref_slugs": [
+          "arbmedvv-g20",
+          "laermvibrarbschv",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "absturz",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht ab Höhe ueber-2m/fassade-dach",
+      "measure": {
+        "applies_to_risks": [
+          "absturz",
+        ],
+        "category": "personenbezogen",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "work_height": [
+            "ueber-2m",
+            "fassade-dach",
+          ],
+        },
+        "long_text": "Bei Arbeiten über 2 m wird PSA gegen Absturz nach RAB 32 bereitgestellt: Auffanggurt Klasse A, Verbindungsmittel mit Falldämpfer, Anschlagpunkte ≥10 kN. Jährliche Sachkundeprüfung der PSAgA und jährliche praktische Unterweisung der Träger.",
+        "short_text": "PSA gegen Absturz (PSAgA) ab 2 m Höhe — Auffanggurt + Anschlagpunkte",
+        "slug": "psa-bereitstellen",
+        "source_ref_slugs": [
+          "dguv-v1",
+          "betrsichv-3",
+          "rab-32",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "absturz",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "absturz",
+        ],
+        "category": "technisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Bei dauerhaften Arbeiten über 2 m wird ein normgerechtes Gerüst (DIN EN 12810/12811) statt einer Leiter eingesetzt. TOP-Prinzip: kollektive Sicherung (Gerüst, Geländer) hat Vorrang vor individueller (PSAgA). Aufbau, Veränderung und Abbau nur durch befähigte Person mit Aufbau- und Verwendungsanleitung des Herstellers.",
+        "short_text": "Gerüst statt Leiter ab 2 m Standhöhe (kollektive Absturzsicherung)",
+        "slug": "absturzsicherung-geruest",
+        "source_ref_slugs": [
+          "betrsichv-3",
+          "rab-32",
+        ],
+      },
+      "obligation_type": "empfehlung",
+      "priority": "mittelfristig",
+      "urgency": "mittel",
+    },
+    {
+      "for_risks": [
+        "handwerkzeug-schnittverletzung",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "handwerkzeug-schnittverletzung",
+        ],
+        "category": "personenbezogen",
+        "confidence": "medium",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Stufe je nach Schärfe und Tätigkeit; Mindestanforderung Cut-Level B (EN 388:2016). Eignung für Stoff und Tätigkeit dokumentiert.",
+        "short_text": "Schnittschutzhandschuhe nach EN 388, mind. Cut-Level B",
+        "slug": "schnittschutz-handschuhe",
+        "source_ref_slugs": [
+          "dguv-v1",
+        ],
+      },
+      "obligation_type": "hinweis",
+      "priority": "langfristig",
+      "urgency": "niedrig",
+    },
+  ],
+  "derived_risks": [
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "mechanisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Absturz aus Höhe",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 5,
+        "slug": "absturz",
+        "source_ref_slugs": [
+          "betrsichv-3",
+          "dguv-v1",
+          "rab-32",
+        ],
+        "trigger_conditions": {
+          "work_height": [
+            "ueber-2m",
+            "fassade-dach",
+          ],
+        },
+        "typical_areas": [
+          "baustelle",
+          "fassade",
+        ],
+      },
+      "severity": 5,
+      "triggers": [
+        {
+          "dimension": "work_height",
+          "label": "Höhe: Über 2 m (Leiter/Gerüst)",
+          "value": "ueber-2m",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "mechanisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Schnitt- und Quetschverletzungen durch Handwerkzeuge",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "handwerkzeug-schnittverletzung",
+        "source_ref_slugs": [
+          "betrsichv-3",
+          "dguv-v1",
+        ],
+        "trigger_conditions": {
+          "tools": [
+            "handgefuehrt",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "baustelle",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+          "value": "handgefuehrt",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "physikalisch",
+        "data_source": "fixture-v3",
+        "likelihood_default": 3,
+        "name": "Lärmexposition über Tages-Lärmexpositionspegel",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "laerm-exposition",
+        "source_ref_slugs": [
+          "laermvibrarbschv",
+          "arbmedvv-g20",
+        ],
+        "trigger_conditions": {
+          "environment": [
+            "werkstatt",
+            "baustelle",
+            "lager",
+          ],
+          "tools": [
+            "cnc",
+            "handgefuehrt",
+            "flurfoerderzeuge",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "baustelle",
+          "lager",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+          "value": "handgefuehrt",
+        },
+      ],
+    },
+  ],
+  "engine_version": "1.1.0",
+  "generated_at": "<EXCLUDED>",
+  "input_tags": {
+    "environment": [
+      "kunde",
+      "innen",
+      "aussen",
+    ],
+    "hazardous_substances": [
+      "keine",
+    ],
+    "mobility": "baustelle",
+    "psychological": [],
+    "tools": [
+      "leitern",
+      "handgefuehrt",
+    ],
+    "work_height": "ueber-2m",
+    "workforce": [],
+  },
+  "legal_refs": {
+    "arbmedvv-g20": {
+      "citation": "ArbMedVV G20",
+      "kind": "gesetz",
+      "slug": "arbmedvv-g20",
+      "title": "Lärm — Pflicht-/Angebotsvorsorge",
+      "url": null,
+    },
+    "betrsichv-3": {
+      "citation": "BetrSichV §3",
+      "kind": "verordnung",
+      "slug": "betrsichv-3",
+      "title": "Gefährdungsbeurteilung Arbeitsmittel",
+      "url": null,
+    },
+    "dguv-v1": {
+      "citation": "DGUV V1",
+      "kind": "dguv",
+      "slug": "dguv-v1",
+      "title": "Grundsätze der Prävention",
+      "url": null,
+    },
+    "laermvibrarbschv": {
+      "citation": "LärmVibrationsArbSchV",
+      "kind": "verordnung",
+      "slug": "laermvibrarbschv",
+      "title": "Lärm- und Vibrations-Arbeitsschutzverordnung",
+      "url": null,
+    },
+    "rab-32": {
+      "citation": "RAB 32",
+      "kind": "technische-regel",
+      "slug": "rab-32",
+      "title": "PSA gegen Absturz auf Baustellen",
+      "url": null,
+    },
+  },
+  "mandatory_reasons": {
+    "absturzsicherung-geruest": null,
+    "psa-bereitstellen": "Pflicht ab Höhe ueber-2m/fassade-dach",
+    "schnittschutz-handschuhe": null,
+    "vorsorge-g20-laerm": "Pflicht-Maßnahme für Risiko(en): laerm-exposition",
+  },
+  "measure_acknowledgements": {},
+  "missing_controls": [],
+  "plausibility": [
+    {
+      "code": "aussenarbeit-uv-witterung-pruefen",
+      "message": "Außenarbeit angegeben — UV-Schutz (textil + Sonnencreme LSF ≥30), Hitze-Pausenregelung ab 30 °C und Trinkwasser-Bereitstellung bitte prüfen (ArbSchG §3).",
+    },
+  ],
+  "schema_version": 2,
+  "severity_scores": {
+    "absturz": {
+      "likelihood": 3,
+      "score": 15,
+      "severity": 5,
+    },
+    "handwerkzeug-schnittverletzung": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+    "laerm-exposition": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+  },
+  "snapshot_hash": "<COMPUTED>",
+  "summary": {
+    "n_mandatory_measures": 2,
+    "n_missing_controls": 0,
+    "n_risks": 3,
+  },
+  "trigger_map": {
+    "absturz": [
+      {
+        "dimension": "work_height",
+        "label": "Höhe: Über 2 m (Leiter/Gerüst)",
+        "value": "ueber-2m",
+      },
+    ],
+    "handwerkzeug-schnittverletzung": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+        "value": "handgefuehrt",
+      },
+    ],
+    "laerm-exposition": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+        "value": "handgefuehrt",
+      },
+    ],
+  },
+  "user_selected_risk_slugs": [
+    "absturz",
+    "handwerkzeug-schnittverletzung",
+    "laerm-exposition",
+  ],
+}
+`;
+
+exports[`Vitest-Snapshots (Diff-Hilfe bei Engine-Änderungen) > 'Gebäudereinigung' — voller Engine-Snapshot 1`] = `
+{
+  "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+  "catalog_size": {
+    "measures": 16,
+    "risks": 12,
+  },
+  "derived_measures": [
+    {
+      "for_risks": [
+        "gefahrstoff-loesemittel",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "GefStoffV — bei Einsatz von Gefahrstoffen",
+      "measure": {
+        "applies_to_risks": [
+          "gefahrstoff-loesemittel",
+          "staubexposition",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "any_substance": true,
+        },
+        "long_text": "Für jeden eingesetzten Gefahrstoff liegt ein aktuelles Sicherheitsdatenblatt (max. 3 Jahre alt) in deutscher Sprache vor und ist am Verwendungsort zugänglich. Daraus wird eine Betriebsanweisung gem. GefStoffV §14 in mitarbeiterverständlicher Sprache abgeleitet.",
+        "short_text": "Sicherheitsdatenblätter aktuell und am Verwendungsort zugänglich",
+        "slug": "sdb-verfuegbar",
+        "source_ref_slugs": [
+          "gefstoffv-14",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "gefahrstoff-loesemittel",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "GefStoffV — bei Einsatz von Gefahrstoffen",
+      "measure": {
+        "applies_to_risks": [
+          "gefahrstoff-loesemittel",
+          "staubexposition",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "any_substance": true,
+        },
+        "long_text": "Verzeichnis aller eingesetzten Gefahrstoffe mit Bezeichnung, CLP-Einstufung, Mengen, Verwendungsbereichen und SDB-Verweis. Mindestens jährlich auf Vollständigkeit geprüft.",
+        "short_text": "Gefahrstoffverzeichnis nach GefStoffV §6 — jährliche Aktualisierung",
+        "slug": "gefahrstoffverzeichnis",
+        "source_ref_slugs": [
+          "gefstoffv-6",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "alleinarbeit-notfall",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): alleinarbeit-notfall",
+      "measure": {
+        "applies_to_risks": [
+          "alleinarbeit-notfall",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "risks": [
+            "alleinarbeit-notfall",
+          ],
+        },
+        "long_text": "Bei Alleinarbeit mit erhöhter Gefährdung: PNA-11 Gerät gem. DGUV Regel 112-139 (Lage-, Verlust-, Ruhe-Alarm). Bei niedriger Gefährdung: schriftliches Check-in-Verfahren mit definierten Intervallen und Eskalationskette.",
+        "short_text": "Personen-Notsignal-Anlage (PNA) oder Check-in-Verfahren",
+        "slug": "alleinarbeit-erreichbar",
+        "source_ref_slugs": [
+          "dguv-v1",
+          "dguv-r-112-139",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "laerm-exposition",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): laerm-exposition",
+      "measure": {
+        "applies_to_risks": [
+          "laerm-exposition",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v3",
+        "is_mandatory_when": {
+          "risks": [
+            "laerm-exposition",
+          ],
+        },
+        "long_text": "Beschäftigten mit ≥85 dB(A) Tages-Lärmexpositionspegel wird die arbeitsmedizinische Pflichtvorsorge G20 nach ArbMedVV angeboten. Erstvorsorge vor Aufnahme, danach Nachuntersuchung im ersten Jahr und alle 36 Monate. Nachweis im Audit: Vorsorgekartei beim Betriebsarzt.",
+        "short_text": "Pflichtvorsorge G20 (Lärm) ab 85 dB(A) Tages-Lärmexpositionspegel",
+        "slug": "vorsorge-g20-laerm",
+        "source_ref_slugs": [
+          "arbmedvv-g20",
+          "laermvibrarbschv",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "hautkontakt-reizstoffe",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): hautkontakt-reizstoffe",
+      "measure": {
+        "applies_to_risks": [
+          "hautkontakt-reizstoffe",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v3",
+        "is_mandatory_when": {
+          "risks": [
+            "hautkontakt-reizstoffe",
+          ],
+        },
+        "long_text": "Bei Feuchtarbeit von mehr als 4 Stunden je Schicht oder regelmäßigem Hautkontakt mit Reizstoffen: arbeitsmedizinische Pflichtvorsorge G24 nach ArbMedVV. Nachweis im Audit: Tätigkeits-Zeitanalyse, Vorsorge-Bescheinigung.",
+        "short_text": "Pflichtvorsorge G24 (Haut) bei Feuchtarbeit > 4 h/Schicht",
+        "slug": "vorsorge-g24-haut",
+        "source_ref_slugs": [
+          "arbmedvv-g24",
+          "trgs-401",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "hautkontakt-reizstoffe",
+        "gefahrstoff-loesemittel",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): hautkontakt-reizstoffe",
+      "measure": {
+        "applies_to_risks": [
+          "hautkontakt-reizstoffe",
+          "gefahrstoff-loesemittel",
+        ],
+        "category": "personenbezogen",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "risks": [
+            "hautkontakt-reizstoffe",
+          ],
+        },
+        "long_text": "Bei Hautkontakt mit feuchten, reizenden oder fett-/öllösenden Stoffen wird ein dreistufiger Hautschutzplan am Waschplatz ausgehangen: (1) Schutz vor der Tätigkeit, (2) schonende Reinigung, (3) Pflege nach Schichtende. Schutzhandschuhe Cat. III bei Chemikalien mit Permeations-Datenblatt.",
+        "short_text": "Hautschutzplan (Schutz–Reinigung–Pflege) nach TRGS 401",
+        "slug": "hautschutzplan",
+        "source_ref_slugs": [
+          "trgs-401",
+          "dguv-i-203-080",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "psychische-belastung-zeitdruck",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "psychische-belastung-zeitdruck",
+        ],
+        "category": "organisatorisch",
+        "confidence": "medium",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Erfassung gem. ArbSchG §5 entlang der 5 Merkmalsbereiche der GDA-Leitlinie. Maßnahmen werden abgeleitet und nach 1–2 Jahren auf Wirksamkeit geprüft.",
+        "short_text": "Psychische Belastung systematisch beurteilen (GDA-Leitlinie)",
+        "slug": "gefaehrdungsbeurteilung-psyche",
+        "source_ref_slugs": [
+          "arbschg-5",
+        ],
+      },
+      "obligation_type": "hinweis",
+      "priority": "langfristig",
+      "urgency": "niedrig",
+    },
+    {
+      "for_risks": [
+        "handwerkzeug-schnittverletzung",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "handwerkzeug-schnittverletzung",
+        ],
+        "category": "personenbezogen",
+        "confidence": "medium",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Stufe je nach Schärfe und Tätigkeit; Mindestanforderung Cut-Level B (EN 388:2016). Eignung für Stoff und Tätigkeit dokumentiert.",
+        "short_text": "Schnittschutzhandschuhe nach EN 388, mind. Cut-Level B",
+        "slug": "schnittschutz-handschuhe",
+        "source_ref_slugs": [
+          "dguv-v1",
+        ],
+      },
+      "obligation_type": "hinweis",
+      "priority": "langfristig",
+      "urgency": "niedrig",
+    },
+  ],
+  "derived_risks": [
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "chemisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Exposition gegenüber Lösemitteln",
+        "requires_betriebsanweisung": true,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 4,
+        "slug": "gefahrstoff-loesemittel",
+        "source_ref_slugs": [
+          "gefstoffv-6",
+          "gefstoffv-14",
+        ],
+        "trigger_conditions": {
+          "hazardous_substances": [
+            "farben_lacke",
+            "reinigung",
+            "schmierstoffe",
+            "kuehlmittel",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+        ],
+      },
+      "severity": 4,
+      "triggers": [
+        {
+          "dimension": "hazardous_substances",
+          "label": "Gefahrstoffe: Reinigungschemie",
+          "value": "reinigung",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 4,
+      "risk": {
+        "category": "chemisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 4,
+        "name": "Hautkontakt mit reizenden Stoffen",
+        "requires_betriebsanweisung": true,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "hautkontakt-reizstoffe",
+        "source_ref_slugs": [
+          "trgs-401",
+          "dguv-i-203-080",
+        ],
+        "trigger_conditions": {
+          "hazardous_substances": [
+            "farben_lacke",
+            "reinigung",
+            "schmierstoffe",
+            "kuehlmittel",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "kunde",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "hazardous_substances",
+          "label": "Gefahrstoffe: Reinigungschemie",
+          "value": "reinigung",
+        },
+      ],
+    },
+    {
+      "is_mandatory": false,
+      "likelihood": 3,
+      "risk": {
+        "category": "psychosozial",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Psychische Belastung (Zeitdruck, Verantwortung)",
+        "requires_betriebsanweisung": false,
+        "requires_psa": false,
+        "requires_unterweisung": false,
+        "severity_default": 3,
+        "slug": "psychische-belastung-zeitdruck",
+        "source_ref_slugs": [
+          "arbschg-5",
+        ],
+        "trigger_conditions": {
+          "psychological": [
+            "zeitdruck",
+            "emotionale_belastung",
+          ],
+        },
+        "typical_areas": [
+          "buero",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "psychological",
+          "label": "Belastung: Hoher Zeitdruck",
+          "value": "zeitdruck",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "mechanisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Schnitt- und Quetschverletzungen durch Handwerkzeuge",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "handwerkzeug-schnittverletzung",
+        "source_ref_slugs": [
+          "betrsichv-3",
+          "dguv-v1",
+        ],
+        "trigger_conditions": {
+          "tools": [
+            "handgefuehrt",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "baustelle",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+          "value": "handgefuehrt",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "physikalisch",
+        "data_source": "fixture-v3",
+        "likelihood_default": 3,
+        "name": "Lärmexposition über Tages-Lärmexpositionspegel",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "laerm-exposition",
+        "source_ref_slugs": [
+          "laermvibrarbschv",
+          "arbmedvv-g20",
+        ],
+        "trigger_conditions": {
+          "environment": [
+            "werkstatt",
+            "baustelle",
+            "lager",
+          ],
+          "tools": [
+            "cnc",
+            "handgefuehrt",
+            "flurfoerderzeuge",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "baustelle",
+          "lager",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+          "value": "handgefuehrt",
+        },
+      ],
+    },
+    {
+      "is_mandatory": false,
+      "likelihood": 2,
+      "risk": {
+        "category": "organisatorisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 2,
+        "name": "Notfallbewältigung bei Alleinarbeit",
+        "requires_betriebsanweisung": false,
+        "requires_psa": false,
+        "requires_unterweisung": true,
+        "severity_default": 4,
+        "slug": "alleinarbeit-notfall",
+        "source_ref_slugs": [
+          "dguv-v1",
+          "dguv-r-112-139",
+        ],
+        "trigger_conditions": {
+          "workforce": [
+            "alleinarbeit",
+          ],
+        },
+        "typical_areas": [
+          "baustelle",
+          "aussendienst",
+        ],
+      },
+      "severity": 4,
+      "triggers": [
+        {
+          "dimension": "workforce",
+          "label": "Personal: Alleinarbeit",
+          "value": "alleinarbeit",
+        },
+      ],
+    },
+  ],
+  "engine_version": "1.1.0",
+  "generated_at": "<EXCLUDED>",
+  "input_tags": {
+    "environment": [
+      "kunde",
+      "innen",
+    ],
+    "hazardous_substances": [
+      "reinigung",
+    ],
+    "mobility": "aussendienst",
+    "psychological": [
+      "zeitdruck",
+    ],
+    "tools": [
+      "handgefuehrt",
+    ],
+    "work_height": "bis-2m",
+    "workforce": [
+      "alleinarbeit",
+    ],
+  },
+  "legal_refs": {
+    "arbmedvv-g20": {
+      "citation": "ArbMedVV G20",
+      "kind": "gesetz",
+      "slug": "arbmedvv-g20",
+      "title": "Lärm — Pflicht-/Angebotsvorsorge",
+      "url": null,
+    },
+    "arbmedvv-g24": {
+      "citation": "ArbMedVV G24",
+      "kind": "gesetz",
+      "slug": "arbmedvv-g24",
+      "title": "Hauterkrankungen — Pflichtvorsorge",
+      "url": null,
+    },
+    "arbschg-5": {
+      "citation": "ArbSchG §5",
+      "kind": "gesetz",
+      "slug": "arbschg-5",
+      "title": "Beurteilung der Arbeitsbedingungen",
+      "url": null,
+    },
+    "betrsichv-3": {
+      "citation": "BetrSichV §3",
+      "kind": "verordnung",
+      "slug": "betrsichv-3",
+      "title": "Gefährdungsbeurteilung Arbeitsmittel",
+      "url": null,
+    },
+    "dguv-i-203-080": {
+      "citation": "DGUV I 203-080",
+      "kind": "dguv",
+      "slug": "dguv-i-203-080",
+      "title": "Hautschutz in feuchtem Milieu",
+      "url": null,
+    },
+    "dguv-r-112-139": {
+      "citation": "DGUV R 112-139",
+      "kind": "dguv",
+      "slug": "dguv-r-112-139",
+      "title": "Personen-Notsignal-Anlagen (PNA-11)",
+      "url": null,
+    },
+    "dguv-v1": {
+      "citation": "DGUV V1",
+      "kind": "dguv",
+      "slug": "dguv-v1",
+      "title": "Grundsätze der Prävention",
+      "url": null,
+    },
+    "gefstoffv-14": {
+      "citation": "GefStoffV §14",
+      "kind": "verordnung",
+      "slug": "gefstoffv-14",
+      "title": "Betriebsanweisung + Unterweisung",
+      "url": null,
+    },
+    "gefstoffv-6": {
+      "citation": "GefStoffV §6",
+      "kind": "verordnung",
+      "slug": "gefstoffv-6",
+      "title": "Informationsermittlung + Gefahrstoffverzeichnis",
+      "url": null,
+    },
+    "laermvibrarbschv": {
+      "citation": "LärmVibrationsArbSchV",
+      "kind": "verordnung",
+      "slug": "laermvibrarbschv",
+      "title": "Lärm- und Vibrations-Arbeitsschutzverordnung",
+      "url": null,
+    },
+    "trgs-401": {
+      "citation": "TRGS 401",
+      "kind": "technische-regel",
+      "slug": "trgs-401",
+      "title": "Gefährdung durch Hautkontakt",
+      "url": null,
+    },
+  },
+  "mandatory_reasons": {
+    "alleinarbeit-erreichbar": "Pflicht-Maßnahme für Risiko(en): alleinarbeit-notfall",
+    "gefaehrdungsbeurteilung-psyche": null,
+    "gefahrstoffverzeichnis": "GefStoffV — bei Einsatz von Gefahrstoffen",
+    "hautschutzplan": "Pflicht-Maßnahme für Risiko(en): hautkontakt-reizstoffe",
+    "schnittschutz-handschuhe": null,
+    "sdb-verfuegbar": "GefStoffV — bei Einsatz von Gefahrstoffen",
+    "vorsorge-g20-laerm": "Pflicht-Maßnahme für Risiko(en): laerm-exposition",
+    "vorsorge-g24-haut": "Pflicht-Maßnahme für Risiko(en): hautkontakt-reizstoffe",
+  },
+  "measure_acknowledgements": {},
+  "missing_controls": [],
+  "plausibility": [],
+  "schema_version": 2,
+  "severity_scores": {
+    "alleinarbeit-notfall": {
+      "likelihood": 2,
+      "score": 8,
+      "severity": 4,
+    },
+    "gefahrstoff-loesemittel": {
+      "likelihood": 3,
+      "score": 12,
+      "severity": 4,
+    },
+    "handwerkzeug-schnittverletzung": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+    "hautkontakt-reizstoffe": {
+      "likelihood": 4,
+      "score": 12,
+      "severity": 3,
+    },
+    "laerm-exposition": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+    "psychische-belastung-zeitdruck": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+  },
+  "snapshot_hash": "<COMPUTED>",
+  "summary": {
+    "n_mandatory_measures": 6,
+    "n_missing_controls": 0,
+    "n_risks": 6,
+  },
+  "trigger_map": {
+    "alleinarbeit-notfall": [
+      {
+        "dimension": "workforce",
+        "label": "Personal: Alleinarbeit",
+        "value": "alleinarbeit",
+      },
+    ],
+    "gefahrstoff-loesemittel": [
+      {
+        "dimension": "hazardous_substances",
+        "label": "Gefahrstoffe: Reinigungschemie",
+        "value": "reinigung",
+      },
+    ],
+    "handwerkzeug-schnittverletzung": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+        "value": "handgefuehrt",
+      },
+    ],
+    "hautkontakt-reizstoffe": [
+      {
+        "dimension": "hazardous_substances",
+        "label": "Gefahrstoffe: Reinigungschemie",
+        "value": "reinigung",
+      },
+    ],
+    "laerm-exposition": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+        "value": "handgefuehrt",
+      },
+    ],
+    "psychische-belastung-zeitdruck": [
+      {
+        "dimension": "psychological",
+        "label": "Belastung: Hoher Zeitdruck",
+        "value": "zeitdruck",
+      },
+    ],
+  },
+  "user_selected_risk_slugs": [
+    "alleinarbeit-notfall",
+    "gefahrstoff-loesemittel",
+    "handwerkzeug-schnittverletzung",
+    "hautkontakt-reizstoffe",
+    "laerm-exposition",
+    "psychische-belastung-zeitdruck",
+  ],
+}
+`;
+
+exports[`Vitest-Snapshots (Diff-Hilfe bei Engine-Änderungen) > 'Lager / Logistik-Hub' — voller Engine-Snapshot 1`] = `
+{
+  "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+  "catalog_size": {
+    "measures": 16,
+    "risks": 12,
+  },
+  "derived_measures": [
+    {
+      "for_risks": [
+        "verkehrswege-lager",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): verkehrswege-lager",
+      "measure": {
+        "applies_to_risks": [
+          "verkehrswege-lager",
+        ],
+        "category": "technisch",
+        "confidence": "high",
+        "data_source": "fixture-v3",
+        "is_mandatory_when": {
+          "risks": [
+            "verkehrswege-lager",
+          ],
+        },
+        "long_text": "DGUV V68 §12: Trennung baulich (Geländer, Schutzbügel) oder durch mindestens 75 cm breite gelbe Bodenmarkierung. Sichtbeschränkte Querungen mit Konvex-Spiegel. Nachweis im Audit: Verkehrswege-Plan, Begehung mit Mängelliste.",
+        "short_text": "Fußgänger- und Stapler-Verkehrswege baulich oder markiert getrennt",
+        "slug": "verkehrswege-trennung-stapler",
+        "source_ref_slugs": [
+          "dguv-v68-§12",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "flurfoerderzeug-unfall",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): flurfoerderzeug-unfall",
+      "measure": {
+        "applies_to_risks": [
+          "flurfoerderzeug-unfall",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "risks": [
+            "flurfoerderzeug-unfall",
+          ],
+        },
+        "long_text": "Nur ausgebildete Beschäftigte mit gültigem Befähigungsnachweis und jährlicher Unterweisung führen Flurförderzeuge. Schriftliche Beauftragung durch den Unternehmer.",
+        "short_text": "Staplerschein + jährliche Unterweisung nach DGUV V68",
+        "slug": "unterweisung-stapler",
+        "source_ref_slugs": [
+          "dguv-v68",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "laerm-exposition",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): laerm-exposition",
+      "measure": {
+        "applies_to_risks": [
+          "laerm-exposition",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v3",
+        "is_mandatory_when": {
+          "risks": [
+            "laerm-exposition",
+          ],
+        },
+        "long_text": "Beschäftigten mit ≥85 dB(A) Tages-Lärmexpositionspegel wird die arbeitsmedizinische Pflichtvorsorge G20 nach ArbMedVV angeboten. Erstvorsorge vor Aufnahme, danach Nachuntersuchung im ersten Jahr und alle 36 Monate. Nachweis im Audit: Vorsorgekartei beim Betriebsarzt.",
+        "short_text": "Pflichtvorsorge G20 (Lärm) ab 85 dB(A) Tages-Lärmexpositionspegel",
+        "slug": "vorsorge-g20-laerm",
+        "source_ref_slugs": [
+          "arbmedvv-g20",
+          "laermvibrarbschv",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "handwerkzeug-schnittverletzung",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "handwerkzeug-schnittverletzung",
+        ],
+        "category": "personenbezogen",
+        "confidence": "medium",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Stufe je nach Schärfe und Tätigkeit; Mindestanforderung Cut-Level B (EN 388:2016). Eignung für Stoff und Tätigkeit dokumentiert.",
+        "short_text": "Schnittschutzhandschuhe nach EN 388, mind. Cut-Level B",
+        "slug": "schnittschutz-handschuhe",
+        "source_ref_slugs": [
+          "dguv-v1",
+        ],
+      },
+      "obligation_type": "hinweis",
+      "priority": "langfristig",
+      "urgency": "niedrig",
+    },
+  ],
+  "derived_risks": [
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "mechanisch",
+        "data_source": "fixture-v3",
+        "likelihood_default": 3,
+        "name": "Verkehrswege-Konflikt Fußgänger / Stapler",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 5,
+        "slug": "verkehrswege-lager",
+        "source_ref_slugs": [
+          "dguv-v68-§12",
+        ],
+        "trigger_conditions": {
+          "environment": [
+            "lager",
+          ],
+          "tools": [
+            "flurfoerderzeuge",
+          ],
+        },
+        "typical_areas": [
+          "lager",
+        ],
+      },
+      "severity": 5,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Flurförderzeuge (Stapler etc.)",
+          "value": "flurfoerderzeuge",
+        },
+        {
+          "dimension": "environment",
+          "label": "Umgebung: Lager",
+          "value": "lager",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 2,
+      "risk": {
+        "category": "mechanisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 2,
+        "name": "Unfall mit Flurförderzeug",
+        "requires_betriebsanweisung": true,
+        "requires_psa": false,
+        "requires_unterweisung": true,
+        "severity_default": 5,
+        "slug": "flurfoerderzeug-unfall",
+        "source_ref_slugs": [
+          "dguv-v68",
+        ],
+        "trigger_conditions": {
+          "tools": [
+            "flurfoerderzeuge",
+          ],
+        },
+        "typical_areas": [
+          "lager",
+        ],
+      },
+      "severity": 5,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Flurförderzeuge (Stapler etc.)",
+          "value": "flurfoerderzeuge",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "mechanisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Schnitt- und Quetschverletzungen durch Handwerkzeuge",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "handwerkzeug-schnittverletzung",
+        "source_ref_slugs": [
+          "betrsichv-3",
+          "dguv-v1",
+        ],
+        "trigger_conditions": {
+          "tools": [
+            "handgefuehrt",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "baustelle",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+          "value": "handgefuehrt",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "physikalisch",
+        "data_source": "fixture-v3",
+        "likelihood_default": 3,
+        "name": "Lärmexposition über Tages-Lärmexpositionspegel",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "laerm-exposition",
+        "source_ref_slugs": [
+          "laermvibrarbschv",
+          "arbmedvv-g20",
+        ],
+        "trigger_conditions": {
+          "environment": [
+            "werkstatt",
+            "baustelle",
+            "lager",
+          ],
+          "tools": [
+            "cnc",
+            "handgefuehrt",
+            "flurfoerderzeuge",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "baustelle",
+          "lager",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Flurförderzeuge (Stapler etc.)",
+          "value": "flurfoerderzeuge",
+        },
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+          "value": "handgefuehrt",
+        },
+        {
+          "dimension": "environment",
+          "label": "Umgebung: Lager",
+          "value": "lager",
+        },
+      ],
+    },
+  ],
+  "engine_version": "1.1.0",
+  "generated_at": "<EXCLUDED>",
+  "input_tags": {
+    "environment": [
+      "lager",
+    ],
+    "hazardous_substances": [
+      "keine",
+    ],
+    "mobility": "stationaer",
+    "psychological": [],
+    "tools": [
+      "flurfoerderzeuge",
+      "handgefuehrt",
+    ],
+    "workforce": [
+      "schichtarbeit",
+    ],
+  },
+  "legal_refs": {
+    "arbmedvv-g20": {
+      "citation": "ArbMedVV G20",
+      "kind": "gesetz",
+      "slug": "arbmedvv-g20",
+      "title": "Lärm — Pflicht-/Angebotsvorsorge",
+      "url": null,
+    },
+    "betrsichv-3": {
+      "citation": "BetrSichV §3",
+      "kind": "verordnung",
+      "slug": "betrsichv-3",
+      "title": "Gefährdungsbeurteilung Arbeitsmittel",
+      "url": null,
+    },
+    "dguv-v1": {
+      "citation": "DGUV V1",
+      "kind": "dguv",
+      "slug": "dguv-v1",
+      "title": "Grundsätze der Prävention",
+      "url": null,
+    },
+    "dguv-v68": {
+      "citation": "DGUV V68",
+      "kind": "dguv",
+      "slug": "dguv-v68",
+      "title": "Flurförderzeuge",
+      "url": null,
+    },
+    "dguv-v68-§12": {
+      "citation": "DGUV V68 §12",
+      "kind": "dguv",
+      "slug": "dguv-v68-§12",
+      "title": "Trennung Fußgänger- und FFZ-Verkehrswege",
+      "url": null,
+    },
+    "laermvibrarbschv": {
+      "citation": "LärmVibrationsArbSchV",
+      "kind": "verordnung",
+      "slug": "laermvibrarbschv",
+      "title": "Lärm- und Vibrations-Arbeitsschutzverordnung",
+      "url": null,
+    },
+  },
+  "mandatory_reasons": {
+    "schnittschutz-handschuhe": null,
+    "unterweisung-stapler": "Pflicht-Maßnahme für Risiko(en): flurfoerderzeug-unfall",
+    "verkehrswege-trennung-stapler": "Pflicht-Maßnahme für Risiko(en): verkehrswege-lager",
+    "vorsorge-g20-laerm": "Pflicht-Maßnahme für Risiko(en): laerm-exposition",
+  },
+  "measure_acknowledgements": {},
+  "missing_controls": [],
+  "plausibility": [
+    {
+      "code": "schichtarbeit-ohne-belastungsanalyse",
+      "message": "Schicht- oder Nachtarbeit angegeben, aber keine psychischen Belastungsfaktoren dokumentiert. Eine spezifische Beurteilung gem. ArbSchG §5 wird empfohlen.",
+    },
+    {
+      "code": "verkehrswege-trennung-pruefen",
+      "message": "Flurförderzeug-Einsatz im Lager angegeben — Trennung von Fußgänger- und Stapler-Verkehrswegen baulich oder durch Bodenmarkierung sicherstellen (DGUV V68 §12).",
+    },
+  ],
+  "schema_version": 2,
+  "severity_scores": {
+    "flurfoerderzeug-unfall": {
+      "likelihood": 2,
+      "score": 10,
+      "severity": 5,
+    },
+    "handwerkzeug-schnittverletzung": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+    "laerm-exposition": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+    "verkehrswege-lager": {
+      "likelihood": 3,
+      "score": 15,
+      "severity": 5,
+    },
+  },
+  "snapshot_hash": "<COMPUTED>",
+  "summary": {
+    "n_mandatory_measures": 3,
+    "n_missing_controls": 0,
+    "n_risks": 4,
+  },
+  "trigger_map": {
+    "flurfoerderzeug-unfall": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Flurförderzeuge (Stapler etc.)",
+        "value": "flurfoerderzeuge",
+      },
+    ],
+    "handwerkzeug-schnittverletzung": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+        "value": "handgefuehrt",
+      },
+    ],
+    "laerm-exposition": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Flurförderzeuge (Stapler etc.)",
+        "value": "flurfoerderzeuge",
+      },
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+        "value": "handgefuehrt",
+      },
+      {
+        "dimension": "environment",
+        "label": "Umgebung: Lager",
+        "value": "lager",
+      },
+    ],
+    "verkehrswege-lager": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Flurförderzeuge (Stapler etc.)",
+        "value": "flurfoerderzeuge",
+      },
+      {
+        "dimension": "environment",
+        "label": "Umgebung: Lager",
+        "value": "lager",
+      },
+    ],
+  },
+  "user_selected_risk_slugs": [
+    "flurfoerderzeug-unfall",
+    "handwerkzeug-schnittverletzung",
+    "laerm-exposition",
+    "verkehrswege-lager",
+  ],
+}
+`;
+
+exports[`Vitest-Snapshots (Diff-Hilfe bei Engine-Änderungen) > 'Logistik / Auslieferung' — voller Engine-Snapshot 1`] = `
+{
+  "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+  "catalog_size": {
+    "measures": 16,
+    "risks": 12,
+  },
+  "derived_measures": [
+    {
+      "for_risks": [
+        "alleinarbeit-notfall",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): alleinarbeit-notfall",
+      "measure": {
+        "applies_to_risks": [
+          "alleinarbeit-notfall",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "risks": [
+            "alleinarbeit-notfall",
+          ],
+        },
+        "long_text": "Bei Alleinarbeit mit erhöhter Gefährdung: PNA-11 Gerät gem. DGUV Regel 112-139 (Lage-, Verlust-, Ruhe-Alarm). Bei niedriger Gefährdung: schriftliches Check-in-Verfahren mit definierten Intervallen und Eskalationskette.",
+        "short_text": "Personen-Notsignal-Anlage (PNA) oder Check-in-Verfahren",
+        "slug": "alleinarbeit-erreichbar",
+        "source_ref_slugs": [
+          "dguv-v1",
+          "dguv-r-112-139",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "psychische-belastung-zeitdruck",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "psychische-belastung-zeitdruck",
+        ],
+        "category": "organisatorisch",
+        "confidence": "medium",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Erfassung gem. ArbSchG §5 entlang der 5 Merkmalsbereiche der GDA-Leitlinie. Maßnahmen werden abgeleitet und nach 1–2 Jahren auf Wirksamkeit geprüft.",
+        "short_text": "Psychische Belastung systematisch beurteilen (GDA-Leitlinie)",
+        "slug": "gefaehrdungsbeurteilung-psyche",
+        "source_ref_slugs": [
+          "arbschg-5",
+        ],
+      },
+      "obligation_type": "hinweis",
+      "priority": "langfristig",
+      "urgency": "niedrig",
+    },
+  ],
+  "derived_risks": [
+    {
+      "is_mandatory": false,
+      "likelihood": 3,
+      "risk": {
+        "category": "psychosozial",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Psychische Belastung (Zeitdruck, Verantwortung)",
+        "requires_betriebsanweisung": false,
+        "requires_psa": false,
+        "requires_unterweisung": false,
+        "severity_default": 3,
+        "slug": "psychische-belastung-zeitdruck",
+        "source_ref_slugs": [
+          "arbschg-5",
+        ],
+        "trigger_conditions": {
+          "psychological": [
+            "zeitdruck",
+            "emotionale_belastung",
+          ],
+        },
+        "typical_areas": [
+          "buero",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "psychological",
+          "label": "Belastung: Hoher Zeitdruck",
+          "value": "zeitdruck",
+        },
+      ],
+    },
+    {
+      "is_mandatory": false,
+      "likelihood": 2,
+      "risk": {
+        "category": "organisatorisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 2,
+        "name": "Notfallbewältigung bei Alleinarbeit",
+        "requires_betriebsanweisung": false,
+        "requires_psa": false,
+        "requires_unterweisung": true,
+        "severity_default": 4,
+        "slug": "alleinarbeit-notfall",
+        "source_ref_slugs": [
+          "dguv-v1",
+          "dguv-r-112-139",
+        ],
+        "trigger_conditions": {
+          "workforce": [
+            "alleinarbeit",
+          ],
+        },
+        "typical_areas": [
+          "baustelle",
+          "aussendienst",
+        ],
+      },
+      "severity": 4,
+      "triggers": [
+        {
+          "dimension": "workforce",
+          "label": "Personal: Alleinarbeit",
+          "value": "alleinarbeit",
+        },
+      ],
+    },
+  ],
+  "engine_version": "1.1.0",
+  "generated_at": "<EXCLUDED>",
+  "input_tags": {
+    "environment": [
+      "kunde",
+    ],
+    "hazardous_substances": [
+      "keine",
+    ],
+    "mobility": "fahrzeuge",
+    "psychological": [
+      "zeitdruck",
+    ],
+    "tools": [
+      "fahrzeuge",
+    ],
+    "workforce": [
+      "alleinarbeit",
+    ],
+  },
+  "legal_refs": {
+    "arbschg-5": {
+      "citation": "ArbSchG §5",
+      "kind": "gesetz",
+      "slug": "arbschg-5",
+      "title": "Beurteilung der Arbeitsbedingungen",
+      "url": null,
+    },
+    "dguv-r-112-139": {
+      "citation": "DGUV R 112-139",
+      "kind": "dguv",
+      "slug": "dguv-r-112-139",
+      "title": "Personen-Notsignal-Anlagen (PNA-11)",
+      "url": null,
+    },
+    "dguv-v1": {
+      "citation": "DGUV V1",
+      "kind": "dguv",
+      "slug": "dguv-v1",
+      "title": "Grundsätze der Prävention",
+      "url": null,
+    },
+  },
+  "mandatory_reasons": {
+    "alleinarbeit-erreichbar": "Pflicht-Maßnahme für Risiko(en): alleinarbeit-notfall",
+    "gefaehrdungsbeurteilung-psyche": null,
+  },
+  "measure_acknowledgements": {},
+  "missing_controls": [],
+  "plausibility": [],
+  "schema_version": 2,
+  "severity_scores": {
+    "alleinarbeit-notfall": {
+      "likelihood": 2,
+      "score": 8,
+      "severity": 4,
+    },
+    "psychische-belastung-zeitdruck": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+  },
+  "snapshot_hash": "<COMPUTED>",
+  "summary": {
+    "n_mandatory_measures": 1,
+    "n_missing_controls": 0,
+    "n_risks": 2,
+  },
+  "trigger_map": {
+    "alleinarbeit-notfall": [
+      {
+        "dimension": "workforce",
+        "label": "Personal: Alleinarbeit",
+        "value": "alleinarbeit",
+      },
+    ],
+    "psychische-belastung-zeitdruck": [
+      {
+        "dimension": "psychological",
+        "label": "Belastung: Hoher Zeitdruck",
+        "value": "zeitdruck",
+      },
+    ],
+  },
+  "user_selected_risk_slugs": [
+    "alleinarbeit-notfall",
+    "psychische-belastung-zeitdruck",
+  ],
+}
+`;
+
+exports[`Vitest-Snapshots (Diff-Hilfe bei Engine-Änderungen) > 'Malerbetrieb' — voller Engine-Snapshot 1`] = `
+{
+  "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+  "catalog_size": {
+    "measures": 16,
+    "risks": 12,
+  },
+  "derived_measures": [
+    {
+      "for_risks": [
+        "gefahrstoff-loesemittel",
+        "staubexposition",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "GefStoffV — bei Einsatz von Gefahrstoffen",
+      "measure": {
+        "applies_to_risks": [
+          "gefahrstoff-loesemittel",
+          "staubexposition",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "any_substance": true,
+        },
+        "long_text": "Für jeden eingesetzten Gefahrstoff liegt ein aktuelles Sicherheitsdatenblatt (max. 3 Jahre alt) in deutscher Sprache vor und ist am Verwendungsort zugänglich. Daraus wird eine Betriebsanweisung gem. GefStoffV §14 in mitarbeiterverständlicher Sprache abgeleitet.",
+        "short_text": "Sicherheitsdatenblätter aktuell und am Verwendungsort zugänglich",
+        "slug": "sdb-verfuegbar",
+        "source_ref_slugs": [
+          "gefstoffv-14",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "gefahrstoff-loesemittel",
+        "staubexposition",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "GefStoffV — bei Einsatz von Gefahrstoffen",
+      "measure": {
+        "applies_to_risks": [
+          "gefahrstoff-loesemittel",
+          "staubexposition",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "any_substance": true,
+        },
+        "long_text": "Verzeichnis aller eingesetzten Gefahrstoffe mit Bezeichnung, CLP-Einstufung, Mengen, Verwendungsbereichen und SDB-Verweis. Mindestens jährlich auf Vollständigkeit geprüft.",
+        "short_text": "Gefahrstoffverzeichnis nach GefStoffV §6 — jährliche Aktualisierung",
+        "slug": "gefahrstoffverzeichnis",
+        "source_ref_slugs": [
+          "gefstoffv-6",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "laerm-exposition",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): laerm-exposition",
+      "measure": {
+        "applies_to_risks": [
+          "laerm-exposition",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v3",
+        "is_mandatory_when": {
+          "risks": [
+            "laerm-exposition",
+          ],
+        },
+        "long_text": "Beschäftigten mit ≥85 dB(A) Tages-Lärmexpositionspegel wird die arbeitsmedizinische Pflichtvorsorge G20 nach ArbMedVV angeboten. Erstvorsorge vor Aufnahme, danach Nachuntersuchung im ersten Jahr und alle 36 Monate. Nachweis im Audit: Vorsorgekartei beim Betriebsarzt.",
+        "short_text": "Pflichtvorsorge G20 (Lärm) ab 85 dB(A) Tages-Lärmexpositionspegel",
+        "slug": "vorsorge-g20-laerm",
+        "source_ref_slugs": [
+          "arbmedvv-g20",
+          "laermvibrarbschv",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "hautkontakt-reizstoffe",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): hautkontakt-reizstoffe",
+      "measure": {
+        "applies_to_risks": [
+          "hautkontakt-reizstoffe",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v3",
+        "is_mandatory_when": {
+          "risks": [
+            "hautkontakt-reizstoffe",
+          ],
+        },
+        "long_text": "Bei Feuchtarbeit von mehr als 4 Stunden je Schicht oder regelmäßigem Hautkontakt mit Reizstoffen: arbeitsmedizinische Pflichtvorsorge G24 nach ArbMedVV. Nachweis im Audit: Tätigkeits-Zeitanalyse, Vorsorge-Bescheinigung.",
+        "short_text": "Pflichtvorsorge G24 (Haut) bei Feuchtarbeit > 4 h/Schicht",
+        "slug": "vorsorge-g24-haut",
+        "source_ref_slugs": [
+          "arbmedvv-g24",
+          "trgs-401",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "absturz",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht ab Höhe ueber-2m/fassade-dach",
+      "measure": {
+        "applies_to_risks": [
+          "absturz",
+        ],
+        "category": "personenbezogen",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "work_height": [
+            "ueber-2m",
+            "fassade-dach",
+          ],
+        },
+        "long_text": "Bei Arbeiten über 2 m wird PSA gegen Absturz nach RAB 32 bereitgestellt: Auffanggurt Klasse A, Verbindungsmittel mit Falldämpfer, Anschlagpunkte ≥10 kN. Jährliche Sachkundeprüfung der PSAgA und jährliche praktische Unterweisung der Träger.",
+        "short_text": "PSA gegen Absturz (PSAgA) ab 2 m Höhe — Auffanggurt + Anschlagpunkte",
+        "slug": "psa-bereitstellen",
+        "source_ref_slugs": [
+          "dguv-v1",
+          "betrsichv-3",
+          "rab-32",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "staubexposition",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): staubexposition",
+      "measure": {
+        "applies_to_risks": [
+          "staubexposition",
+        ],
+        "category": "personenbezogen",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "risks": [
+            "staubexposition",
+          ],
+        },
+        "long_text": "Bei sichtbarer Staubentwicklung mindestens FFP2; bei krebserzeugenden Stäuben (Quarz, Holzstäube) FFP3. Tragezeitbegrenzung gem. DGUV Regel 112-190 beachten.",
+        "short_text": "Atemschutz nach Expositionsklasse (FFP2 / FFP3 bei Quarz)",
+        "slug": "atemschutz-bei-staub",
+        "source_ref_slugs": [
+          "dguv-r-201",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "hautkontakt-reizstoffe",
+        "gefahrstoff-loesemittel",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): hautkontakt-reizstoffe",
+      "measure": {
+        "applies_to_risks": [
+          "hautkontakt-reizstoffe",
+          "gefahrstoff-loesemittel",
+        ],
+        "category": "personenbezogen",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "risks": [
+            "hautkontakt-reizstoffe",
+          ],
+        },
+        "long_text": "Bei Hautkontakt mit feuchten, reizenden oder fett-/öllösenden Stoffen wird ein dreistufiger Hautschutzplan am Waschplatz ausgehangen: (1) Schutz vor der Tätigkeit, (2) schonende Reinigung, (3) Pflege nach Schichtende. Schutzhandschuhe Cat. III bei Chemikalien mit Permeations-Datenblatt.",
+        "short_text": "Hautschutzplan (Schutz–Reinigung–Pflege) nach TRGS 401",
+        "slug": "hautschutzplan",
+        "source_ref_slugs": [
+          "trgs-401",
+          "dguv-i-203-080",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "absturz",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "absturz",
+        ],
+        "category": "technisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Bei dauerhaften Arbeiten über 2 m wird ein normgerechtes Gerüst (DIN EN 12810/12811) statt einer Leiter eingesetzt. TOP-Prinzip: kollektive Sicherung (Gerüst, Geländer) hat Vorrang vor individueller (PSAgA). Aufbau, Veränderung und Abbau nur durch befähigte Person mit Aufbau- und Verwendungsanleitung des Herstellers.",
+        "short_text": "Gerüst statt Leiter ab 2 m Standhöhe (kollektive Absturzsicherung)",
+        "slug": "absturzsicherung-geruest",
+        "source_ref_slugs": [
+          "betrsichv-3",
+          "rab-32",
+        ],
+      },
+      "obligation_type": "empfehlung",
+      "priority": "mittelfristig",
+      "urgency": "mittel",
+    },
+    {
+      "for_risks": [
+        "staubexposition",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "staubexposition",
+        ],
+        "category": "technisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Schleif-, Bohr- und Trennarbeiten werden mit integrierter oder direkt aufgesetzter Absaugung der Klasse M (allgemein) oder H (krebserzeugend, Quarz) betrieben. Reinigung im Auffangbehälter ohne Aufwirbeln. Nachweis im Audit: Inventar mit Filterklassen-Zuordnung.",
+        "short_text": "Staubabsaugung direkt am Werkzeug (Klasse M oder H)",
+        "slug": "staubabsaugung-am-werkzeug",
+        "source_ref_slugs": [
+          "gefstoffv-6",
+        ],
+      },
+      "obligation_type": "empfehlung",
+      "priority": "mittelfristig",
+      "urgency": "mittel",
+    },
+    {
+      "for_risks": [
+        "handwerkzeug-schnittverletzung",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "handwerkzeug-schnittverletzung",
+        ],
+        "category": "personenbezogen",
+        "confidence": "medium",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Stufe je nach Schärfe und Tätigkeit; Mindestanforderung Cut-Level B (EN 388:2016). Eignung für Stoff und Tätigkeit dokumentiert.",
+        "short_text": "Schnittschutzhandschuhe nach EN 388, mind. Cut-Level B",
+        "slug": "schnittschutz-handschuhe",
+        "source_ref_slugs": [
+          "dguv-v1",
+        ],
+      },
+      "obligation_type": "hinweis",
+      "priority": "langfristig",
+      "urgency": "niedrig",
+    },
+  ],
+  "derived_risks": [
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "mechanisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Absturz aus Höhe",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 5,
+        "slug": "absturz",
+        "source_ref_slugs": [
+          "betrsichv-3",
+          "dguv-v1",
+          "rab-32",
+        ],
+        "trigger_conditions": {
+          "work_height": [
+            "ueber-2m",
+            "fassade-dach",
+          ],
+        },
+        "typical_areas": [
+          "baustelle",
+          "fassade",
+        ],
+      },
+      "severity": 5,
+      "triggers": [
+        {
+          "dimension": "work_height",
+          "label": "Höhe: Fassade / Dach",
+          "value": "fassade-dach",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "chemisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Exposition gegenüber Lösemitteln",
+        "requires_betriebsanweisung": true,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 4,
+        "slug": "gefahrstoff-loesemittel",
+        "source_ref_slugs": [
+          "gefstoffv-6",
+          "gefstoffv-14",
+        ],
+        "trigger_conditions": {
+          "hazardous_substances": [
+            "farben_lacke",
+            "reinigung",
+            "schmierstoffe",
+            "kuehlmittel",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+        ],
+      },
+      "severity": 4,
+      "triggers": [
+        {
+          "dimension": "hazardous_substances",
+          "label": "Gefahrstoffe: Farben / Lacke / Lösemittel",
+          "value": "farben_lacke",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 4,
+      "risk": {
+        "category": "chemisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 4,
+        "name": "Staubexposition (lungengängig)",
+        "requires_betriebsanweisung": true,
+        "requires_psa": true,
+        "requires_unterweisung": false,
+        "severity_default": 3,
+        "slug": "staubexposition",
+        "source_ref_slugs": [
+          "gefstoffv-6",
+          "dguv-r-201",
+        ],
+        "trigger_conditions": {
+          "hazardous_substances": [
+            "staub_schleifen",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "baustelle",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "hazardous_substances",
+          "label": "Gefahrstoffe: Staub aus Schleifen/Bohren",
+          "value": "staub_schleifen",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 4,
+      "risk": {
+        "category": "chemisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 4,
+        "name": "Hautkontakt mit reizenden Stoffen",
+        "requires_betriebsanweisung": true,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "hautkontakt-reizstoffe",
+        "source_ref_slugs": [
+          "trgs-401",
+          "dguv-i-203-080",
+        ],
+        "trigger_conditions": {
+          "hazardous_substances": [
+            "farben_lacke",
+            "reinigung",
+            "schmierstoffe",
+            "kuehlmittel",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "kunde",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "hazardous_substances",
+          "label": "Gefahrstoffe: Farben / Lacke / Lösemittel",
+          "value": "farben_lacke",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "mechanisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Schnitt- und Quetschverletzungen durch Handwerkzeuge",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "handwerkzeug-schnittverletzung",
+        "source_ref_slugs": [
+          "betrsichv-3",
+          "dguv-v1",
+        ],
+        "trigger_conditions": {
+          "tools": [
+            "handgefuehrt",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "baustelle",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+          "value": "handgefuehrt",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "physikalisch",
+        "data_source": "fixture-v3",
+        "likelihood_default": 3,
+        "name": "Lärmexposition über Tages-Lärmexpositionspegel",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "laerm-exposition",
+        "source_ref_slugs": [
+          "laermvibrarbschv",
+          "arbmedvv-g20",
+        ],
+        "trigger_conditions": {
+          "environment": [
+            "werkstatt",
+            "baustelle",
+            "lager",
+          ],
+          "tools": [
+            "cnc",
+            "handgefuehrt",
+            "flurfoerderzeuge",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "baustelle",
+          "lager",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+          "value": "handgefuehrt",
+        },
+      ],
+    },
+  ],
+  "engine_version": "1.1.0",
+  "generated_at": "<EXCLUDED>",
+  "input_tags": {
+    "environment": [
+      "innen",
+      "aussen",
+      "kunde",
+    ],
+    "hazardous_substances": [
+      "farben_lacke",
+      "staub_schleifen",
+    ],
+    "mobility": "baustelle",
+    "psychological": [],
+    "tools": [
+      "leitern",
+      "handgefuehrt",
+    ],
+    "work_height": "fassade-dach",
+    "workforce": [],
+  },
+  "legal_refs": {
+    "arbmedvv-g20": {
+      "citation": "ArbMedVV G20",
+      "kind": "gesetz",
+      "slug": "arbmedvv-g20",
+      "title": "Lärm — Pflicht-/Angebotsvorsorge",
+      "url": null,
+    },
+    "arbmedvv-g24": {
+      "citation": "ArbMedVV G24",
+      "kind": "gesetz",
+      "slug": "arbmedvv-g24",
+      "title": "Hauterkrankungen — Pflichtvorsorge",
+      "url": null,
+    },
+    "betrsichv-3": {
+      "citation": "BetrSichV §3",
+      "kind": "verordnung",
+      "slug": "betrsichv-3",
+      "title": "Gefährdungsbeurteilung Arbeitsmittel",
+      "url": null,
+    },
+    "dguv-i-203-080": {
+      "citation": "DGUV I 203-080",
+      "kind": "dguv",
+      "slug": "dguv-i-203-080",
+      "title": "Hautschutz in feuchtem Milieu",
+      "url": null,
+    },
+    "dguv-r-201": {
+      "citation": "DGUV R 201-007",
+      "kind": "dguv",
+      "slug": "dguv-r-201",
+      "title": "Quarzhaltiger Staub — Schutzmaßnahmen",
+      "url": null,
+    },
+    "dguv-v1": {
+      "citation": "DGUV V1",
+      "kind": "dguv",
+      "slug": "dguv-v1",
+      "title": "Grundsätze der Prävention",
+      "url": null,
+    },
+    "gefstoffv-14": {
+      "citation": "GefStoffV §14",
+      "kind": "verordnung",
+      "slug": "gefstoffv-14",
+      "title": "Betriebsanweisung + Unterweisung",
+      "url": null,
+    },
+    "gefstoffv-6": {
+      "citation": "GefStoffV §6",
+      "kind": "verordnung",
+      "slug": "gefstoffv-6",
+      "title": "Informationsermittlung + Gefahrstoffverzeichnis",
+      "url": null,
+    },
+    "laermvibrarbschv": {
+      "citation": "LärmVibrationsArbSchV",
+      "kind": "verordnung",
+      "slug": "laermvibrarbschv",
+      "title": "Lärm- und Vibrations-Arbeitsschutzverordnung",
+      "url": null,
+    },
+    "rab-32": {
+      "citation": "RAB 32",
+      "kind": "technische-regel",
+      "slug": "rab-32",
+      "title": "PSA gegen Absturz auf Baustellen",
+      "url": null,
+    },
+    "trgs-401": {
+      "citation": "TRGS 401",
+      "kind": "technische-regel",
+      "slug": "trgs-401",
+      "title": "Gefährdung durch Hautkontakt",
+      "url": null,
+    },
+  },
+  "mandatory_reasons": {
+    "absturzsicherung-geruest": null,
+    "atemschutz-bei-staub": "Pflicht-Maßnahme für Risiko(en): staubexposition",
+    "gefahrstoffverzeichnis": "GefStoffV — bei Einsatz von Gefahrstoffen",
+    "hautschutzplan": "Pflicht-Maßnahme für Risiko(en): hautkontakt-reizstoffe",
+    "psa-bereitstellen": "Pflicht ab Höhe ueber-2m/fassade-dach",
+    "schnittschutz-handschuhe": null,
+    "sdb-verfuegbar": "GefStoffV — bei Einsatz von Gefahrstoffen",
+    "staubabsaugung-am-werkzeug": null,
+    "vorsorge-g20-laerm": "Pflicht-Maßnahme für Risiko(en): laerm-exposition",
+    "vorsorge-g24-haut": "Pflicht-Maßnahme für Risiko(en): hautkontakt-reizstoffe",
+  },
+  "measure_acknowledgements": {},
+  "missing_controls": [],
+  "plausibility": [
+    {
+      "code": "aussenarbeit-uv-witterung-pruefen",
+      "message": "Außenarbeit angegeben — UV-Schutz (textil + Sonnencreme LSF ≥30), Hitze-Pausenregelung ab 30 °C und Trinkwasser-Bereitstellung bitte prüfen (ArbSchG §3).",
+    },
+    {
+      "code": "staub-arbeitsmedizinische-vorsorge",
+      "message": "Schleif- oder mineralischer Staub angegeben — arbeitsmedizinische Vorsorge G26 (Atemschutz, falls Tragezeit >30 min/Schicht) und ggf. G44 (Hartholzstaub) prüfen.",
+    },
+    {
+      "code": "isocyanate-fachkunde-pruefen",
+      "message": "Lackverarbeitung in Innenräumen angegeben — bei 2K-Polyurethan-Lacken oder PUR-Schäumen ist Fachkunde nach TRGS 430 (Isocyanate) und ein geschlossenes System bzw. Absauganlage Pflicht. Substitution prüfen.",
+    },
+  ],
+  "schema_version": 2,
+  "severity_scores": {
+    "absturz": {
+      "likelihood": 3,
+      "score": 15,
+      "severity": 5,
+    },
+    "gefahrstoff-loesemittel": {
+      "likelihood": 3,
+      "score": 12,
+      "severity": 4,
+    },
+    "handwerkzeug-schnittverletzung": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+    "hautkontakt-reizstoffe": {
+      "likelihood": 4,
+      "score": 12,
+      "severity": 3,
+    },
+    "laerm-exposition": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+    "staubexposition": {
+      "likelihood": 4,
+      "score": 12,
+      "severity": 3,
+    },
+  },
+  "snapshot_hash": "<COMPUTED>",
+  "summary": {
+    "n_mandatory_measures": 7,
+    "n_missing_controls": 0,
+    "n_risks": 6,
+  },
+  "trigger_map": {
+    "absturz": [
+      {
+        "dimension": "work_height",
+        "label": "Höhe: Fassade / Dach",
+        "value": "fassade-dach",
+      },
+    ],
+    "gefahrstoff-loesemittel": [
+      {
+        "dimension": "hazardous_substances",
+        "label": "Gefahrstoffe: Farben / Lacke / Lösemittel",
+        "value": "farben_lacke",
+      },
+    ],
+    "handwerkzeug-schnittverletzung": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+        "value": "handgefuehrt",
+      },
+    ],
+    "hautkontakt-reizstoffe": [
+      {
+        "dimension": "hazardous_substances",
+        "label": "Gefahrstoffe: Farben / Lacke / Lösemittel",
+        "value": "farben_lacke",
+      },
+    ],
+    "laerm-exposition": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+        "value": "handgefuehrt",
+      },
+    ],
+    "staubexposition": [
+      {
+        "dimension": "hazardous_substances",
+        "label": "Gefahrstoffe: Staub aus Schleifen/Bohren",
+        "value": "staub_schleifen",
+      },
+    ],
+  },
+  "user_selected_risk_slugs": [
+    "absturz",
+    "gefahrstoff-loesemittel",
+    "handwerkzeug-schnittverletzung",
+    "hautkontakt-reizstoffe",
+    "laerm-exposition",
+    "staubexposition",
+  ],
+}
+`;
+
+exports[`Vitest-Snapshots (Diff-Hilfe bei Engine-Änderungen) > 'Zahnarztpraxis' — voller Engine-Snapshot 1`] = `
+{
+  "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+  "catalog_size": {
+    "measures": 16,
+    "risks": 12,
+  },
+  "derived_measures": [
+    {
+      "for_risks": [
+        "gefahrstoff-loesemittel",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "GefStoffV — bei Einsatz von Gefahrstoffen",
+      "measure": {
+        "applies_to_risks": [
+          "gefahrstoff-loesemittel",
+          "staubexposition",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "any_substance": true,
+        },
+        "long_text": "Für jeden eingesetzten Gefahrstoff liegt ein aktuelles Sicherheitsdatenblatt (max. 3 Jahre alt) in deutscher Sprache vor und ist am Verwendungsort zugänglich. Daraus wird eine Betriebsanweisung gem. GefStoffV §14 in mitarbeiterverständlicher Sprache abgeleitet.",
+        "short_text": "Sicherheitsdatenblätter aktuell und am Verwendungsort zugänglich",
+        "slug": "sdb-verfuegbar",
+        "source_ref_slugs": [
+          "gefstoffv-14",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "gefahrstoff-loesemittel",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "GefStoffV — bei Einsatz von Gefahrstoffen",
+      "measure": {
+        "applies_to_risks": [
+          "gefahrstoff-loesemittel",
+          "staubexposition",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "any_substance": true,
+        },
+        "long_text": "Verzeichnis aller eingesetzten Gefahrstoffe mit Bezeichnung, CLP-Einstufung, Mengen, Verwendungsbereichen und SDB-Verweis. Mindestens jährlich auf Vollständigkeit geprüft.",
+        "short_text": "Gefahrstoffverzeichnis nach GefStoffV §6 — jährliche Aktualisierung",
+        "slug": "gefahrstoffverzeichnis",
+        "source_ref_slugs": [
+          "gefstoffv-6",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "laerm-exposition",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): laerm-exposition",
+      "measure": {
+        "applies_to_risks": [
+          "laerm-exposition",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v3",
+        "is_mandatory_when": {
+          "risks": [
+            "laerm-exposition",
+          ],
+        },
+        "long_text": "Beschäftigten mit ≥85 dB(A) Tages-Lärmexpositionspegel wird die arbeitsmedizinische Pflichtvorsorge G20 nach ArbMedVV angeboten. Erstvorsorge vor Aufnahme, danach Nachuntersuchung im ersten Jahr und alle 36 Monate. Nachweis im Audit: Vorsorgekartei beim Betriebsarzt.",
+        "short_text": "Pflichtvorsorge G20 (Lärm) ab 85 dB(A) Tages-Lärmexpositionspegel",
+        "slug": "vorsorge-g20-laerm",
+        "source_ref_slugs": [
+          "arbmedvv-g20",
+          "laermvibrarbschv",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "hautkontakt-reizstoffe",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): hautkontakt-reizstoffe",
+      "measure": {
+        "applies_to_risks": [
+          "hautkontakt-reizstoffe",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v3",
+        "is_mandatory_when": {
+          "risks": [
+            "hautkontakt-reizstoffe",
+          ],
+        },
+        "long_text": "Bei Feuchtarbeit von mehr als 4 Stunden je Schicht oder regelmäßigem Hautkontakt mit Reizstoffen: arbeitsmedizinische Pflichtvorsorge G24 nach ArbMedVV. Nachweis im Audit: Tätigkeits-Zeitanalyse, Vorsorge-Bescheinigung.",
+        "short_text": "Pflichtvorsorge G24 (Haut) bei Feuchtarbeit > 4 h/Schicht",
+        "slug": "vorsorge-g24-haut",
+        "source_ref_slugs": [
+          "arbmedvv-g24",
+          "trgs-401",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "hautkontakt-reizstoffe",
+        "gefahrstoff-loesemittel",
+      ],
+      "is_mandatory": true,
+      "mandatory_reason": "Pflicht-Maßnahme für Risiko(en): hautkontakt-reizstoffe",
+      "measure": {
+        "applies_to_risks": [
+          "hautkontakt-reizstoffe",
+          "gefahrstoff-loesemittel",
+        ],
+        "category": "personenbezogen",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": {
+          "risks": [
+            "hautkontakt-reizstoffe",
+          ],
+        },
+        "long_text": "Bei Hautkontakt mit feuchten, reizenden oder fett-/öllösenden Stoffen wird ein dreistufiger Hautschutzplan am Waschplatz ausgehangen: (1) Schutz vor der Tätigkeit, (2) schonende Reinigung, (3) Pflege nach Schichtende. Schutzhandschuhe Cat. III bei Chemikalien mit Permeations-Datenblatt.",
+        "short_text": "Hautschutzplan (Schutz–Reinigung–Pflege) nach TRGS 401",
+        "slug": "hautschutzplan",
+        "source_ref_slugs": [
+          "trgs-401",
+          "dguv-i-203-080",
+        ],
+      },
+      "obligation_type": "pflicht",
+      "priority": "kurzfristig",
+      "urgency": "hoch",
+    },
+    {
+      "for_risks": [
+        "bildschirmbelastung",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "bildschirmbelastung",
+        ],
+        "category": "organisatorisch",
+        "confidence": "high",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Höhenverstellbarer Stuhl mit Lordosenstütze, Bildschirm in Augenhöhe (Sehabstand 50–70 cm), blendfreie Beleuchtung ≥500 Lux am Arbeitsplatz. Allen Bildschirmbeschäftigten wird die arbeitsmedizinische Angebotsvorsorge G37 gem. ArbMedVV vor Aufnahme und in regelmäßigen Abständen angeboten.",
+        "short_text": "Ergonomischer Bildschirmarbeitsplatz nach ArbStättV Anh. 6 + G37-Vorsorge",
+        "slug": "bildschirm-ergonomie",
+        "source_ref_slugs": [
+          "arbstaettv-6",
+          "arbmedvv-g37",
+        ],
+      },
+      "obligation_type": "empfehlung",
+      "priority": "mittelfristig",
+      "urgency": "mittel",
+    },
+    {
+      "for_risks": [
+        "psychische-belastung-zeitdruck",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "psychische-belastung-zeitdruck",
+        ],
+        "category": "organisatorisch",
+        "confidence": "medium",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Erfassung gem. ArbSchG §5 entlang der 5 Merkmalsbereiche der GDA-Leitlinie. Maßnahmen werden abgeleitet und nach 1–2 Jahren auf Wirksamkeit geprüft.",
+        "short_text": "Psychische Belastung systematisch beurteilen (GDA-Leitlinie)",
+        "slug": "gefaehrdungsbeurteilung-psyche",
+        "source_ref_slugs": [
+          "arbschg-5",
+        ],
+      },
+      "obligation_type": "hinweis",
+      "priority": "langfristig",
+      "urgency": "niedrig",
+    },
+    {
+      "for_risks": [
+        "handwerkzeug-schnittverletzung",
+      ],
+      "is_mandatory": false,
+      "mandatory_reason": null,
+      "measure": {
+        "applies_to_risks": [
+          "handwerkzeug-schnittverletzung",
+        ],
+        "category": "personenbezogen",
+        "confidence": "medium",
+        "data_source": "fixture-v2",
+        "is_mandatory_when": undefined,
+        "long_text": "Stufe je nach Schärfe und Tätigkeit; Mindestanforderung Cut-Level B (EN 388:2016). Eignung für Stoff und Tätigkeit dokumentiert.",
+        "short_text": "Schnittschutzhandschuhe nach EN 388, mind. Cut-Level B",
+        "slug": "schnittschutz-handschuhe",
+        "source_ref_slugs": [
+          "dguv-v1",
+        ],
+      },
+      "obligation_type": "hinweis",
+      "priority": "langfristig",
+      "urgency": "niedrig",
+    },
+  ],
+  "derived_risks": [
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "chemisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Exposition gegenüber Lösemitteln",
+        "requires_betriebsanweisung": true,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 4,
+        "slug": "gefahrstoff-loesemittel",
+        "source_ref_slugs": [
+          "gefstoffv-6",
+          "gefstoffv-14",
+        ],
+        "trigger_conditions": {
+          "hazardous_substances": [
+            "farben_lacke",
+            "reinigung",
+            "schmierstoffe",
+            "kuehlmittel",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+        ],
+      },
+      "severity": 4,
+      "triggers": [
+        {
+          "dimension": "hazardous_substances",
+          "label": "Gefahrstoffe: Reinigungschemie",
+          "value": "reinigung",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 4,
+      "risk": {
+        "category": "chemisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 4,
+        "name": "Hautkontakt mit reizenden Stoffen",
+        "requires_betriebsanweisung": true,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "hautkontakt-reizstoffe",
+        "source_ref_slugs": [
+          "trgs-401",
+          "dguv-i-203-080",
+        ],
+        "trigger_conditions": {
+          "hazardous_substances": [
+            "farben_lacke",
+            "reinigung",
+            "schmierstoffe",
+            "kuehlmittel",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "kunde",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "hazardous_substances",
+          "label": "Gefahrstoffe: Reinigungschemie",
+          "value": "reinigung",
+        },
+      ],
+    },
+    {
+      "is_mandatory": false,
+      "likelihood": 3,
+      "risk": {
+        "category": "psychosozial",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Psychische Belastung (Zeitdruck, Verantwortung)",
+        "requires_betriebsanweisung": false,
+        "requires_psa": false,
+        "requires_unterweisung": false,
+        "severity_default": 3,
+        "slug": "psychische-belastung-zeitdruck",
+        "source_ref_slugs": [
+          "arbschg-5",
+        ],
+        "trigger_conditions": {
+          "psychological": [
+            "zeitdruck",
+            "emotionale_belastung",
+          ],
+        },
+        "typical_areas": [
+          "buero",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "psychological",
+          "label": "Belastung: Emotionale Belastung (z. B. Pflege)",
+          "value": "emotionale_belastung",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "mechanisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 3,
+        "name": "Schnitt- und Quetschverletzungen durch Handwerkzeuge",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "handwerkzeug-schnittverletzung",
+        "source_ref_slugs": [
+          "betrsichv-3",
+          "dguv-v1",
+        ],
+        "trigger_conditions": {
+          "tools": [
+            "handgefuehrt",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "baustelle",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+          "value": "handgefuehrt",
+        },
+      ],
+    },
+    {
+      "is_mandatory": true,
+      "likelihood": 3,
+      "risk": {
+        "category": "physikalisch",
+        "data_source": "fixture-v3",
+        "likelihood_default": 3,
+        "name": "Lärmexposition über Tages-Lärmexpositionspegel",
+        "requires_betriebsanweisung": false,
+        "requires_psa": true,
+        "requires_unterweisung": true,
+        "severity_default": 3,
+        "slug": "laerm-exposition",
+        "source_ref_slugs": [
+          "laermvibrarbschv",
+          "arbmedvv-g20",
+        ],
+        "trigger_conditions": {
+          "environment": [
+            "werkstatt",
+            "baustelle",
+            "lager",
+          ],
+          "tools": [
+            "cnc",
+            "handgefuehrt",
+            "flurfoerderzeuge",
+          ],
+        },
+        "typical_areas": [
+          "werkstatt",
+          "baustelle",
+          "lager",
+        ],
+      },
+      "severity": 3,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+          "value": "handgefuehrt",
+        },
+      ],
+    },
+    {
+      "is_mandatory": false,
+      "likelihood": 4,
+      "risk": {
+        "category": "ergonomisch",
+        "data_source": "fixture-v2",
+        "likelihood_default": 4,
+        "name": "Belastung durch Bildschirmarbeit",
+        "requires_betriebsanweisung": false,
+        "requires_psa": false,
+        "requires_unterweisung": true,
+        "severity_default": 2,
+        "slug": "bildschirmbelastung",
+        "source_ref_slugs": [
+          "arbstaettv-6",
+          "arbmedvv-g37",
+        ],
+        "trigger_conditions": {
+          "tools": [
+            "bildschirm",
+          ],
+        },
+        "typical_areas": [
+          "buero",
+        ],
+      },
+      "severity": 2,
+      "triggers": [
+        {
+          "dimension": "tools",
+          "label": "Werkzeuge: Bildschirmarbeitsplatz",
+          "value": "bildschirm",
+        },
+      ],
+    },
+  ],
+  "engine_version": "1.1.0",
+  "generated_at": "<EXCLUDED>",
+  "input_tags": {
+    "environment": [
+      "innen",
+    ],
+    "hazardous_substances": [
+      "reinigung",
+    ],
+    "mobility": "stationaer",
+    "psychological": [
+      "emotionale_belastung",
+      "verantwortung_personen",
+    ],
+    "tools": [
+      "bildschirm",
+      "handgefuehrt",
+    ],
+    "workforce": [
+      "kundenkontakt",
+    ],
+  },
+  "legal_refs": {
+    "arbmedvv-g20": {
+      "citation": "ArbMedVV G20",
+      "kind": "gesetz",
+      "slug": "arbmedvv-g20",
+      "title": "Lärm — Pflicht-/Angebotsvorsorge",
+      "url": null,
+    },
+    "arbmedvv-g24": {
+      "citation": "ArbMedVV G24",
+      "kind": "gesetz",
+      "slug": "arbmedvv-g24",
+      "title": "Hauterkrankungen — Pflichtvorsorge",
+      "url": null,
+    },
+    "arbmedvv-g37": {
+      "citation": "ArbMedVV G37",
+      "kind": "gesetz",
+      "slug": "arbmedvv-g37",
+      "title": "Angebotsvorsorge Bildschirmarbeit",
+      "url": null,
+    },
+    "arbschg-5": {
+      "citation": "ArbSchG §5",
+      "kind": "gesetz",
+      "slug": "arbschg-5",
+      "title": "Beurteilung der Arbeitsbedingungen",
+      "url": null,
+    },
+    "arbstaettv-6": {
+      "citation": "ArbStättV §6",
+      "kind": "verordnung",
+      "slug": "arbstaettv-6",
+      "title": "Bildschirmarbeitsplätze",
+      "url": null,
+    },
+    "betrsichv-3": {
+      "citation": "BetrSichV §3",
+      "kind": "verordnung",
+      "slug": "betrsichv-3",
+      "title": "Gefährdungsbeurteilung Arbeitsmittel",
+      "url": null,
+    },
+    "dguv-i-203-080": {
+      "citation": "DGUV I 203-080",
+      "kind": "dguv",
+      "slug": "dguv-i-203-080",
+      "title": "Hautschutz in feuchtem Milieu",
+      "url": null,
+    },
+    "dguv-v1": {
+      "citation": "DGUV V1",
+      "kind": "dguv",
+      "slug": "dguv-v1",
+      "title": "Grundsätze der Prävention",
+      "url": null,
+    },
+    "gefstoffv-14": {
+      "citation": "GefStoffV §14",
+      "kind": "verordnung",
+      "slug": "gefstoffv-14",
+      "title": "Betriebsanweisung + Unterweisung",
+      "url": null,
+    },
+    "gefstoffv-6": {
+      "citation": "GefStoffV §6",
+      "kind": "verordnung",
+      "slug": "gefstoffv-6",
+      "title": "Informationsermittlung + Gefahrstoffverzeichnis",
+      "url": null,
+    },
+    "laermvibrarbschv": {
+      "citation": "LärmVibrationsArbSchV",
+      "kind": "verordnung",
+      "slug": "laermvibrarbschv",
+      "title": "Lärm- und Vibrations-Arbeitsschutzverordnung",
+      "url": null,
+    },
+    "trgs-401": {
+      "citation": "TRGS 401",
+      "kind": "technische-regel",
+      "slug": "trgs-401",
+      "title": "Gefährdung durch Hautkontakt",
+      "url": null,
+    },
+  },
+  "mandatory_reasons": {
+    "bildschirm-ergonomie": null,
+    "gefaehrdungsbeurteilung-psyche": null,
+    "gefahrstoffverzeichnis": "GefStoffV — bei Einsatz von Gefahrstoffen",
+    "hautschutzplan": "Pflicht-Maßnahme für Risiko(en): hautkontakt-reizstoffe",
+    "schnittschutz-handschuhe": null,
+    "sdb-verfuegbar": "GefStoffV — bei Einsatz von Gefahrstoffen",
+    "vorsorge-g20-laerm": "Pflicht-Maßnahme für Risiko(en): laerm-exposition",
+    "vorsorge-g24-haut": "Pflicht-Maßnahme für Risiko(en): hautkontakt-reizstoffe",
+  },
+  "measure_acknowledgements": {},
+  "missing_controls": [],
+  "plausibility": [
+    {
+      "code": "reinigungschemie-kontext-unklar",
+      "message": "Reinigungschemie angegeben — Einsatzbereich (Werkstatt, Kundenobjekt) und Kontaktintensität bitte präzisieren, damit der Hautschutzplan tätigkeitsbezogen erstellt werden kann.",
+    },
+  ],
+  "schema_version": 2,
+  "severity_scores": {
+    "bildschirmbelastung": {
+      "likelihood": 4,
+      "score": 8,
+      "severity": 2,
+    },
+    "gefahrstoff-loesemittel": {
+      "likelihood": 3,
+      "score": 12,
+      "severity": 4,
+    },
+    "handwerkzeug-schnittverletzung": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+    "hautkontakt-reizstoffe": {
+      "likelihood": 4,
+      "score": 12,
+      "severity": 3,
+    },
+    "laerm-exposition": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+    "psychische-belastung-zeitdruck": {
+      "likelihood": 3,
+      "score": 9,
+      "severity": 3,
+    },
+  },
+  "snapshot_hash": "<COMPUTED>",
+  "summary": {
+    "n_mandatory_measures": 5,
+    "n_missing_controls": 0,
+    "n_risks": 6,
+  },
+  "trigger_map": {
+    "bildschirmbelastung": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Bildschirmarbeitsplatz",
+        "value": "bildschirm",
+      },
+    ],
+    "gefahrstoff-loesemittel": [
+      {
+        "dimension": "hazardous_substances",
+        "label": "Gefahrstoffe: Reinigungschemie",
+        "value": "reinigung",
+      },
+    ],
+    "handwerkzeug-schnittverletzung": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+        "value": "handgefuehrt",
+      },
+    ],
+    "hautkontakt-reizstoffe": [
+      {
+        "dimension": "hazardous_substances",
+        "label": "Gefahrstoffe: Reinigungschemie",
+        "value": "reinigung",
+      },
+    ],
+    "laerm-exposition": [
+      {
+        "dimension": "tools",
+        "label": "Werkzeuge: Handgeführte Geräte (Bohrer, Schleifer)",
+        "value": "handgefuehrt",
+      },
+    ],
+    "psychische-belastung-zeitdruck": [
+      {
+        "dimension": "psychological",
+        "label": "Belastung: Emotionale Belastung (z. B. Pflege)",
+        "value": "emotionale_belastung",
+      },
+    ],
+  },
+  "user_selected_risk_slugs": [
+    "bildschirmbelastung",
+    "gefahrstoff-loesemittel",
+    "handwerkzeug-schnittverletzung",
+    "hautkontakt-reizstoffe",
+    "laerm-exposition",
+    "psychische-belastung-zeitdruck",
+  ],
+}
+`;

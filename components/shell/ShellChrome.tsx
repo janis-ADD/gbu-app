@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, type ReactNode } from 'react';
+import { BrandMark } from '@/components/brand/BrandMark';
 
 /**
  * Customer-Shell-Chrome (Sidebar + Topbar + Mobile-Toggle).
@@ -16,8 +17,8 @@ import { useState, type ReactNode } from 'react';
 type NavItem = { href: string; label: string; icon: string; badge?: string };
 
 const NAV_PRIMARY: NavItem[] = [
-  { href: '/app/dashboard',   label: 'Dashboard',          icon: '📊' },
-  { href: '/app/assessments', label: 'Meine Beurteilungen', icon: '🧠' }
+  { href: '/app/dashboard', label: 'Dashboard',         icon: '📊' },
+  { href: '/app/bundles',   label: 'Compliance-Mappen', icon: '📁' }
 ];
 
 const NAV_ACCOUNT: NavItem[] = [
@@ -43,13 +44,15 @@ export function ShellChrome({
   return (
     <div className="layout">
       <nav className={`sidebar ${menuOpen ? 'is-open' : ''}`}>
-        <div className="sidebar-logo">
-          <div className="logo-badge">
-            <span className="logo-icon">🛡️</span>
-            <span>SU24</span>
+        <Link href="/app/dashboard" className="sidebar-logo" aria-label="Zum Dashboard">
+          <div className="sidebar-logo-row">
+            <BrandMark variant="mark" size="md" priority />
+            <div className="sidebar-logo-text">
+              <div className="sidebar-logo-name">SU24</div>
+              <div className="sidebar-logo-sub">Gefährdungsbeurteilung</div>
+            </div>
           </div>
-          <div className="logo-sub">GEFÄHRDUNGSBEURTEILUNG</div>
-        </div>
+        </Link>
 
         <div className="sidebar-nav">
           <div className="nav-section">Mein Bereich</div>

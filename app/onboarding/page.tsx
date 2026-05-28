@@ -25,10 +25,10 @@ export default async function OnboardingPage() {
         >
           Schritt 1 von 1 · &lt; 30 Sekunden
         </span>
-        <h1>Willkommen bei SU24!</h1>
+        <h1>Willkommen bei SU24.</h1>
         <p className="auth-sub" style={{ marginBottom: 16 }}>
-          Damit die KI deine Gefährdungsbeurteilung passend vorbereiten kann,
-          brauchen wir vier kurze Angaben zu deinem Unternehmen.
+          Damit Ihre Gefährdungsbeurteilung fachlich passend vorbereitet werden
+          kann, benötigen wir vier kurze Angaben zu Ihrem Unternehmen.
         </p>
 
         <div className="alert-banner is-info" style={{ marginBottom: 16 }}>

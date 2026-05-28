@@ -78,7 +78,40 @@ button { font: inherit; cursor: pointer; }
   top: 0; left: 0;
   z-index: 50;
 }
-.sidebar-logo { padding: 28px 20px 24px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-logo {
+  padding: 24px 18px 22px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  text-decoration: none;
+  display: block;
+  transition: background var(--t-fast);
+}
+.sidebar-logo:hover { background: rgba(255,255,255,.02); }
+.sidebar-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sidebar-logo-row img {
+  background: #fff;
+  border-radius: 8px;
+  padding: 4px;
+}
+.sidebar-logo-text { line-height: 1.2; min-width: 0; }
+.sidebar-logo-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .03em;
+}
+.sidebar-logo-sub {
+  font-size: 10.5px;
+  color: rgba(255,255,255,.55);
+  font-weight: 500;
+  letter-spacing: .04em;
+  margin-top: 2px;
+}
+
+/* Legacy-Klassen — bleiben für Public-Topbar (siehe §12) */
 .logo-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #fff; }
 .logo-icon { width: 32px; height: 32px; background: var(--petrol); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .logo-sub { font-size: 10px; color: rgba(255,255,255,.4); margin-top: 4px; font-weight: 400; letter-spacing: .04em; }
@@ -157,19 +190,40 @@ button { font: inherit; cursor: pointer; }
 .badge-red   { background: var(--red-bg);    color: var(--red); }
 .badge-gray  { background: #f1f5f9;          color: var(--text-3); }
 
-/* ─── 10. BUTTONS ────────────────────────────────────────────────────────── */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border-radius: 8px; padding: 9px 16px; font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all var(--t-fast); border: 1px solid transparent; text-decoration: none; white-space: nowrap; font-family: inherit; }
+/* ─── 10. BUTTONS — einheitliche Höhen für stilles Layout ──────────────────
+   Doktrin: jeder Button-Typ hat eine konsistente Mindesthöhe, damit Cards
+   und Form-Reihen nicht „springen". Höhen-Stufen: sm=32px · base=40px · lg=48px.
+*/
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 8px;
+  padding: 0 16px;
+  min-height: 40px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-fast);
+  border: 1px solid transparent;
+  text-decoration: none;
+  white-space: nowrap;
+  font-family: inherit;
+  line-height: 1;
+}
+.btn:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
 .btn:disabled { opacity: .45; cursor: not-allowed; }
 .btn-primary   { background: var(--petrol); color: #fff; }
 .btn-primary:hover:not(:disabled)   { background: var(--petrol-2); }
 .btn-secondary { background: #fff; border-color: #e2e8f0; color: var(--text-2); }
 .btn-secondary:hover:not(:disabled) { border-color: var(--petrol); color: var(--petrol); background: var(--petrol-glow); }
 .btn-ghost     { background: transparent; color: var(--text-2); }
-.btn-ghost:hover { color: var(--petrol); background: var(--petrol-glow); }
+.btn-ghost:hover:not(:disabled) { color: var(--petrol); background: var(--petrol-glow); }
 .btn-danger    { background: var(--red); color: #fff; }
-.btn-danger:hover { background: #b91c1c; }
-.btn-sm        { padding: 6px 10px; font-size: 12.5px; }
-.btn-lg        { padding: 11px 20px; font-size: 14.5px; }
+.btn-danger:hover:not(:disabled) { background: #b91c1c; }
+.btn-sm        { padding: 0 12px; min-height: 32px; font-size: 12.5px; }
+.btn-lg        { padding: 0 22px; min-height: 48px; font-size: 14.5px; }
 .btn-block     { width: 100%; }
 
 /* ─── 11. FORM-FELDER ────────────────────────────────────────────────────── */
@@ -249,24 +303,348 @@ button { font: inherit; cursor: pointer; }
 .proposal h3 { font-size: 26px; margin: 0; }
 .proposal p  { font-size: 14px; color: var(--text-2); line-height: 1.55; margin: 4px 0 0; }
 
-/* ─── 17. AREAS (Step 3) ─────────────────────────────────────────────────── */
-.area-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.area-card { border: 1px solid var(--border); border-radius: 14px; padding: 16px; background: #fff; text-align: left; cursor: pointer; transition: all var(--t-fast); font-family: inherit; width: 100%; display: block; position: relative; }
-.area-card:hover { background: #f8fafc; }
-.area-card.active { border-color: var(--petrol); background: var(--petrol-glow); }
-.area-card input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
-.area-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+/* ─── 17. AREAS — Karten-Grid mit fester Höhe ─────────────────────────────
+   .area-card--fixed: für Auswahl-Grids in Bundle/Wizard. Verhindert das
+   „springende" Grid bei unterschiedlich langen Beschreibungen. Beschreibung
+   wird auf 3 Zeilen geklammt.
+*/
+.area-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.area-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--t-fast);
+  font-family: inherit;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: var(--text-1);
+}
+.area-card:hover { background: #f8fafc; border-color: #d6e3ee; box-shadow: var(--shadow-1); }
+.area-card:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
+.area-card.active,
+.area-card:has(input:checked) { border-color: var(--petrol); background: var(--petrol-glow); }
+.area-card input[type="checkbox"],
+.area-card input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+.area-card--fixed { min-height: 168px; }
+.area-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
 .area-ico { width: 40px; height: 40px; border-radius: 12px; background: #f1f5f9; color: var(--petrol); display: flex; align-items: center; justify-content: center; font-size: 18px; }
-.area-card.active .area-ico { background: var(--petrol); color: #fff; }
-.area-title { font-size: 14px; font-weight: 650; }
-.area-text  { font-size: 12px; color: var(--text-3); line-height: 1.45; margin-top: 4px; }
+.area-card.active .area-ico,
+.area-card:has(input:checked) .area-ico { background: var(--petrol); color: #fff; }
+.area-title { font-size: 14.5px; font-weight: 650; line-height: 1.3; color: var(--text-1); }
+.area-text  {
+  font-size: 12.5px;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin-top: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── 17.4 CONFIRM-DIALOG (native <dialog>) ─────────────────────────────
+   Enterprise-Confirmation für destruktive Aktionen. Ruhig, klar, mit
+   Audit-Hinweis-Slot. Native <dialog> bringt Focus-Trap + ESC.
+*/
+.confirm-dialog {
+  border: none;
+  padding: 0;
+  border-radius: var(--r-lg);
+  width: min(520px, calc(100vw - 32px));
+  max-width: 520px;
+  box-shadow: var(--shadow-3);
+  background: transparent;
+}
+.confirm-dialog::backdrop {
+  background: rgba(15, 25, 35, .55);
+  backdrop-filter: blur(4px);
+}
+.confirm-dialog-body {
+  background: #fff;
+  border-radius: var(--r-lg);
+  padding: 26px 28px 22px;
+}
+.confirm-dialog-head {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+.confirm-dialog-ico {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.confirm-dialog-ico--danger  { background: var(--red-bg);   color: var(--red); }
+.confirm-dialog-ico--primary { background: var(--blue-soft);color: var(--petrol); }
+.confirm-dialog-title {
+  font-size: 17px;
+  font-weight: 650;
+  margin: 0 0 6px;
+  color: var(--text-1);
+  line-height: 1.3;
+}
+.confirm-dialog-desc {
+  font-size: 13.5px;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+.confirm-dialog-desc strong { color: var(--text-1); }
+.confirm-dialog-audit {
+  margin-top: 6px;
+  padding: 12px 14px;
+  background: #fafbfc;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  font-size: 12.5px;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+.confirm-dialog-audit strong { color: var(--text-1); }
+.confirm-dialog-token {
+  margin-top: 14px;
+}
+.confirm-dialog-token label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+  margin-bottom: 6px;
+}
+.confirm-dialog-token-input {
+  width: 100%;
+  padding: 0 12px;
+  min-height: 40px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: var(--font-mono);
+  outline: none;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.confirm-dialog-token-input:focus {
+  border-color: var(--petrol);
+  box-shadow: 0 0 0 3px rgba(27,108,168,.12);
+}
+.confirm-dialog-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 22px;
+  align-items: center;
+}
+.confirm-dialog-actions form { display: inline-flex; }
+
+/* ─── 17.3 AUDIT-DETAILS-Aufklapper (Version-Page) ──────────────────────
+   Tech-Jargon (Hashes, Versionen) gehört nicht in den Erstkontakt für
+   Geschäftsführer. Aber Auditor:innen wollen das sehen. Lösung:
+   `<details>`-Aufklapper, dezent, mit ruhigem Styling.
+*/
+.audit-details {
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: #fafbfc;
+  overflow: hidden;
+}
+.audit-details[open] { background: #fff; }
+.audit-details-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background var(--t-fast);
+}
+.audit-details-summary::-webkit-details-marker { display: none; }
+.audit-details-summary::before {
+  content: '▸';
+  font-size: 11px;
+  color: var(--text-3);
+  transition: transform var(--t-fast);
+}
+.audit-details[open] .audit-details-summary::before {
+  transform: rotate(90deg);
+}
+.audit-details-summary:hover { background: #f8fafc; color: var(--text-1); }
+.audit-details-body {
+  padding: 14px 18px 18px;
+  display: grid;
+  grid-template-columns: 140px 1fr auto;
+  gap: 10px 14px;
+  align-items: center;
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  background: #fff;
+}
+.audit-details-body > div {
+  display: contents;
+}
+.audit-details-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--text-3);
+}
+.audit-details-body code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--petrol-2);
+  word-break: break-all;
+}
+.audit-details-status {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+}
+.audit-details-status-ok      { background: var(--green-bg); color: #065f46; }
+.audit-details-status-legacy  { background: #f1f5f9; color: var(--text-3); }
+.audit-details-status-mismatch{ background: var(--red-bg); color: #991b1b; }
+
+@media (max-width: 760px) {
+  .audit-details-body { grid-template-columns: 1fr; }
+  .audit-details-body > div { display: block; }
+  .audit-details-label { display: block; margin-bottom: 4px; }
+}
+
+/* ─── 17.2 INTERVAL-PILLS / TRIGGER-CARDS (Step 4) ───────────────────── */
+.interval-pills {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 6px;
+}
+.interval-pill {
+  display: block;
+  padding: 14px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: all var(--t-fast);
+  position: relative;
+  min-height: 88px;
+}
+.interval-pill:hover { border-color: #d6e3ee; background: #fafbfc; }
+.interval-pill.is-active,
+.interval-pill:has(input:checked) {
+  border-color: var(--petrol);
+  background: var(--petrol-glow);
+}
+.interval-pill input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+.interval-pill-label { font-size: 13.5px; font-weight: 650; color: var(--text-1); }
+.interval-pill-sub   { font-size: 11.5px; color: var(--text-3); line-height: 1.45; margin-top: 4px; }
+
+.trigger-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+}
+.trigger-card {
+  display: block;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  transition: all var(--t-fast);
+  position: relative;
+}
+.trigger-card:hover { background: #fafbfc; border-color: #d6e3ee; }
+.trigger-card.is-active,
+.trigger-card:has(input:checked) {
+  border-color: var(--petrol);
+  background: var(--petrol-glow);
+}
+.trigger-card input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
+.trigger-card-label { font-size: 13px; font-weight: 650; color: var(--text-1); }
+.trigger-card-sub   { font-size: 11.5px; color: var(--text-3); line-height: 1.45; margin-top: 3px; }
+
+@media (max-width: 760px) {
+  .interval-pills { grid-template-columns: 1fr 1fr; }
+}
+
+/* ─── 17.1 CUSTOM-AREA-BLOCK — eigenen Arbeitsbereich anlegen ──────── */
+.custom-area-block {
+  margin-top: 18px;
+  padding: 20px;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fafbfc, #fff);
+}
+.custom-area-block-head { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
+.custom-area-block-ico {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: var(--blue-soft);
+  color: var(--petrol);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.custom-area-block-title { font-size: 14.5px; font-weight: 650; color: var(--text-1); }
+.custom-area-block-sub   { font-size: 12.5px; color: var(--text-2); line-height: 1.5; margin-top: 4px; }
+.custom-area-form {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+.custom-area-input {
+  flex: 1;
+  min-width: 240px;
+  padding: 0 14px;
+  min-height: 40px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+  outline: none;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+  font-family: inherit;
+  color: var(--text-1);
+}
+.custom-area-input:focus { border-color: var(--petrol); box-shadow: 0 0 0 3px rgba(27,108,168,.12); }
+.custom-area-input:invalid:not(:placeholder-shown) { border-color: var(--red); }
+.custom-area-hint {
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: var(--text-3);
+  line-height: 1.5;
+}
+.custom-area-hint code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: #f1f5f9;
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--text-2);
+}
 
 /* ─── 18. RISK-GRID (Step 4) ─────────────────────────────────────────────── */
 .risk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .risk-btn  { border: 1px solid var(--border); background: #fff; border-radius: 8px; padding: 10px 12px; text-align: left; color: var(--text-2); font-family: inherit; font-size: 13px; cursor: pointer; transition: all var(--t-fast); display: flex; align-items: center; gap: 8px; }
 .risk-btn:hover { border-color: var(--petrol); color: var(--petrol); }
-.risk-btn.active { border-color: var(--petrol); background: var(--petrol-glow); color: var(--petrol); font-weight: 650; }
-.risk-btn input[type="checkbox"] { accent-color: var(--petrol); }
+.risk-btn.active,
+.risk-btn:has(input:checked) { border-color: var(--petrol); background: var(--petrol-glow); color: var(--petrol); font-weight: 650; }
+.risk-btn input[type="checkbox"],
+.risk-btn input[type="radio"] { accent-color: var(--petrol); }
 
 /* ─── 19. PREVIEW-TABLE (Step 5) ─────────────────────────────────────────── */
 .preview-table { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: #fff; }
@@ -323,7 +701,8 @@ button { font: inherit; cursor: pointer; }
 .list-row:hover { background: #fafbfc; }
 .list-title { font-weight: 650; color: var(--text-1); }
 .list-meta  { color: var(--text-3); font-size: 12px; margin-top: 2px; }
-.list-actions { display: flex; gap: 6px; justify-content: flex-end; }
+.list-actions { display: flex; gap: 6px; justify-content: flex-end; align-items: center; }
+.list-actions form { display: inline-flex; }
 .list-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 1rem; flex-wrap: wrap; }
 .filter-row { display: flex; gap: 6px; flex-wrap: wrap; }
 .filter-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--r-pill); border: 1px solid var(--border); background: #fff; font-size: 12.5px; font-weight: 600; color: var(--text-2); cursor: pointer; font-family: inherit; text-decoration: none; }
@@ -430,22 +809,723 @@ button { font: inherit; cursor: pointer; }
 .billing-summary .bs-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); margin-bottom: 4px; }
 .billing-summary .bs-value { font-size: 17px; font-weight: 650; color: var(--text-1); }
 
-/* ─── 26. PRINT ──────────────────────────────────────────────────────────── */
+/* ─── 26. PRINT — Enterprise-Compliance-Dokument ─────────────────────────
+   Designdoktrin: ruhig, weißraumreich, seriös. Keine Tabellen-Wüste,
+   keine Alarm-Optik. Serif-Headings als „Compliance-Anker", Sans-Serif für
+   Fließtext. Pflicht-Markierungen subtil mit Linienakzent statt grellem
+   Hintergrund.
+*/
 .print-only { display: none; }
+.print-cover, .print-page-break, .pdf-section { }
+.pdf-section-num { display: none; }
+
+@media screen {
+  /* Web-Vorschau der PDF-Sektionen — leichtes Styling, sieht aber NICHT
+     aus wie das Print-Layout (das ist Absicht: Bildschirm = Bearbeitung,
+     Print = Artefakt). */
+  .pdf-section { margin-bottom: 1.5rem; }
+  .pdf-section-num { display: none; }
+}
+
 @media print {
-  body { background: #fff; }
-  .sidebar, .topbar, .alert-banner, .kpi-grid,
+  /* ─── Seitenrahmen mit Running-Header / Footer ─────────────────────
+     @page Margin-Boxes (W3C CSS Paged Media) werden von Chrome und
+     Firefox unterstützt. `string(...)` zieht aktuelle Werte aus dem
+     Body (`string-set`). Damit erscheint auf jeder Seite:
+       oben:  Doktitel · v. Version
+       unten: Snapshot-Hash · Seite X von Y
+  */
+  @page {
+    size: A4 landscape;
+    margin: 16mm 20mm 16mm 20mm;
+    @top-left {
+      content: string(doctitle);
+      font-size: 8pt;
+      color: #94a3b8;
+      letter-spacing: .05em;
+      padding-bottom: 4mm;
+    }
+    @top-right {
+      content: string(docversion);
+      font-size: 8pt;
+      color: #94a3b8;
+      letter-spacing: .05em;
+      padding-bottom: 4mm;
+    }
+    @bottom-left {
+      content: string(dochash);
+      font-family: var(--font-mono), 'Courier New', monospace;
+      font-size: 7.5pt;
+      color: #cbd5e1;
+      letter-spacing: .04em;
+      padding-top: 4mm;
+    }
+    @bottom-right {
+      content: "Seite " counter(page) " von " counter(pages);
+      font-size: 8pt;
+      color: #94a3b8;
+      letter-spacing: .05em;
+      padding-top: 4mm;
+    }
+  }
+  @page :first {
+    margin: 0;
+    @top-left { content: none; }
+    @top-right { content: none; }
+    @bottom-left { content: none; }
+    @bottom-right { content: none; }
+  }
+
+  /* string-set: aus drei versteckten Elementen ziehen wir die Header-
+     Strings. Die Elemente bleiben im Body (display: none ist OK für
+     string-set — Browser lesen content() trotzdem). */
+  .print-doc-title    { string-set: doctitle content();   display: none; }
+  .print-doc-version  { string-set: docversion content(); display: none; }
+  .print-doc-hash     { string-set: dochash content();    display: none; }
+
+  body {
+    background: #fff;
+    color: #1a1a1a;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ─── HARTE PRINT-STERILISIERUNG ──────────────────────────────────
+     Alles, was nicht zum eingefrorenen Compliance-Dokument gehört,
+     wird per !important ausgeschlossen. Das schließt explizit ein:
+       * Netlify Deploy-Preview-Drawer (auf Preview-Builds injiziert)
+       * Branch-Deploy / Build-Marker / Debug-Bots
+       * App-Shell (Sidebar, Topbar, Mobile-Toggle, Backdrop)
+       * Web-only Page-Header (h1, content-head, Buttons, Banner)
+       * Audit-Details-Toggle (technische Prüfinfos — gehören NICHT
+         ins Druck-Artefakt, sind UI-only)
+       * KPI-/Quota-/Trust-/Wizard-Reste
+     Alles auf .muster und seine Kinder runtergedampft. */
+
+  /* App-Shell und Layout-Container */
+  .sidebar, .topbar, .mobile-backdrop, .menu-toggle,
+  .layout > nav, .main > header,
+
+  /* Page-Header und Web-only UI vor dem Muster */
+  .content-head, .content > .alert-banner, .content > details,
+  .content > .quota-card, .content > .kpi-grid, .content > .trust-strip,
+  details.audit-details,
+
+  /* Wizard-/Old-V1-Reste */
   .wizard-side, .wizard-head, .wizard-actions, .trust-banner,
-  .content-head .btn { display: none !important; }
-  .main { margin-left: 0; }
-  .content { padding: 0; }
+  .quota-card, .kpi-grid,
+
+  /* Generische Web-only Komponenten */
+  .alert-banner, .trust-strip, .badge,
+
+  /* Analytics + Consent */
+  [class*="consent"], [id*="consent"],
+  [data-analytics], [data-tracking],
+
+  /* Netlify Deploy Preview Drawer / Collaboration Widget */
+  #netlify-collab-drawer, netlify-collab-drawer,
+  netlify-deploy-bar, netlify-deploy-status,
+  .nf-collab, .nf-collab-drawer, .nf-deploy-bar,
+  iframe[src*="netlify"], iframe[id*="netlify"],
+  iframe[src*="deploy-preview"], iframe[src*="netlify.app"],
+  [class*="netlify-"], [id*="netlify-"], [data-netlify],
+  /* Browser-Extensions, dev tools */
+  [id*="devtools"], [class*="devtools"],
+  /* Skip-Links (sind im normalen Flow versteckt, aber paranoid) */
+  .sr-only:focus {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Layout-Container auf Block reduzieren */
+  .layout { display: block !important; }
+  .main { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+  .content { padding: 0 !important; max-width: 100% !important; }
   .wizard-layout { display: block; }
   .wizard-main { border: none; }
-  .muster { border: none; border-radius: 0; box-shadow: none; }
-  .muster-head { background: #fff; border-bottom: 1px solid #ccc; }
-  .muster-body { font-size: 11.5px; }
+  .muster {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+  .muster-head { display: none !important; }
+  .muster-body { padding: 0 !important; }
+  body, html {
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
   .print-only { display: block !important; }
-  .muster-body section { page-break-inside: avoid; }
+  .print-page-break { display: block !important; page-break-before: always; }
+
+  /* ─── Cover-Seite — Querformat ─────────────────────────────────────
+     A4-Landscape: 297mm × 210mm. min-height entsprechend angepasst
+     (vorher 297mm = portrait → overflow in landscape). */
+  .print-cover {
+    display: flex !important;
+    flex-direction: column;
+    page-break-after: always;
+    min-height: 200mm;
+    padding: 16mm 22mm 14mm;
+    position: relative;
+    background: #fff;
+  }
+  .print-cover .pc-brand {
+    display: flex;
+    align-items: center;
+    gap: 6mm;
+    font-size: 9pt;
+    color: #64748b;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .print-cover .pc-brand-mark {
+    width: 10mm;
+    height: 10mm;
+    border-radius: 2mm;
+    background: linear-gradient(135deg, #1B6CA8, #0c3a5c);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Times New Roman', serif;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+  /* Logo deutlich verkleinert — Auditdokument, nicht Marketingseite. */
+  .print-cover .pc-brand-mark-img {
+    width: 10mm;
+    height: 10mm;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .print-cover .pc-brand-text { line-height: 1.35; }
+  .print-cover .pc-brand-text .pc-brand-name {
+    font-size: 9pt; color: #0c3a5c; letter-spacing: .04em; font-weight: 700;
+  }
+  .print-cover .pc-brand-text .pc-brand-tagline {
+    font-size: 7.5pt; color: #94a3b8; letter-spacing: .05em; text-transform: none;
+  }
+
+  /* Spacer reduziert — im Querformat wäre 40mm fast die halbe Seite leer. */
+  .print-cover .pc-spacer { flex: 0 0 6mm; min-height: 6mm; }
+
+  .print-cover .pc-eyebrow {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #475569;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    margin-bottom: 5mm;
+    padding-bottom: 3mm;
+    border-bottom: 0.5pt solid #cbd5e1;
+    display: inline-block;
+    padding-right: 10mm;
+  }
+  /* Auditdokument-Titel — ruhig, ohne Marketing-Größe. */
+  .print-cover .pc-title {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 24pt;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #0c3a5c;
+    margin: 0 0 6mm;
+    letter-spacing: -.005em;
+  }
+  .print-cover .pc-sub {
+    font-size: 11pt;
+    color: #475569;
+    margin: 0 0 12mm;
+    line-height: 1.45;
+    font-weight: 400;
+  }
+
+  /* Meta-Grid im Querformat: 4 Spalten — passt die 8 Felder
+     in 2 ruhige Zeilen statt 4 vertikalen Zeilen.
+     Hinweis: `margin-top: auto` (Reste aus Portrait) erzeugte ein
+     großes Vakuum im Querformat — ersetzt durch festen Abstand. */
+  .print-cover .pc-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 5mm 10mm;
+    margin-top: 6mm;
+    margin-bottom: 8mm;
+    padding-top: 6mm;
+    border-top: 0.5pt solid #cbd5e1;
+  }
+  .print-cover .pc-meta-grid .label {
+    display: block;
+    font-size: 8pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: #94a3b8;
+    margin-bottom: 1mm;
+  }
+  .print-cover .pc-meta-grid .value {
+    font-size: 11pt;
+    color: #0f172a;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .print-cover .pc-foot {
+    border-top: 0.5pt solid #cbd5e1;
+    padding-top: 6mm;
+    font-size: 8.5pt;
+    color: #64748b;
+    line-height: 1.55;
+  }
+  .print-cover .pc-foot strong { color: #0c3a5c; font-weight: 600; }
+  .print-cover .pc-hash {
+    font-family: var(--font-mono), 'Courier New', monospace;
+    font-size: 7.5pt;
+    color: #94a3b8;
+    margin-top: 3mm;
+    letter-spacing: .02em;
+  }
+
+  /* ─── Inhalts-Sektionen ───────────────────────────────────────────── */
+  .pdf-section {
+    margin-bottom: 16mm;
+    page-break-inside: auto;
+  }
+  .pdf-section + .pdf-section { margin-top: 0; }
+  /* Kapitel-Header (Anhang) sollen visuell hängen lassen, dass sie
+     auf einer neuen Seite anfangen — bringen einen subtilen Vertical-
+     Buffer mit. */
+  .pdf-section h3 {
+    page-break-after: avoid;
+  }
+
+  .pdf-section-num {
+    display: block !important;
+    font-size: 8pt;
+    color: #94a3b8;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 2mm;
+  }
+
+  /* Kapitel-Überschrift mit feiner Trennlinie — wie in klassischen
+     Audit-Dokumenten. */
+  .muster-body h3,
+  .pdf-section h3 {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 16pt;
+    font-weight: 700;
+    margin: 0 0 4mm;
+    padding: 0 0 3mm;
+    color: #0c3a5c;
+    border: none;
+    border-bottom: 0.5pt solid #0c3a5c;
+    line-height: 1.2;
+    letter-spacing: -.005em;
+  }
+
+  .muster-body p,
+  .pdf-section > p {
+    font-size: 10pt;
+    color: #334155;
+    line-height: 1.65;
+    margin: 0 0 4mm;
+  }
+
+  /* Heading-Pair (pdf-section-num + h3) zusammenhalten */
+  .pdf-section-num + h3,
+  .pdf-section-num + h3 + p {
+    page-break-before: avoid;
+  }
+
+  /* ─── Data-Box: ruhige Definition-List statt Card ─────────────────── */
+  .data-box {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    page-break-inside: avoid;
+    column-count: auto;
+  }
+  /* Data-Box im Querformat: Label-Spalte schmaler, Value-Spalte
+     bekommt mehr Platz für längere Werte. */
+  .data-box > div {
+    display: grid;
+    grid-template-columns: 65mm 1fr;
+    gap: 6mm;
+    padding: 2mm 0;
+    border-bottom: 0.25pt solid #e2e8f0;
+    margin-bottom: 0;
+    font-size: 10pt;
+  }
+  .data-box > div:last-child { border-bottom: none; }
+  .data-box > div strong {
+    font-weight: 600;
+    color: #64748b;
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+
+  /* ─── Audit-Tabellen — Muster-Form-Stil, kompakt + förmlich ─────────
+     Anlehnung an GDA-Muster: blaues Header-Band mit weißem Text,
+     dichte Reihen, formelle Linien. In unserem Petrol-Blau statt
+     Mustern-Marineblau. */
+  .risk-table {
+    border: 0.5pt solid #cbd5e1 !important;
+    border-radius: 0 !important;
+    overflow: hidden;
+  }
+  .risk-table-head {
+    background: #0c3a5c !important;
+    color: #fff !important;
+    padding: 2mm 3mm !important;
+    font-size: 8pt !important;
+    font-weight: 700 !important;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    border-bottom: none !important;
+  }
+  .risk-table-head > span {
+    color: #fff !important;
+  }
+  .risk-table-row {
+    padding: 2.5mm 3mm !important;
+    border-top: none !important;
+    border-bottom: 0.25pt solid #cbd5e1;
+    page-break-inside: avoid;
+    column-gap: 5mm;
+    font-size: 8.5pt;
+    line-height: 1.45;
+  }
+  .risk-table-row:last-child { border-bottom: none; }
+  .risk-table-row > div:first-child { font-weight: 600; color: #0f172a; }
+
+  /* ─── Pflicht-Akzent: subtile Linksbalken-Linie statt Alarm-Farbe ─── */
+  .pdf-mandatory-mark {
+    border-left: 2pt solid #1B6CA8;
+    padding-left: 4mm;
+  }
+
+  /* ─── Source-Chips: dezente Pillen ────────────────────────────────── */
+  .src-chip {
+    background: transparent !important;
+    border: 0.5pt solid #cbd5e1 !important;
+    color: #1B6CA8 !important;
+    font-size: 7.5pt !important;
+    padding: 0.5pt 3pt !important;
+    border-radius: 4pt;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+  .src-chip::before { color: #1B6CA8 !important; margin-right: 1pt; }
+
+  .conf-badge {
+    background: transparent !important;
+    padding: 0.5pt 3pt !important;
+    font-size: 7pt !important;
+    border: 0.5pt solid #cbd5e1;
+    color: #475569 !important;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+  .conf-badge::before { display: none; }
+  .conf-badge.conf-low { color: #b45309 !important; border-color: #fcd34d; }
+  .conf-badge.conf-high { color: #065f46 !important; border-color: #6ee7b7; }
+  .conf-badge.conf-medium { color: #1B6CA8 !important; border-color: #93c5fd; }
+
+  /* ─── Missing-Controls — sachlich, nicht panisch ──────────────────── */
+  .pdf-missing-section .risk-table-head { color: #b45309 !important; border-color: #fcd34d; }
+
+  /* ─── Print-Disclaimer Box ────────────────────────────────────────── */
+  .print-note {
+    background: #fafbfc !important;
+    border: 0.5pt solid #cbd5e1 !important;
+    color: #475569 !important;
+    border-radius: 0 !important;
+    padding: 5mm 6mm !important;
+    font-size: 9pt !important;
+    margin-top: 6mm !important;
+    page-break-inside: avoid;
+    line-height: 1.55;
+  }
+  .print-note strong { color: #0c3a5c; }
+
+  /* ─── Quellen-Verzeichnis ─────────────────────────────────────────── */
+  .source-list {
+    background: transparent !important;
+    border: 0.5pt solid #e2e8f0 !important;
+    padding: 5mm 6mm !important;
+    border-radius: 0 !important;
+  }
+  .source-list ol {
+    font-size: 9.5pt;
+    padding-left: 6mm;
+    color: #334155;
+    line-height: 1.7;
+  }
+  .source-list ol li { padding: 1pt 0; }
+  .source-list ol li code {
+    background: transparent;
+    color: #1B6CA8;
+    font-size: 9pt;
+    font-family: var(--font-mono), 'Courier New', monospace;
+    margin-right: 2mm;
+  }
+  .source-list ol li strong { color: #0f172a; font-weight: 600; }
+  .source-list ol li a { color: #64748b; text-decoration: none; font-size: 8.5pt; margin-left: 2mm; }
+  .source-list-foot {
+    margin-top: 4mm !important;
+    padding-top: 3mm !important;
+    border-top: 0.5pt solid #e2e8f0 !important;
+    font-size: 8pt !important;
+    color: #94a3b8 !important;
+  }
+
+  /* ─── Free-Wasserzeichen (dezenter im Print) ──────────────────────── */
+  .muster.is-free-watermark::after {
+    color: rgba(217,119,6,.10);
+    font-size: 64pt;
+  }
+
+  /* ─── Print-Running-Footer (zusätzlich am Dokumentende) ──────────── */
+  .print-footer {
+    display: block !important;
+    margin-top: 12mm;
+    padding-top: 4mm;
+    border-top: 0.25pt solid #e2e8f0;
+    text-align: center;
+    font-size: 7.5pt;
+    color: #94a3b8;
+    letter-spacing: .04em;
+    font-family: var(--font-mono), 'Courier New', monospace;
+  }
+
+  /* ─── Inhaltsverzeichnis (TOC) ────────────────────────────────────── */
+  .print-toc {
+    display: block !important;
+    page-break-after: always;
+    padding: 6mm 0 0;
+  }
+  .print-toc-title {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 18pt;
+    font-weight: 700;
+    color: #0c3a5c;
+    margin: 0 0 10mm;
+    letter-spacing: -.005em;
+  }
+  .print-toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 11pt;
+    color: #334155;
+  }
+  .print-toc-list li {
+    display: flex;
+    align-items: baseline;
+    padding: 3mm 0;
+    border-bottom: 0.25pt solid #e2e8f0;
+    gap: 6mm;
+  }
+  .print-toc-list li:last-child { border-bottom: none; }
+  .print-toc-num {
+    flex-shrink: 0;
+    width: 16mm;
+    font-size: 9pt;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-weight: 600;
+  }
+  .print-toc-label { flex: 1; font-weight: 600; color: #0f172a; }
+  .print-toc-page {
+    flex-shrink: 0;
+    font-size: 9pt;
+    color: #64748b;
+    font-family: var(--font-mono), 'Courier New', monospace;
+  }
+
+  /* ─── Severity-Score-Pille (kompakt, einzeilig — Muster-Stil) ───── */
+  .severity-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 3pt;
+    padding: 1pt 4pt;
+    border-radius: 6pt;
+    font-family: var(--font-mono), 'Courier New', monospace;
+    font-size: 7.5pt;
+    font-weight: 700;
+    border: 0.5pt solid;
+    white-space: nowrap;
+    line-height: 1.3;
+  }
+  .severity-pill.sev-hoch    { color: #b45309; background: #fff7ed; border-color: #fcd34d; }
+  .severity-pill.sev-mittel  { color: #1B6CA8; background: #eff6ff; border-color: #93c5fd; }
+  .severity-pill.sev-gering  { color: #065f46; background: #ecfdf5; border-color: #6ee7b7; }
+  .severity-pill-dot {
+    display: inline-block;
+    width: 4pt; height: 4pt;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .severity-pill-meta {
+    font-size: 8pt;
+    color: #94a3b8;
+    margin-left: 4pt;
+    font-weight: 500;
+    letter-spacing: .04em;
+  }
+
+  /* ─── Genehmigungsvermerk ────────────────────────────────────────── */
+  .print-approval {
+    page-break-inside: avoid;
+    border: 0.5pt solid #cbd5e1;
+    padding: 8mm 10mm;
+    margin: 8mm 0 6mm;
+    background: #fafbfc;
+  }
+  .print-approval-title {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    margin: 0 0 6mm;
+  }
+  .print-approval-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8mm 10mm;
+  }
+  /* TEMP: alte global-Border deaktiviert — die neuen Cells (v4) tragen
+     eigene Unterschriftslinien per inline-style. */
+  .print-approval-cell {
+    border-bottom: none !important;
+    padding: 0 !important;
+    min-height: 50mm;
+    font-size: 8.5pt;
+    color: #475569;
+    font-weight: 500;
+  }
+  .print-approval-cell strong {
+    display: block;
+    color: #0c3a5c;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 700;
+  }
+  .print-approval-foot {
+    margin-top: 6mm;
+    padding-top: 4mm;
+    border-top: 0.25pt solid #cbd5e1;
+    font-size: 8pt;
+    color: #64748b;
+    line-height: 1.55;
+  }
+
+  /* ─── Audit-Tabellen — Anti-Waisen + bessere Page-Breaks ─────────── */
+
+  /* Sektion-Header sollen nicht alleine am Seitenende stehen */
+  .pdf-section h3 {
+    page-break-after: avoid;
+  }
+  .pdf-section > p {
+    page-break-after: avoid;
+  }
+
+  /* Tabellen-Header darf nicht alleine am Seitenende landen */
+  .risk-table-head {
+    page-break-after: avoid;
+  }
+
+  /* Kennzahlen-Grid in Kapitel 1: zusammenhalten */
+  .pdf-section .data-box {
+    page-break-inside: avoid;
+  }
+
+  /* ─── Anhang-A-Signaturlinien (v4 — inline borderTop im JSX) ──────── */
+  .print-approval-cell > div[style*="border-top"] {
+    border-top-color: #475569 !important;
+    border-top-width: 0.5pt !important;
+  }
+
+  /* ─── Status-Banner für Aktualität ───────────────────────────────── */
+  .print-status-banner {
+    page-break-inside: avoid;
+    display: flex;
+    align-items: stretch;
+    border: 0.5pt solid #cbd5e1;
+    border-left-width: 3pt;
+    border-left-color: #1B6CA8;
+    padding: 4mm 6mm;
+    margin: 6mm 0;
+    background: #fff;
+    gap: 6mm;
+  }
+  .print-status-banner.status-overdue  { border-left-color: #b91c1c; background: #fef2f2; }
+  .print-status-banner.status-soon     { border-left-color: #d97706; background: #fff7ed; }
+  .print-status-banner.status-current  { border-left-color: #059669; background: #f0fdf4; }
+  .print-status-banner-label {
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: #64748b;
+    margin: 0;
+  }
+  .print-status-banner-value {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 1mm 0 0;
+  }
+  .print-status-banner-detail {
+    font-size: 9pt;
+    color: #475569;
+    margin: 2mm 0 0;
+    line-height: 1.5;
+  }
+}
+
+/* Severity-Pille auch auf Bildschirm verfügbar (für Web-Vorschau) */
+@media screen {
+  .severity-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: var(--r-pill);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid;
+  }
+  .severity-pill.sev-hoch    { color: #b45309; background: #fff7ed; border-color: #fcd34d; }
+  .severity-pill.sev-mittel  { color: var(--petrol); background: var(--blue-soft); border-color: #93c5fd; }
+  .severity-pill.sev-gering  { color: #065f46; background: var(--green-bg); border-color: #6ee7b7; }
+  .severity-pill-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .severity-pill-meta {
+    font-size: 10.5px;
+    color: var(--text-3);
+    margin-left: 4px;
+    font-weight: 500;
+  }
 }
 
 /* ─── 27. RESPONSIVE ─────────────────────────────────────────────────────── */

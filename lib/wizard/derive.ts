@@ -51,6 +51,69 @@ export function suggestBgCandidates(
   return bgCatalog.filter((bg) => bg.industries.some((i) => ind.includes(i)));
 }
 
+export type BgCandidate = {
+  bg: RaBgCatalog;
+  /** 'wahrscheinlich' | 'möglich' | 'unwahrscheinlich' — qualitativ, keine % */
+  likelihood: 'wahrscheinlich' | 'möglich' | 'unwahrscheinlich';
+  /** Begründung pro Kandidat (sichtbar im UI) */
+  reasons: string[];
+};
+
+/**
+ * Erweiterte BG-Liste mit qualitativer Einordnung + sichtbarer Begründung.
+ * Nutzt Branche aus company_profile + optional Freitext-Snippets aus
+ * activities/short_description (nur Keyword-Match, kein KI-Call).
+ * Vermeidet jede %-Angabe (Doktrin: keine Pseudo-Präzision).
+ */
+export function suggestBgCandidatesWithScore(
+  industry: string | undefined,
+  freetext: string | undefined,
+  bgCatalog: RaBgCatalog[]
+): BgCandidate[] {
+  const ind = (industry ?? '').toLowerCase().trim();
+  const text = (freetext ?? '').toLowerCase();
+  const hits: BgCandidate[] = [];
+
+  for (const bg of bgCatalog) {
+    const reasons: string[] = [];
+    let strong = false;
+
+    // Branchen-Slug-Match (Hauptindikator)
+    for (const i of bg.industries) {
+      if (ind.includes(i)) {
+        reasons.push(`Branche „${i}" entspricht dem Zuständigkeitsbereich`);
+        strong = true;
+      }
+    }
+
+    // Freitext-Schlüsselwort-Match (Sekundärindikator) — bewusst klein gehalten
+    if (text) {
+      for (const i of bg.industries) {
+        if (i.length >= 4 && text.includes(i) && !ind.includes(i)) {
+          reasons.push(`im Freitext erkannt: „${i}"`);
+        }
+      }
+    }
+
+    if (reasons.length === 0) continue;
+    hits.push({
+      bg,
+      likelihood: strong ? 'wahrscheinlich' : 'möglich',
+      reasons
+    });
+  }
+
+  // Sortierung: wahrscheinlich vor möglich, dann alphabetisch
+  hits.sort((a, b) => {
+    const rank = (l: BgCandidate['likelihood']) =>
+      l === 'wahrscheinlich' ? 0 : l === 'möglich' ? 1 : 2;
+    const r = rank(a.likelihood) - rank(b.likelihood);
+    return r !== 0 ? r : a.bg.name.localeCompare(b.bg.name);
+  });
+
+  return hits;
+}
+
 /** Bereiche → typische Risiken (Match via typical_areas[]). */
 export function suggestRisksForAreas(
   areaSlugs: string[],

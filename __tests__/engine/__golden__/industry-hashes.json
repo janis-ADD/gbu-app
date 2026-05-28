@@ -1,0 +1,156 @@
+{
+  "generated_at": "2026-05-27T11:57:05.106Z",
+  "engine_version": "1.1.0",
+  "records": [
+    {
+      "slug": "maler",
+      "snapshot_hash": "8ae6df99de3849ab4988ccfdcb89eaf96cd92bdd30100570ad1816a6e30ece24",
+      "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+      "summary": {
+        "n_risks": 6,
+        "n_mandatory_measures": 7,
+        "n_missing_controls": 0
+      },
+      "risks": [
+        "absturz",
+        "gefahrstoff-loesemittel",
+        "handwerkzeug-schnittverletzung",
+        "hautkontakt-reizstoffe",
+        "laerm-exposition",
+        "staubexposition"
+      ],
+      "mandatory_measures": [
+        "atemschutz-bei-staub",
+        "gefahrstoffverzeichnis",
+        "hautschutzplan",
+        "psa-bereitstellen",
+        "sdb-verfuegbar",
+        "vorsorge-g20-laerm",
+        "vorsorge-g24-haut"
+      ]
+    },
+    {
+      "slug": "gebaeudereinigung",
+      "snapshot_hash": "39d0ab9147307af9b154283b110118b097cc4d56a0f342a712dc56796f598065",
+      "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+      "summary": {
+        "n_risks": 6,
+        "n_mandatory_measures": 6,
+        "n_missing_controls": 0
+      },
+      "risks": [
+        "alleinarbeit-notfall",
+        "gefahrstoff-loesemittel",
+        "handwerkzeug-schnittverletzung",
+        "hautkontakt-reizstoffe",
+        "laerm-exposition",
+        "psychische-belastung-zeitdruck"
+      ],
+      "mandatory_measures": [
+        "alleinarbeit-erreichbar",
+        "gefahrstoffverzeichnis",
+        "hautschutzplan",
+        "sdb-verfuegbar",
+        "vorsorge-g20-laerm",
+        "vorsorge-g24-haut"
+      ]
+    },
+    {
+      "slug": "buero",
+      "snapshot_hash": "da504b0cb59c66ccde12e502e1957ae71b4252a1e3863a8e96773b6f9a5fc6c7",
+      "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+      "summary": {
+        "n_risks": 2,
+        "n_mandatory_measures": 0,
+        "n_missing_controls": 0
+      },
+      "risks": [
+        "bildschirmbelastung",
+        "psychische-belastung-zeitdruck"
+      ],
+      "mandatory_measures": []
+    },
+    {
+      "slug": "lager",
+      "snapshot_hash": "357bcc9d3734f0c2e384837b402268d8ec56578da1c360a65a9577218ffeb242",
+      "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+      "summary": {
+        "n_risks": 4,
+        "n_mandatory_measures": 3,
+        "n_missing_controls": 0
+      },
+      "risks": [
+        "flurfoerderzeug-unfall",
+        "handwerkzeug-schnittverletzung",
+        "laerm-exposition",
+        "verkehrswege-lager"
+      ],
+      "mandatory_measures": [
+        "unterweisung-stapler",
+        "verkehrswege-trennung-stapler",
+        "vorsorge-g20-laerm"
+      ]
+    },
+    {
+      "slug": "elektriker",
+      "snapshot_hash": "b0e9ae69701ac150f4081389cf6c635f6ba88b819371a647f4c5426e707d3a05",
+      "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+      "summary": {
+        "n_risks": 3,
+        "n_mandatory_measures": 2,
+        "n_missing_controls": 0
+      },
+      "risks": [
+        "absturz",
+        "handwerkzeug-schnittverletzung",
+        "laerm-exposition"
+      ],
+      "mandatory_measures": [
+        "psa-bereitstellen",
+        "vorsorge-g20-laerm"
+      ]
+    },
+    {
+      "slug": "logistik",
+      "snapshot_hash": "1c3915cd548950125ef4f36d5a4daa6c9d0365617320dfb9352c8a55bb91aec3",
+      "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+      "summary": {
+        "n_risks": 2,
+        "n_mandatory_measures": 1,
+        "n_missing_controls": 0
+      },
+      "risks": [
+        "alleinarbeit-notfall",
+        "psychische-belastung-zeitdruck"
+      ],
+      "mandatory_measures": [
+        "alleinarbeit-erreichbar"
+      ]
+    },
+    {
+      "slug": "zahnarzt",
+      "snapshot_hash": "f2afb386a4d8b29e51f31d296a15391c877878c0ff26c6e3f9eb492e9e3c54a2",
+      "catalog_hash": "8a4629506df82630e54a6a286cb9774096c7e2a08301dff6208ed56ca058d5c7",
+      "summary": {
+        "n_risks": 6,
+        "n_mandatory_measures": 5,
+        "n_missing_controls": 0
+      },
+      "risks": [
+        "bildschirmbelastung",
+        "gefahrstoff-loesemittel",
+        "handwerkzeug-schnittverletzung",
+        "hautkontakt-reizstoffe",
+        "laerm-exposition",
+        "psychische-belastung-zeitdruck"
+      ],
+      "mandatory_measures": [
+        "gefahrstoffverzeichnis",
+        "hautschutzplan",
+        "sdb-verfuegbar",
+        "vorsorge-g20-laerm",
+        "vorsorge-g24-haut"
+      ]
+    }
+  ]
+}

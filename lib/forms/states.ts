@@ -39,3 +39,10 @@ export type BillingState = {
   info?: string;
 };
 export const BILLING_INITIAL: BillingState = { ok: false, error: null };
+
+/* ─── Bundle-Setup (Phase A: Company + BG) ────────────────────────────── */
+export type BundleSetupState = {
+  ok: boolean;
+  error: string | null;
+};
+export const BUNDLE_SETUP_INITIAL: BundleSetupState = { ok: false, error: null };

@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { getCurrentProfile } from '@/lib/profile/server';
 import { getCurrentQuota } from '@/lib/quota/server';
-import { getMyAssessmentCounts } from '@/lib/assessments/server';
+import { getMyBundleCounts } from '@/lib/bundles/server';
 
 export default async function AccountPage() {
   const [ctx, quota, counts] = await Promise.all([
     getCurrentProfile(),
     getCurrentQuota(),
-    getMyAssessmentCounts()
+    getMyBundleCounts()
   ]);
   const profile = ctx?.profile;
   const email = ctx?.user.email ?? null;
@@ -67,7 +67,7 @@ export default async function AccountPage() {
             </div>
           </div>
           <div className="bs-card">
-            <div className="bs-label">Beurteilungen gesamt</div>
+            <div className="bs-label">Compliance-Mappen gesamt</div>
             <div className="bs-value">{counts.total}</div>
           </div>
         </div>
@@ -85,13 +85,13 @@ export default async function AccountPage() {
 
       <section className="account-section">
         <h2>Daten &amp; Datenschutz</h2>
-        <div className="section-sub">Wo deine Daten leben.</div>
+        <div className="section-sub">Wo Ihre Daten verarbeitet werden.</div>
         <ul style={{ paddingLeft: 18, color: 'var(--text-2)', fontSize: 13.5, lineHeight: 1.7 }}>
           <li>Datenstandort: <strong>EU</strong> (Supabase Frankfurt)</li>
-          <li>KI-Subprocessor: <strong>nicht aktiv im MVP</strong> (deterministische Catalog-Logik)</li>
-          <li>E-Mail-Versand: <strong>Supabase Auth</strong> (Bestätigung/Reset) — produktive Mails über Resend in Phase 4</li>
-          <li>Pflicht-Disclaimer auf jedem Dokument</li>
-          <li>Audit-Trail für jede Generierung &amp; Freigabe (Phase 2 §8)</li>
+          <li>Ableitung: <strong>deterministische Regel-Engine</strong> gegen kuratierten DGUV-/BG-Quellenkatalog — keine externen Sprachmodelle, keine Drittparteien-Subprocessoren</li>
+          <li>E-Mail-Versand: <strong>Supabase Auth</strong> (Bestätigung &amp; Passwort-Reset)</li>
+          <li>Pflicht-Disclaimer auf jedem freigegebenen Dokument</li>
+          <li>Vollständiger Audit-Trail für jede Freigabe (Snapshot-Hash, Engine-Version, Katalog-Hash)</li>
         </ul>
       </section>
 

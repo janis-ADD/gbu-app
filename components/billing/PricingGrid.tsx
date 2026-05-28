@@ -116,13 +116,20 @@ export function PricingGrid({
                 <button className="btn btn-secondary btn-block" disabled>
                   Aktiver Plan
                 </button>
-              ) : (
+              ) : p.slug === 'free' ? (
                 <form action={formAction}>
                   <input type="hidden" name="plan" value={p.slug} />
-                  <SubmitButton
-                    pendingLabel="Wechsle …"
-                  >
-                    {p.monthly_eur === 0 ? 'Auf Free wechseln' : `Auf ${p.name} upgraden`}
+                  <SubmitButton pendingLabel="Wechsle …">
+                    Auf Free downgraden
+                  </SubmitButton>
+                </form>
+              ) : (
+                // Upgrade-Pfade laufen über Stripe (Phase 4) — bis dahin
+                // Lead-Capture statt Stub-Wechsel (Vertrauen first)
+                <form action={formAction}>
+                  <input type="hidden" name="plan" value={p.slug} />
+                  <SubmitButton pendingLabel="Wechsle …">
+                    {`Auf ${p.name} upgraden`}
                   </SubmitButton>
                 </form>
               )}
