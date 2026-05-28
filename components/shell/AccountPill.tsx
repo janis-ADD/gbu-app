@@ -47,20 +47,23 @@ export async function AccountPill() {
     .toUpperCase()
     .slice(0, 2) || '—';
 
+  // Plan-Anzeige als ruhiger Text unter dem Firmennamen — keine Badge-Optik
+  // (R2 aus dem UX-Bereinigungs-Sprint). Wirkt wie eine Kontoinformation,
+  // nicht wie ein Upsell.
+  const planLabel = planSlug === 'pro'
+    ? 'Pro-Plan'
+    : planSlug === 'basic'
+      ? 'Basic-Plan'
+      : planSlug === 'free'
+        ? 'Free-Plan'
+        : 'Konto verwalten';
+
   return (
     <Link href="/app/account" className="account-pill" data-clickable="true">
       <div className="account-avatar">{initials}</div>
       <div style={{ minWidth: 0, flex: 1 }}>
         <div className="account-name">{label}</div>
-        <div className="account-plan">
-          {planSlug ? (
-            <span className={`plan-badge plan-badge--${planSlug}`}>
-              {planSlug === 'free' ? 'Free' : planSlug === 'basic' ? 'Basic' : 'Pro'}
-            </span>
-          ) : (
-            'Konto verwalten'
-          )}
-        </div>
+        <div className="account-plan">{planLabel}</div>
       </div>
     </Link>
   );

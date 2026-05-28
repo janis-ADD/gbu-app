@@ -1,15 +1,11 @@
-import Link from 'next/link';
-import { QuotaCard } from '@/components/dashboard/QuotaCard';
 import { BundleList } from '@/components/bundles/BundleList';
-import { getCurrentQuota } from '@/lib/quota/server';
 import { listMyBundles, getMyBundleCounts } from '@/lib/bundles/server';
 import { getCurrentProfile } from '@/lib/profile/server';
 import { createBundleAction } from '@/app/actions/bundles';
 
 export default async function DashboardPage() {
-  const [ctx, quota, counts, bundles] = await Promise.all([
+  const [ctx, counts, bundles] = await Promise.all([
     getCurrentProfile(),
-    getCurrentQuota(),
     getMyBundleCounts(),
     listMyBundles()
   ]);
@@ -39,8 +35,6 @@ export default async function DashboardPage() {
           </button>
         </form>
       </div>
-
-      <QuotaCard quota={quota} />
 
       <section className="trust-strip" aria-label="Vertrauenssäulen">
         <div className="trust-pillar"><div className="pillar-ico">🛡️</div><div><div className="pillar-label">BG-orientiert</div><div className="pillar-sub">DGUV / BG / ASR</div></div></div>

@@ -254,22 +254,9 @@ export default async function GbuVersionPage({
         </div>
       </details>
 
-      {quota?.plan_slug !== 'pro' && (
-        <div className="quota-card" style={{ marginBottom: '1.5rem' }}>
-          <div className="quota-icon">⭐</div>
-          <div className="quota-body">
-            <div className="quota-title">
-              {quota?.plan_slug === 'basic' ? 'Pro: Unterweisungen aktivieren' : 'Mehr Bundles & Unterweisungen freischalten'}
-            </div>
-            <div className="quota-desc">
-              {quota?.plan_slug === 'basic'
-                ? 'Mit Pro aktivierst du die empfohlenen Unterweisungs-Module direkt aus deinen GBUs (Memberspot).'
-                : 'Mit Basic erhältst du unbegrenzte GBU-Freigaben + PDF ohne Wasserzeichen. Mit Pro zusätzlich Unterweisungs-Aktivierung.'}
-            </div>
-          </div>
-          <a href="/app/upgrade" className="btn btn-primary">Plan ansehen</a>
-        </div>
-      )}
+      {/* Plan-/Upgrade-UI entfernt aus dem Arbeitsfluss (R5):
+         Pläne werden ausschließlich unter /app/account verwaltet.
+         Die GBU-Version-Page bleibt fokussiert auf das Compliance-Dokument. */}
 
       <div className={`muster${isFree ? ' is-free-watermark' : ''}`}>
         {/* ─── Versteckte string-set-Quellen für @page Running-Header ── */}

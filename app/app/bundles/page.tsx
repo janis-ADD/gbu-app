@@ -1,6 +1,4 @@
-import { QuotaCard } from '@/components/dashboard/QuotaCard';
 import { BundleList } from '@/components/bundles/BundleList';
-import { getCurrentQuota } from '@/lib/quota/server';
 import { listMyBundles } from '@/lib/bundles/server';
 import { createBundleAction } from '@/app/actions/bundles';
 
@@ -9,7 +7,7 @@ export default async function BundlesPage({
 }: {
   searchParams: { error?: string };
 }) {
-  const [quota, items] = await Promise.all([getCurrentQuota(), listMyBundles()]);
+  const items = await listMyBundles();
 
   return (
     <main className="content">
@@ -33,8 +31,6 @@ export default async function BundlesPage({
           </button>
         </form>
       </div>
-
-      <QuotaCard quota={quota} />
 
       <section className="list-card">
         <div className="list-head">
