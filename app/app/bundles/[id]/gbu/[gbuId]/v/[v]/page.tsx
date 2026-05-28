@@ -26,6 +26,7 @@ import { COPY, OBLIGATION_UI_LABELS } from '@/lib/copy/microcopy';
 import {
   explainRiskTriggers,
   explainMeasureBasis,
+  explainWeighting,
   qualitativeSeverity,
   qualitativeLikelihood
 } from '@/lib/wizard/explain';
@@ -136,6 +137,12 @@ export default async function GbuVersionPage({
   const ackMap = engineSnap.measure_acknowledgements;
   const refMap = engineSnap.legal_refs;
   const activitiesDescription = (gbuData.activities as { description?: string } | undefined)?.description;
+  // Tags für Kontext-Erklärung in Kapitel 2 (explainWeighting). Live-Daten
+  // sind hier OK, weil Activity-Tags Teil des unveränderlichen Inputs sind —
+  // sie ändern sich nicht zwischen Release und Anzeige.
+  const displayTags = ((gbuData.activities as { tags?: ActivityTags } | undefined)?.tags
+    ?? (gbu.activities?.tags as ActivityTags)
+    ?? {}) as ActivityTags;
 
   const isFree = quota?.plan_slug === 'free';
   const versionHash = `sha256:${version.id.replace(/-/g, '').slice(0, 12)}…`;
@@ -358,7 +365,7 @@ export default async function GbuVersionPage({
               <li><span className="print-toc-num">Kapitel 3</span><span className="print-toc-label">Erkannte Gefährdungen</span><span className="print-toc-page" /></li>
             ) : null}
             {visibleMeasures.length > 0 ? (
-              <li><span className="print-toc-num">Kapitel 4</span><span className="print-toc-label">Handlungsleitfaden — nach Bedeutung</span><span className="print-toc-page" /></li>
+              <li><span className="print-toc-num">Kapitel 4</span><span className="print-toc-label">Maßnahmenplan</span><span className="print-toc-page" /></li>
             ) : null}
             {visibleMeasures.some((m) => m.is_mandatory) ? (
               <li><span className="print-toc-num">Kapitel 5</span><span className="print-toc-label">Pflichtmaßnahmen — Übersicht</span><span className="print-toc-page" /></li>
@@ -407,13 +414,48 @@ export default async function GbuVersionPage({
           <section className="pdf-section">
             <div className="pdf-section-num">Kapitel 1</div>
             <h3>Überblick</h3>
+
+            {/* Identifikations-Block — Audit-Standard: alle Schlüssel-
+                Felder auf einer Doppelseite. Doppelung zum Cover ist
+                gewünscht, weil bei Heftung die Cover-Seite oft separat
+                läuft. */}
             <div className="data-box">
+              <div><strong>Beurteilungs-Kennung</strong> <span>v{version.version_number} · {snapshotHashShort}</span></div>
               <div><strong>Unternehmen</strong> <span>{company.company_name ?? '—'}</span></div>
               <div><strong>Branche</strong> <span>{industryLabel(company.industry)}</span></div>
               <div><strong>Standort</strong> <span>{[company.postal_code, company.city].filter(Boolean).join(' ') || '—'}{company.state ? ` · ${company.state}` : ''}</span></div>
               <div><strong>Mappe</strong> <span>{bundle.title}</span></div>
               <div><strong>Arbeitsbereich</strong> <span>{areaLabel}</span></div>
               <div><strong>Vom Betrieb bestätigte BG</strong> <span>{bgNames.length > 0 ? bgNames.join(', ') : (bg.unclear ? 'noch zu klären' : '—')}</span></div>
+              <div><strong>Erstellt am (Freigabe)</strong> <span>{releasedDate}</span></div>
+              <div><strong>Nächste Wirksamkeitsprüfung</strong> <span>{reviewDateFormatted} <em style={{ color: 'var(--text-3)', fontStyle: 'normal', fontWeight: 400 }}>· {dueStatus.label}</em></span></div>
+              <div><strong>Verantwortlich für Umsetzung</strong> <span>{responsibleRole ?? '—'}</span></div>
+            </div>
+
+            {/* Kompakte Kennzahlen-Zeile für den Audit-Blick — alle Werte
+                stammen aus dem eingefrorenen Engine-Snapshot. */}
+            <div style={{
+              marginTop: 10,
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: 8
+            }}>
+              <div style={{ padding: '8px 10px', background: '#fafbfc', border: '1px solid var(--border)', borderRadius: 8 }}>
+                <div style={{ fontSize: 10, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>Gefährdungen</div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: '#0f172a' }}>{visibleRisks.length}</div>
+              </div>
+              <div style={{ padding: '8px 10px', background: '#fafbfc', border: '1px solid var(--border)', borderRadius: 8 }}>
+                <div style={{ fontSize: 10, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>davon Pflicht</div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: '#0f172a' }}>{visibleRisks.filter((r) => r.is_mandatory).length}</div>
+              </div>
+              <div style={{ padding: '8px 10px', background: '#fafbfc', border: '1px solid var(--border)', borderRadius: 8 }}>
+                <div style={{ fontSize: 10, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>Maßnahmen</div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: '#0f172a' }}>{visibleMeasures.length}</div>
+              </div>
+              <div style={{ padding: '8px 10px', background: '#fafbfc', border: '1px solid var(--border)', borderRadius: 8 }}>
+                <div style={{ fontSize: 10, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>Pflicht-Maßnahmen</div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: '#0f172a' }}>{visibleMeasures.filter((m) => m.is_mandatory).length}</div>
+              </div>
             </div>
           </section>
 
@@ -422,35 +464,68 @@ export default async function GbuVersionPage({
               <div className="pdf-section-num">Kapitel 2</div>
               <h3>Tätigkeiten</h3>
               <p>{activitiesDescription}</p>
+              {(() => {
+                const w = explainWeighting(displayTags);
+                return w ? (
+                  <div style={{
+                    marginTop: 6, padding: '6px 10px',
+                    fontSize: 10.5, lineHeight: 1.55,
+                    color: 'var(--text-2)',
+                    borderLeft: '2px solid var(--petrol, #1B6CA8)',
+                    background: '#fafbfc'
+                  }}>
+                    <strong style={{ color: '#0c3a5c' }}>Kontext berücksichtigt:</strong>{' '}
+                    {w}
+                  </div>
+                ) : null;
+              })()}
             </section>
           ) : null}
 
-          {/* ─── Risiken — ruhige Liste, Prose statt Bullets ────────── */}
+          {/* ─── Risiken — Audit-Tabelle: lfd. Nr, Sortierung nach Risiko ─── */}
           <div className="print-page-break" aria-hidden="true" />
           {visibleRisks.length > 0 ? (
             <section className="pdf-section">
               <div className="pdf-section-num">Kapitel 3</div>
               <h3>Erkannte Gefährdungen</h3>
               <p>
-                {COPY.explainability.pdf.risksIntro} Pflicht-Risiken erfordern
-                Betriebsanweisung, PSA-Bereitstellung und/oder Unterweisung
-                gemäß den zugehörigen Quellen.
+                {COPY.explainability.pdf.risksIntro} Sortierung absteigend nach
+                Risiko-Bewertung. Pflicht-Gefährdungen erfordern Betriebs­anweisung,
+                PSA-Bereitstellung und/oder Unterweisung gemäß den zugehörigen
+                Quellen (siehe Spalte „Quellen" und Kapitel 9).
               </p>
               <div className="risk-table">
-                <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '1.6fr 0.8fr 1.6fr' }}>
+                <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.35fr 1.6fr 0.85fr 1.0fr 1.4fr' }}>
+                  <span>Nr.</span>
                   <span>Gefährdung</span>
                   <span>Bewertung</span>
+                  <span>Quellen</span>
                   <span>Begründung</span>
                 </div>
-                {visibleRisks.map((d) => {
+                {[...visibleRisks]
+                  .sort((a, b) => {
+                    // Pflicht zuerst, dann nach Score absteigend
+                    if (a.is_mandatory !== b.is_mandatory) return a.is_mandatory ? -1 : 1;
+                    const scoreA = (engineSnap.severity_scores[a.risk.slug]?.score) ?? (a.severity * a.likelihood);
+                    const scoreB = (engineSnap.severity_scores[b.risk.slug]?.score) ?? (b.severity * b.likelihood);
+                    return scoreB - scoreA;
+                  })
+                  .map((d, idx) => {
                   const score = engineSnap.severity_scores[d.risk.slug] ?? {
                     severity: d.severity, likelihood: d.likelihood, score: d.severity * d.likelihood
                   };
                   const sevLabel = severityLabel(score.score);
                   const sevQual = qualitativeSeverity(score.severity);
                   const likQual = qualitativeLikelihood(score.likelihood);
+                  const riskRefs = (d.risk.source_ref_slugs ?? [])
+                    .map((s) => refMap[s])
+                    .filter(Boolean)
+                    .slice(0, 4);
                   return (
-                    <div className="risk-table-row" key={d.risk.slug} style={{ display: 'grid', gridTemplateColumns: '1.6fr 0.8fr 1.6fr' }}>
+                    <div className="risk-table-row" key={d.risk.slug} style={{ display: 'grid', gridTemplateColumns: '0.35fr 1.6fr 0.85fr 1.0fr 1.4fr' }}>
+                      <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)', fontWeight: 600 }}>
+                        {String(idx + 1).padStart(2, '0')}
+                      </div>
                       <div className={d.is_mandatory ? 'pdf-mandatory-mark' : ''}>
                         <strong>{d.risk.name}</strong>
                         {d.is_mandatory ? (
@@ -465,6 +540,17 @@ export default async function GbuVersionPage({
                         <div style={{ fontSize: 10.5, color: 'var(--text-3)', marginTop: 4 }}>
                           Schwere: {sevQual} · Eintritt: {likQual}
                         </div>
+                      </div>
+                      <div style={{ fontSize: 10.5 }}>
+                        {riskRefs.length === 0 ? (
+                          <span style={{ color: 'var(--text-3)' }}>—</span>
+                        ) : (
+                          riskRefs.map((r) => (
+                            <div key={r!.slug} style={{ marginBottom: 2 }}>
+                              <span className="src-chip" title={r!.title}>{r!.citation}</span>
+                            </div>
+                          ))
+                        )}
                       </div>
                       <div style={{ fontSize: 11.5, lineHeight: 1.5 }}>
                         {explainRiskTriggers(d)}
@@ -481,50 +567,89 @@ export default async function GbuVersionPage({
           {visibleMeasures.length > 0 ? (
             <section className="pdf-section">
               <div className="pdf-section-num">Kapitel 4</div>
-              <h3>Handlungsleitfaden — nach Bedeutung</h3>
+              <h3>Maßnahmenplan</h3>
               <p>
-                {COPY.explainability.pdf.measuresIntro} Die TOP-Kategorie
-                (<strong>T</strong>echnisch / <strong>O</strong>rganisatorisch /{' '}
-                <strong>P</strong>ersonenbezogen) wird in der Status-Spalte ausgewiesen.
+                {COPY.explainability.pdf.measuresIntro}
               </p>
+              <div style={{
+                marginTop: 8, marginBottom: 12,
+                padding: '8px 12px',
+                background: '#fafbfc',
+                border: '1px solid var(--border)',
+                borderRadius: 6,
+                fontSize: 10.5, lineHeight: 1.55, color: 'var(--text-2)'
+              }}>
+                <strong style={{ color: '#0c3a5c' }}>STOP-Prinzip (ArbSchG §4):</strong>{' '}
+                Maßnahmen sind nach Wirksamkeits-Hierarchie zu wählen —{' '}
+                <strong>S</strong>ubstitution vor{' '}
+                <strong>T</strong>echnischen vor{' '}
+                <strong>O</strong>rganisatorischen vor{' '}
+                <strong>P</strong>ersonenbezogenen Maßnahmen. Substitution
+                ist in den hier kuratierten Maßnahmen ggf. Bestandteil
+                technischer Maßnahmen (Spalte „STOP").
+              </div>
               {(() => {
                 const grouped = sortMeasuresForUi(visibleMeasures);
                 const riskNamesBySlug: Record<string, string> = Object.fromEntries(
                   visibleRisks.map((r) => [r.risk.slug, r.risk.name])
                 );
+                // Empfohlene Frist pro UI-Gruppe — als Konvention im Render,
+                // nicht im Snapshot/Schema (kein Datenmodell-Wechsel).
+                const GROUP_FRIST: Record<typeof UI_GROUP_ORDER[number], string> = {
+                  jetzt_wichtig:          'innerhalb 14 Tagen prüfen',
+                  als_naechstes_sinnvoll: 'innerhalb 3 Monaten',
+                  spaeter_optimierbar:    'innerhalb 12 Monaten / nächste turnusmäßige Aktualisierung'
+                };
+                // Laufende Nummer über alle Gruppen hinweg (Audit-konform).
+                let runningNr = 0;
                 return UI_GROUP_ORDER.map((g) => {
                   const list = grouped[g];
                   if (list.length === 0) return null;
                   return (
-                    <div key={g} style={{ marginBottom: 14 }}>
+                    <div key={g} style={{ marginBottom: 16 }}>
                       <div style={{
-                        display: 'flex', alignItems: 'baseline', gap: 10,
-                        marginTop: 8, marginBottom: 4
+                        marginTop: 10, marginBottom: 6,
+                        padding: '8px 10px',
+                        background: '#f4f8fb',
+                        borderLeft: '3px solid #0c3a5c',
+                        borderRadius: '0 6px 6px 0'
                       }}>
-                        <span style={{ fontSize: 13, fontWeight: 750, color: '#0c3a5c' }}>
-                          {UI_GROUP_LABELS[g]}
-                        </span>
-                        <span style={{
-                          fontSize: 10.5, fontWeight: 600, color: 'var(--text-3)',
-                          padding: '1px 7px', background: 'var(--off, #f7f9fc)',
-                          border: '1px solid var(--border, #d6e4f0)', borderRadius: 100
-                        }}>
-                          {list.length}
-                        </span>
-                      </div>
-                      <div style={{ fontSize: 10.5, color: 'var(--text-3)', marginBottom: 4, lineHeight: 1.5 }}>
-                        {UI_GROUP_DESCRIPTIONS[g]}
-                      </div>
-                      <div style={{ fontSize: 10, color: 'var(--text-3)', marginBottom: 6, lineHeight: 1.5, fontStyle: 'italic' }}>
-                        {COPY.explainability.groupContext[g]}
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+                          <span style={{ fontSize: 13, fontWeight: 750, color: '#0c3a5c' }}>
+                            {UI_GROUP_LABELS[g]}
+                          </span>
+                          <span style={{
+                            fontSize: 10.5, fontWeight: 600, color: 'var(--text-3)',
+                            padding: '1px 7px', background: '#fff',
+                            border: '1px solid var(--border, #d6e4f0)', borderRadius: 100
+                          }}>
+                            {list.length} Maßnahmen
+                          </span>
+                        </div>
+                        <div style={{ marginTop: 4, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, fontSize: 10.5 }}>
+                          <div>
+                            <span style={{ color: 'var(--text-3)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', fontSize: 9.5 }}>Empfohlene Frist:</span>{' '}
+                            <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>{GROUP_FRIST[g]}</span>
+                          </div>
+                          <div>
+                            <span style={{ color: 'var(--text-3)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', fontSize: 9.5 }}>Verantwortlich:</span>{' '}
+                            <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>{responsibleRole ?? '—'}</span>
+                          </div>
+                        </div>
+                        <div style={{ marginTop: 4, fontSize: 10, color: 'var(--text-3)', lineHeight: 1.5, fontStyle: 'italic' }}>
+                          {COPY.explainability.groupContext[g]}
+                        </div>
                       </div>
                       <div className="risk-table">
-                        <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '1.8fr 0.6fr 1.2fr' }}>
+                        <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.35fr 1.8fr 0.45fr 0.55fr 0.85fr' }}>
+                          <span>Nr.</span>
                           <span>Maßnahme</span>
+                          <span>STOP</span>
                           <span>Status</span>
-                          <span>Belege</span>
+                          <span>Quellen</span>
                         </div>
                         {list.map((m) => {
+                          runningNr += 1;
                           const cat = m.measure.category;
                           const top = cat === 'technisch' ? 'T' : cat === 'organisatorisch' ? 'O' : 'P';
                           const confirmed = ackMap[m.measure.slug]?.confirmed ?? false;
@@ -534,7 +659,10 @@ export default async function GbuVersionPage({
                           const obligationCls = obligation === 'pflicht' ? 'conf-low'
                             : obligation === 'angebot' ? 'conf-medium' : 'conf-high';
                           return (
-                            <div className="risk-table-row" key={m.measure.slug} style={{ display: 'grid', gridTemplateColumns: '1.8fr 0.6fr 1.2fr' }}>
+                            <div className="risk-table-row" key={m.measure.slug} style={{ display: 'grid', gridTemplateColumns: '0.35fr 1.8fr 0.45fr 0.55fr 0.85fr' }}>
+                              <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)', fontWeight: 600 }}>
+                                {String(runningNr).padStart(2, '0')}
+                              </div>
                               <div className={m.is_mandatory ? 'pdf-mandatory-mark' : ''}>
                                 <strong>{m.measure.short_text}</strong>
                                 <span className={`conf-badge ${obligationCls}`} style={{ marginLeft: 6 }}>
@@ -564,12 +692,12 @@ export default async function GbuVersionPage({
                                 ) : null}
                               </div>
                               <div style={{ fontSize: 11 }}>
-                                <div><span className="conf-badge">{top}</span></div>
-                                <div style={{ marginTop: 4 }}>
-                                  <span className={`conf-badge ${confirmed ? 'conf-high' : 'conf-low'}`}>
-                                    {confirmed ? '✓ umgesetzt' : 'noch offen'}
-                                  </span>
-                                </div>
+                                <span className="conf-badge">{top}</span>
+                              </div>
+                              <div style={{ fontSize: 11 }}>
+                                <span className={`conf-badge ${confirmed ? 'conf-high' : 'conf-low'}`}>
+                                  {confirmed ? '✓ umgesetzt' : 'offen'}
+                                </span>
                               </div>
                               <div>
                                 {m.measure.source_ref_slugs.slice(0, 3).map((s) => {
@@ -592,26 +720,32 @@ export default async function GbuVersionPage({
             </section>
           ) : null}
 
-          {/* ─── Pflichtmaßnahmen — kompakte Übersicht für Audit ──── */}
+          {/* ─── Pflichtmaßnahmen — Audit-Tabelle mit lfd. Nr ──────── */}
           {visibleMeasures.some((m) => m.is_mandatory) ? (
             <section className="pdf-section">
               <div className="pdf-section-num">Kapitel 5</div>
-              <h3>Pflichtmaßnahmen — Übersicht</h3>
+              <h3>Pflichtmaßnahmen — Audit-Übersicht</h3>
               <p>
-                Pflicht-Maßnahmen, die direkt aus geltenden Vorschriften
-                resultieren. Vollständige Beschreibung siehe Kapitel 4.
+                Diese Maßnahmen ergeben sich direkt aus geltenden Vorschriften
+                (ArbSchG, DGUV, BetrSichV, GefStoffV — siehe Spalte
+                „Grundlage"). Vollständige Beschreibung mit Frist und
+                Verantwortlich siehe Kapitel 4.
               </p>
               <div className="risk-table">
-                <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1.5fr 0.7fr' }}>
-                  <span>Maßnahme</span>
-                  <span>Grundlage</span>
+                <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.35fr 1.4fr 1.5fr 0.6fr' }}>
+                  <span>Nr.</span>
+                  <span>Pflicht-Maßnahme</span>
+                  <span>Rechtsgrundlage</span>
                   <span>Status</span>
                 </div>
-                {visibleMeasures.filter((m) => m.is_mandatory).map((m) => {
+                {visibleMeasures.filter((m) => m.is_mandatory).map((m, idx) => {
                   const confirmed = ackMap[m.measure.slug]?.confirmed ?? false;
                   const reason = engineSnap.mandatory_reasons[m.measure.slug] ?? m.mandatory_reason;
                   return (
-                    <div className="risk-table-row" key={`mand-${m.measure.slug}`} style={{ display: 'grid', gridTemplateColumns: '1.5fr 1.5fr 0.7fr' }}>
+                    <div className="risk-table-row" key={`mand-${m.measure.slug}`} style={{ display: 'grid', gridTemplateColumns: '0.35fr 1.4fr 1.5fr 0.6fr' }}>
+                      <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)', fontWeight: 600 }}>
+                        {String(idx + 1).padStart(2, '0')}
+                      </div>
                       <div className="pdf-mandatory-mark"><strong>{m.measure.short_text}</strong></div>
                       <div style={{ fontSize: 11.5 }}>{reason ?? 'Pflicht-Maßnahme.'}</div>
                       <div>
@@ -662,12 +796,27 @@ export default async function GbuVersionPage({
             <p>
               ArbSchG §6 verlangt die schriftliche Dokumentation der
               Verantwortlichkeit. Personennamen werden bewusst nicht erfasst,
-              sondern eine Rolle.
+              sondern eine Rolle. Pflichtenübertragung im Sinne von ArbSchG §13
+              bleibt davon unberührt — die letzte Verantwortung trägt der
+              Arbeitgeber.
             </p>
             <div className="data-box">
-              <div><strong>Verantwortliche Rolle</strong> <span>{responsibleRole ?? '—'}</span></div>
-              <div><strong>Freigegeben am</strong> <span>{releasedDate}</span></div>
-              <div><strong>Disclaimer bestätigt</strong> <span>ja</span></div>
+              <div><strong>Verantwortlich für Umsetzung der Maßnahmen</strong> <span>{responsibleRole ?? '—'}</span></div>
+              <div><strong>Erstellt / freigegeben am</strong> <span>{releasedDate}</span></div>
+              <div><strong>Pflicht-Disclaimer bestätigt</strong> <span>ja · siehe Anhang A · Cell 3</span></div>
+              <div><strong>Nächste Wirksamkeitsprüfung</strong> <span>{reviewDateFormatted} · {dueStatus.label}</span></div>
+              <div><strong>Aktualisierungs-Intervall</strong> <span>{intervalLabel(reviewInterval)}</span></div>
+            </div>
+            <div style={{
+              marginTop: 8, padding: '8px 10px',
+              fontSize: 10.5, color: 'var(--text-3)',
+              borderLeft: '2px solid var(--border)',
+              lineHeight: 1.55
+            }}>
+              <strong style={{ color: 'var(--text-2)' }}>Hinweis zur fachlichen Prüfung:</strong>{' '}
+              Die fachliche Prüfung durch eine Fachkraft für Arbeitssicherheit
+              (DGUV V2) und/oder den/die Sicherheitsbeauftragte:n ist im
+              Anhang A · Cell 2 zu dokumentieren.
             </div>
           </section>
 
@@ -731,25 +880,59 @@ export default async function GbuVersionPage({
             <h3>Genehmigungsvermerk</h3>
             <p>
               Diese Gefährdungsbeurteilung wurde digital erstellt und durch die
-              Bestätigung des Pflicht-Disclaimers (siehe Hinweis am Dokumentende)
-              zur betrieblichen Nutzung freigegeben. Für externe Vorlage bei
-              Auditor:in, Sicherheitsbeauftragte:r oder Aufsichtsbehörde dient
-              dieser Vermerk als handschriftlicher Bestätigungsraum.
+              Bestätigung des Pflicht-Disclaimers zur betrieblichen Nutzung
+              freigegeben. Die folgende dreiteilige Signatur dient bei externer
+              Vorlage (Auditor:in, Sicherheitsbeauftragte:r, Aufsichtsbehörde,
+              Berufsgenossenschaft) als handschriftlicher Bestätigungsraum.
+              Die digitale Freigabe ist durch die Snapshot-Kennung am
+              Dokumentende kryptografisch verifizierbar.
             </p>
             <div className="print-approval">
-              <div className="print-approval-title">Bestätigung der Wirksamkeit</div>
+              <div className="print-approval-title">Bestätigung der Wirksamkeit · ArbSchG §6 / DGUV V1 §3</div>
               <div className="print-approval-grid">
                 <div className="print-approval-cell">
-                  <strong>{responsibleRole ?? 'Verantwortliche Rolle'}</strong>
-                  Erstellt am {releasedDate}
+                  <div style={{ fontSize: 9, fontWeight: 700, color: '#0c3a5c', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>
+                    1 · Verantwortlich für Umsetzung
+                  </div>
+                  <div style={{ fontSize: 10.5, color: 'var(--text-1)', fontWeight: 600, marginBottom: 14 }}>
+                    {responsibleRole ?? '—'}
+                  </div>
+                  <div style={{ fontSize: 9, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.04em', borderTop: '1px solid #94a3b8', paddingTop: 3, marginBottom: 16 }}>
+                    Name (in Druckbuchstaben)
+                  </div>
+                  <div style={{ fontSize: 9, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.04em', borderTop: '1px solid #94a3b8', paddingTop: 3 }}>
+                    Datum · Unterschrift
+                  </div>
                 </div>
+
                 <div className="print-approval-cell">
-                  <strong>&nbsp;</strong>
-                  Geprüft am · Datum
+                  <div style={{ fontSize: 9, fontWeight: 700, color: '#0c3a5c', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>
+                    2 · Fachlich geprüft durch
+                  </div>
+                  <div style={{ fontSize: 10.5, color: 'var(--text-3)', fontStyle: 'italic', marginBottom: 14 }}>
+                    z. B. Fachkraft für Arbeitssicherheit, SiBe
+                  </div>
+                  <div style={{ fontSize: 9, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.04em', borderTop: '1px solid #94a3b8', paddingTop: 3, marginBottom: 16 }}>
+                    Name · Funktion
+                  </div>
+                  <div style={{ fontSize: 9, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.04em', borderTop: '1px solid #94a3b8', paddingTop: 3 }}>
+                    Datum · Unterschrift
+                  </div>
                 </div>
+
                 <div className="print-approval-cell">
-                  <strong>&nbsp;</strong>
-                  Freigegeben durch · Unterschrift
+                  <div style={{ fontSize: 9, fontWeight: 700, color: '#0c3a5c', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>
+                    3 · Freigegeben durch Arbeitgeber
+                  </div>
+                  <div style={{ fontSize: 10.5, color: 'var(--text-3)', fontStyle: 'italic', marginBottom: 14 }}>
+                    digital bestätigt am {releasedDate}
+                  </div>
+                  <div style={{ fontSize: 9, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.04em', borderTop: '1px solid #94a3b8', paddingTop: 3, marginBottom: 16 }}>
+                    Name · Funktion
+                  </div>
+                  <div style={{ fontSize: 9, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.04em', borderTop: '1px solid #94a3b8', paddingTop: 3 }}>
+                    Datum · Unterschrift
+                  </div>
                 </div>
               </div>
               <div className="print-approval-foot">
@@ -757,6 +940,7 @@ export default async function GbuVersionPage({
                 unveränderlich eingefroren und trägt die Kennung{' '}
                 <code>{snapshotHashShort}</code>{' '}
                 ({integrity.ok ? 'Inhalt unverändert' : isLegacy ? 'Stand vor Einführung der Kennung' : 'Inhalt nicht eindeutig zuordenbar — bitte Support kontaktieren'}).
+                Eine inhaltliche Nachänderung wäre an der Kennung erkennbar.
               </div>
             </div>
           </section>
