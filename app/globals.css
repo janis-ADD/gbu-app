@@ -836,8 +836,8 @@ button { font: inherit; cursor: pointer; }
        unten: Snapshot-Hash · Seite X von Y
   */
   @page {
-    size: A4;
-    margin: 24mm 18mm 22mm 18mm;
+    size: A4 landscape;
+    margin: 16mm 20mm 16mm 20mm;
     @top-left {
       content: string(doctitle);
       font-size: 8pt;
@@ -965,14 +965,15 @@ button { font: inherit; cursor: pointer; }
   .print-only { display: block !important; }
   .print-page-break { display: block !important; page-break-before: always; }
 
-  /* ─── Cover-Seite ─────────────────────────────────────────────────── */
+  /* ─── Cover-Seite — Querformat ─────────────────────────────────────
+     A4-Landscape: 297mm × 210mm. min-height entsprechend angepasst
+     (vorher 297mm = portrait → overflow in landscape). */
   .print-cover {
     display: flex !important;
     flex-direction: column;
     page-break-after: always;
-    /* Cover komplett rand-zu-rand; @page :first hat margin 0 */
-    min-height: 297mm;
-    padding: 28mm 22mm 22mm;
+    min-height: 200mm;
+    padding: 16mm 22mm 14mm;
     position: relative;
     background: #fff;
   }
@@ -1015,7 +1016,8 @@ button { font: inherit; cursor: pointer; }
     font-size: 7.5pt; color: #94a3b8; letter-spacing: .05em; text-transform: none;
   }
 
-  .print-cover .pc-spacer { flex: 1; min-height: 40mm; }
+  /* Spacer reduziert — im Querformat wäre 40mm fast die halbe Seite leer. */
+  .print-cover .pc-spacer { flex: 0 0 6mm; min-height: 6mm; }
 
   .print-cover .pc-eyebrow {
     font-size: 8.5pt;
@@ -1047,13 +1049,15 @@ button { font: inherit; cursor: pointer; }
     font-weight: 400;
   }
 
+  /* Meta-Grid im Querformat: 4 Spalten — passt die 8 Felder
+     in 2 ruhige Zeilen statt 4 vertikalen Zeilen. */
   .print-cover .pc-meta-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6mm 16mm;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 5mm 10mm;
     margin-top: auto;
-    margin-bottom: 14mm;
-    padding-top: 8mm;
+    margin-bottom: 8mm;
+    padding-top: 6mm;
     border-top: 0.5pt solid #cbd5e1;
   }
   .print-cover .pc-meta-grid .label {
@@ -1150,10 +1154,12 @@ button { font: inherit; cursor: pointer; }
     page-break-inside: avoid;
     column-count: auto;
   }
+  /* Data-Box im Querformat: Label-Spalte schmaler, Value-Spalte
+     bekommt mehr Platz für längere Werte. */
   .data-box > div {
     display: grid;
-    grid-template-columns: 55mm 1fr;
-    gap: 4mm;
+    grid-template-columns: 65mm 1fr;
+    gap: 6mm;
     padding: 2mm 0;
     border-bottom: 0.25pt solid #e2e8f0;
     margin-bottom: 0;
@@ -1181,11 +1187,11 @@ button { font: inherit; cursor: pointer; }
     border-bottom: 0.5pt solid #cbd5e1;
   }
   .risk-table-row {
-    padding: 4mm 0 !important;
+    padding: 3.5mm 0 !important;
     border-top: none !important;
     border-bottom: 0.25pt solid #e2e8f0;
     page-break-inside: avoid;
-    column-gap: 6mm;
+    column-gap: 8mm;
   }
   .risk-table-row:last-child { border-bottom: none; }
   .risk-table-row > div:first-child { font-weight: 600; color: #0f172a; }

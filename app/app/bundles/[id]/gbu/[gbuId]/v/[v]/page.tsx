@@ -482,7 +482,7 @@ export default async function GbuVersionPage({
                 Quellen (siehe Spalte „Quellen" und Kapitel 9).
               </p>
               <div className="risk-table">
-                <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.35fr 1.6fr 0.85fr 1.0fr 1.4fr' }}>
+                <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.25fr 1.6fr 0.7fr 1.0fr 1.8fr' }}>
                   <span>Nr.</span>
                   <span>Gefährdung</span>
                   <span>Bewertung</span>
@@ -509,7 +509,7 @@ export default async function GbuVersionPage({
                     .filter(Boolean)
                     .slice(0, 4);
                   return (
-                    <div className="risk-table-row" key={d.risk.slug} style={{ display: 'grid', gridTemplateColumns: '0.35fr 1.6fr 0.85fr 1.0fr 1.4fr' }}>
+                    <div className="risk-table-row" key={d.risk.slug} style={{ display: 'grid', gridTemplateColumns: '0.25fr 1.6fr 0.7fr 1.0fr 1.8fr' }}>
                       <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)', fontWeight: 600 }}>
                         {String(idx + 1).padStart(2, '0')}
                       </div>
@@ -628,7 +628,7 @@ export default async function GbuVersionPage({
                         </div>
                       </div>
                       <div className="risk-table">
-                        <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.35fr 1.8fr 0.45fr 0.55fr 0.85fr' }}>
+                        <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.25fr 2.4fr 0.35fr 0.5fr 1.1fr' }}>
                           <span>Nr.</span>
                           <span>Maßnahme</span>
                           <span>STOP</span>
@@ -646,7 +646,7 @@ export default async function GbuVersionPage({
                           const obligationCls = obligation === 'pflicht' ? 'conf-low'
                             : obligation === 'angebot' ? 'conf-medium' : 'conf-high';
                           return (
-                            <div className="risk-table-row" key={m.measure.slug} style={{ display: 'grid', gridTemplateColumns: '0.35fr 1.8fr 0.45fr 0.55fr 0.85fr' }}>
+                            <div className="risk-table-row" key={m.measure.slug} style={{ display: 'grid', gridTemplateColumns: '0.25fr 2.4fr 0.35fr 0.5fr 1.1fr' }}>
                               <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)', fontWeight: 600 }}>
                                 {String(runningNr).padStart(2, '0')}
                               </div>
@@ -719,7 +719,7 @@ export default async function GbuVersionPage({
                 Verantwortlich siehe Kapitel 4.
               </p>
               <div className="risk-table">
-                <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.35fr 1.4fr 1.5fr 0.6fr' }}>
+                <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.25fr 1.8fr 1.8fr 0.5fr' }}>
                   <span>Nr.</span>
                   <span>Pflicht-Maßnahme</span>
                   <span>Rechtsgrundlage</span>
@@ -729,7 +729,7 @@ export default async function GbuVersionPage({
                   const confirmed = ackMap[m.measure.slug]?.confirmed ?? false;
                   const reason = engineSnap.mandatory_reasons[m.measure.slug] ?? m.mandatory_reason;
                   return (
-                    <div className="risk-table-row" key={`mand-${m.measure.slug}`} style={{ display: 'grid', gridTemplateColumns: '0.35fr 1.4fr 1.5fr 0.6fr' }}>
+                    <div className="risk-table-row" key={`mand-${m.measure.slug}`} style={{ display: 'grid', gridTemplateColumns: '0.25fr 1.8fr 1.8fr 0.5fr' }}>
                       <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)', fontWeight: 600 }}>
                         {String(idx + 1).padStart(2, '0')}
                       </div>
