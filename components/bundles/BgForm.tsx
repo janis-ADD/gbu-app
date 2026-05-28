@@ -43,9 +43,39 @@ export function BgForm({
   const shouldDefaultOpen = candidates.length === 0 && others.length > 0;
   const [showAll, setShowAll] = useState(shouldDefaultOpen);
 
+  // TEMP DEBUG (BgForm-Render-Diagnose). Zeigt direkt im UI alle Felder,
+  // die für die Render-Logik entscheidend sind. Wenn bgCatalog.length = 0
+  // hier sichtbar wird, ist Migration 0015 noch nicht angewendet — der
+  // anon-Client bekommt dann keine Zeilen zurück. Wenn bgCatalog.length > 0
+  // aber others.length = 0, ist es ein JSX-Bug. Wenn alles plausibel: dann
+  // schreibt der Browser irgendetwas anderes nicht.
+  const DEBUG_BUILD_MARKER = 'ux-rvs-bgform-diag-82aea0b+1';
+
   return (
     <form action={formAction}>
       <FormFeedback state={fb} />
+
+      <div className="alert-banner" style={{
+        marginBottom: 16,
+        borderLeft: '3px solid var(--petrol, #1B6CA8)'
+      }}>
+        <span className="alert-banner-icon" aria-hidden="true">🔍</span>
+        <div className="alert-banner-text" style={{ flex: 1 }}>
+          <strong>BgForm Diagnose (temp.)</strong>
+          <div style={{ marginTop: 6, fontSize: 13, lineHeight: 1.7, fontFamily: 'ui-monospace, monospace' }}>
+            <div>bgCatalog.length = <strong>{bgCatalog.length}</strong></div>
+            <div>candidates.length = <strong>{candidates.length}</strong></div>
+            <div>others.length = <strong>{others.length}</strong></div>
+            <div>showAll = <strong>{String(showAll)}</strong></div>
+            <div>selSet.size = <strong>{selSet.size}</strong></div>
+            <div>candidateSlugs = <strong>[{Array.from(candidateSlugs).join(', ') || '∅'}]</strong></div>
+            <div>others-slugs (first 6) = <strong>[{others.slice(0, 6).map((b) => b.slug).join(', ') || '∅'}]</strong></div>
+          </div>
+          <div style={{ marginTop: 8, fontSize: 10.5, color: 'var(--text-3)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+            build: {DEBUG_BUILD_MARKER}
+          </div>
+        </div>
+      </div>
 
       <div className="alert-banner is-info" style={{ marginBottom: 16 }}>
         <span className="alert-banner-icon">ℹ️</span>
