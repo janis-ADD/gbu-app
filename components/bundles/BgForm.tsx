@@ -30,11 +30,18 @@ export function BgForm({
     BUNDLE_SETUP_INITIAL
   );
   const fb: AuthState = { ok: actionState.ok, error: actionState.error };
-  const [showAll, setShowAll] = useState(false);
 
   const candidateSlugs = new Set(candidates.map((c) => c.bg.slug));
   const others = bgCatalog.filter((bg) => !candidateSlugs.has(bg.slug));
   const selSet = new Set(selected);
+
+  // Wenn keine industriespezifischen Kandidaten gefunden wurden (z. B.
+  // Branche „other" oder Nische außerhalb des Mini-Katalogs), klappen wir
+  // die vollständige BG-Liste automatisch auf — sonst hätten Nutzer:innen
+  // nur einen einzigen Button und keine sichtbare Auswahl. Der Nutzer kann
+  // die Liste über den Toggle weiterhin zuklappen.
+  const shouldDefaultOpen = candidates.length === 0 && others.length > 0;
+  const [showAll, setShowAll] = useState(shouldDefaultOpen);
 
   return (
     <form action={formAction}>
@@ -78,8 +85,10 @@ export function BgForm({
 
       {candidates.length === 0 ? (
         <div className="note">
-          Keine typischen Kandidaten für deine Branche im Mini-Katalog.
-          Bitte unten erweitern oder „noch zu klären".
+          Für Ihre Branche wurde kein direkter Kandidat erkannt. Wählen Sie
+          unten die zuständige Berufsgenossenschaft aus der vollständigen
+          Liste — oder markieren Sie „noch nicht geklärt", wenn Sie die
+          Zuständigkeit erst mit der BG abstimmen.
         </div>
       ) : (
         <div className="risk-grid" style={{ marginBottom: 10 }}>
@@ -111,22 +120,33 @@ export function BgForm({
         </div>
       )}
 
-      {!showAll ? (
-        <button type="button" className="btn btn-ghost btn-sm" onClick={() => setShowAll(true)}>
-          + Weitere BGs anzeigen
-        </button>
-      ) : (
-        <div className="risk-grid" style={{ marginTop: 10 }}>
-          {others.map((bg) => (
-            <label key={bg.slug} className={`risk-btn ${selSet.has(bg.slug) ? 'active' : ''}`}>
-              <input type="checkbox" name="confirmed_bg_slug" value={bg.slug} defaultChecked={selSet.has(bg.slug)} />
-              <span>
-                <strong style={{ display: 'block' }}>{bg.name}</strong>
-                <span style={{ fontSize: 11, color: 'var(--text-3)' }}>{bg.description}</span>
-              </span>
-            </label>
-          ))}
-        </div>
+      {others.length > 0 && (
+        <>
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm"
+            onClick={() => setShowAll((s) => !s)}
+            aria-expanded={showAll}
+            style={{ marginTop: showAll ? 0 : 6 }}
+          >
+            {showAll
+              ? '− Vollständige BG-Liste ausblenden'
+              : `+ Weitere BGs anzeigen (${others.length})`}
+          </button>
+          {showAll && (
+            <div className="risk-grid" style={{ marginTop: 10 }}>
+              {others.map((bg) => (
+                <label key={bg.slug} className={`risk-btn ${selSet.has(bg.slug) ? 'active' : ''}`}>
+                  <input type="checkbox" name="confirmed_bg_slug" value={bg.slug} defaultChecked={selSet.has(bg.slug)} />
+                  <span>
+                    <strong style={{ display: 'block' }}>{bg.name}</strong>
+                    <span style={{ fontSize: 11, color: 'var(--text-3)' }}>{bg.description}</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          )}
+        </>
       )}
 
       <div style={{ marginTop: 14 }}>
