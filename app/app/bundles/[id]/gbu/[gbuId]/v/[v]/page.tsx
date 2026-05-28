@@ -174,6 +174,30 @@ export default async function GbuVersionPage({
     return 'gering';
   }
 
+  /* ─── Pfad B: gemeinsame Maßnahmen-Reihenfolge für Kapitel 4 + Anhang C ──
+     Audit-Plan (Kap. 4) und Detail-Anhang (Anhang C) müssen die identische
+     laufende Nummer tragen, damit Querverweise (#NN) stabil sind. Wir
+     berechnen die Reihenfolge einmal hier und reichen sie als Lookup in
+     beide Render-Stellen weiter. */
+  const _grouped = sortMeasuresForUi(visibleMeasures);
+  const riskNamesBySlug: Record<string, string> = Object.fromEntries(
+    visibleRisks.map((r) => [r.risk.slug, r.risk.name])
+  );
+  // Empfohlene Frist pro UI-Gruppe — Render-Konvention (kein Schema-Wechsel).
+  const GROUP_FRIST: Record<typeof UI_GROUP_ORDER[number], string> = {
+    jetzt_wichtig:          'innerhalb 14 Tagen prüfen',
+    als_naechstes_sinnvoll: 'innerhalb 3 Monaten',
+    spaeter_optimierbar:    'innerhalb 12 Monaten / nächste turnusmäßige Aktualisierung'
+  };
+  // Flache, nummerierte Liste in Audit-Reihenfolge.
+  let _nrCounter = 0;
+  const numberedMeasures = UI_GROUP_ORDER.flatMap((g) =>
+    _grouped[g].map((m) => {
+      _nrCounter += 1;
+      return { m, group: g, nr: _nrCounter };
+    })
+  );
+
   return (
     <main className="content">
       <div className="content-head">
@@ -367,6 +391,9 @@ export default async function GbuVersionPage({
             ) : null}
             <li><span className="print-toc-num">Anhang A</span><span className="print-toc-label">Genehmigungsvermerk</span><span className="print-toc-page" /></li>
             <li><span className="print-toc-num">Anhang B</span><span className="print-toc-label">Reproduzierbarkeit und Audit</span><span className="print-toc-page" /></li>
+            {visibleMeasures.length > 0 ? (
+              <li><span className="print-toc-num">Anhang C</span><span className="print-toc-label">Ausführliche Maßnahmen-Beschreibungen</span><span className="print-toc-page" /></li>
+            ) : null}
           </ol>
         </div>
 
@@ -575,139 +602,115 @@ export default async function GbuVersionPage({
                 ist in den hier kuratierten Maßnahmen ggf. Bestandteil
                 technischer Maßnahmen (Spalte „STOP").
               </div>
-              {(() => {
-                const grouped = sortMeasuresForUi(visibleMeasures);
-                const riskNamesBySlug: Record<string, string> = Object.fromEntries(
-                  visibleRisks.map((r) => [r.risk.slug, r.risk.name])
-                );
-                // Empfohlene Frist pro UI-Gruppe — als Konvention im Render,
-                // nicht im Snapshot/Schema (kein Datenmodell-Wechsel).
-                const GROUP_FRIST: Record<typeof UI_GROUP_ORDER[number], string> = {
-                  jetzt_wichtig:          'innerhalb 14 Tagen prüfen',
-                  als_naechstes_sinnvoll: 'innerhalb 3 Monaten',
-                  spaeter_optimierbar:    'innerhalb 12 Monaten / nächste turnusmäßige Aktualisierung'
-                };
-                // Laufende Nummer über alle Gruppen hinweg (Audit-konform).
-                let runningNr = 0;
-                return UI_GROUP_ORDER.map((g) => {
-                  const list = grouped[g];
-                  if (list.length === 0) return null;
-                  return (
-                    <div key={g} style={{ marginBottom: 16 }}>
-                      <div style={{
-                        marginTop: 10, marginBottom: 6,
-                        padding: '8px 10px',
-                        background: '#f4f8fb',
-                        borderLeft: '3px solid #0c3a5c',
-                        borderRadius: '0 6px 6px 0'
-                      }}>
-                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-                          <span style={{ fontSize: 13, fontWeight: 750, color: '#0c3a5c' }}>
-                            {UI_GROUP_LABELS[g]}
-                          </span>
-                          <span style={{
-                            fontSize: 10.5, fontWeight: 600, color: 'var(--text-3)',
-                            padding: '1px 7px', background: '#fff',
-                            border: '1px solid var(--border, #d6e4f0)', borderRadius: 100
-                          }}>
-                            {list.length} Maßnahmen
-                          </span>
+              <div style={{
+                marginTop: 4, marginBottom: 10,
+                fontSize: 10.5, color: 'var(--text-3)',
+                fontStyle: 'italic', lineHeight: 1.5
+              }}>
+                Diese Übersicht ist als Audit-Plan gedacht. Long-Text,
+                Begründung und vollständige Quellenliste je Maßnahme finden
+                sich in <strong>Anhang C — Ausführliche Maßnahmen-Beschreibungen</strong>{' '}
+                (Querverweis je Zeile über die laufende Nummer „#NN").
+              </div>
+              {UI_GROUP_ORDER.map((g) => {
+                const groupItems = numberedMeasures.filter((x) => x.group === g);
+                if (groupItems.length === 0) return null;
+                return (
+                  <div key={g} style={{ marginBottom: 16 }}>
+                    <div style={{
+                      marginTop: 10, marginBottom: 6,
+                      padding: '8px 10px',
+                      background: '#f4f8fb',
+                      borderLeft: '3px solid #0c3a5c',
+                      borderRadius: '0 6px 6px 0'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+                        <span style={{ fontSize: 13, fontWeight: 750, color: '#0c3a5c' }}>
+                          {UI_GROUP_LABELS[g]}
+                        </span>
+                        <span style={{
+                          fontSize: 10.5, fontWeight: 600, color: 'var(--text-3)',
+                          padding: '1px 7px', background: '#fff',
+                          border: '1px solid var(--border, #d6e4f0)', borderRadius: 100
+                        }}>
+                          {groupItems.length} Maßnahmen
+                        </span>
+                      </div>
+                      <div style={{ marginTop: 4, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, fontSize: 10.5 }}>
+                        <div>
+                          <span style={{ color: 'var(--text-3)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', fontSize: 9.5 }}>Empfohlene Frist:</span>{' '}
+                          <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>{GROUP_FRIST[g]}</span>
                         </div>
-                        <div style={{ marginTop: 4, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, fontSize: 10.5 }}>
-                          <div>
-                            <span style={{ color: 'var(--text-3)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', fontSize: 9.5 }}>Empfohlene Frist:</span>{' '}
-                            <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>{GROUP_FRIST[g]}</span>
-                          </div>
-                          <div>
-                            <span style={{ color: 'var(--text-3)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', fontSize: 9.5 }}>Verantwortlich:</span>{' '}
-                            <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>{responsibleRole ?? '—'}</span>
-                          </div>
-                        </div>
-                        <div style={{ marginTop: 4, fontSize: 10, color: 'var(--text-3)', lineHeight: 1.5, fontStyle: 'italic' }}>
-                          {COPY.explainability.groupContext[g]}
+                        <div>
+                          <span style={{ color: 'var(--text-3)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', fontSize: 9.5 }}>Verantwortlich:</span>{' '}
+                          <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>{responsibleRole ?? '—'}</span>
                         </div>
                       </div>
-                      <div className="risk-table">
-                        <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.25fr 2.4fr 0.35fr 0.5fr 1.1fr' }}>
-                          <span>Nr.</span>
-                          <span>Maßnahme</span>
-                          <span>STOP</span>
-                          <span>Status</span>
-                          <span>Quellen</span>
-                        </div>
-                        {list.map((m) => {
-                          runningNr += 1;
-                          const cat = m.measure.category;
-                          const top = cat === 'technisch' ? 'T' : cat === 'organisatorisch' ? 'O' : 'P';
-                          const confirmed = ackMap[m.measure.slug]?.confirmed ?? false;
-                          const mandatoryReason = engineSnap.mandatory_reasons[m.measure.slug] ?? m.mandatory_reason;
-                          const obligation = m.obligation_type ?? (m.is_mandatory ? 'pflicht' : 'empfehlung');
-                          const obligationLabel = OBLIGATION_UI_LABELS[obligation];
-                          const obligationCls = obligation === 'pflicht' ? 'conf-low'
-                            : obligation === 'angebot' ? 'conf-medium' : 'conf-high';
-                          return (
-                            <div className="risk-table-row" key={m.measure.slug} style={{ display: 'grid', gridTemplateColumns: '0.25fr 2.4fr 0.35fr 0.5fr 1.1fr' }}>
-                              <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)', fontWeight: 600 }}>
-                                {String(runningNr).padStart(2, '0')}
-                              </div>
-                              <div className={m.is_mandatory ? 'pdf-mandatory-mark' : ''}>
-                                <strong>{m.measure.short_text}</strong>
-                                <span className={`conf-badge ${obligationCls}`} style={{ marginLeft: 6 }}>
-                                  {obligationLabel}
-                                </span>
-                                <div style={{ fontSize: 11, color: 'var(--text-2)', marginTop: 3, lineHeight: 1.5 }}>
-                                  {m.measure.long_text}
-                                </div>
-                                {(() => {
-                                  const why = explainMeasureBasis(m, riskNamesBySlug);
-                                  return why ? (
-                                    <div style={{
-                                      fontSize: 10.5, color: 'var(--text-2)', marginTop: 4,
-                                      padding: '4px 8px',
-                                      background: 'var(--off, #f7f9fc)',
-                                      borderLeft: '2px solid var(--petrol, #1B6CA8)',
-                                      borderRadius: 4, lineHeight: 1.5
-                                    }}>
-                                      <strong style={{ color: 'var(--petrol, #0c3a5c)' }}>Warum:</strong> {why}
-                                    </div>
-                                  ) : null;
-                                })()}
-                                {mandatoryReason && !m.is_mandatory ? (
-                                  <div style={{ fontSize: 10.5, color: '#475569', marginTop: 4 }}>
-                                    <strong style={{ color: '#0c3a5c' }}>Grundlage:</strong> {mandatoryReason}
-                                  </div>
-                                ) : null}
-                              </div>
-                              <div style={{ fontSize: 11 }}>
-                                <span className="conf-badge">{top}</span>
-                              </div>
-                              <div style={{ fontSize: 11 }}>
-                                <span className={`conf-badge ${confirmed ? 'conf-high' : 'conf-low'}`}>
-                                  {confirmed ? '✓ umgesetzt' : 'offen'}
-                                </span>
-                              </div>
-                              <div>
-                                {m.measure.source_ref_slugs.slice(0, 3).map((s) => {
-                                  const ref = refMap[s];
-                                  return ref ? (
-                                    <div key={s} style={{ marginBottom: 2 }}>
-                                      <span className="src-chip" title={ref.title}>{ref.citation}</span>
-                                    </div>
-                                  ) : null;
-                                })}
-                              </div>
-                            </div>
-                          );
-                        })}
+                      <div style={{ marginTop: 4, fontSize: 10, color: 'var(--text-3)', lineHeight: 1.5, fontStyle: 'italic' }}>
+                        {COPY.explainability.groupContext[g]}
                       </div>
                     </div>
-                  );
-                });
-              })()}
+                    <div className="risk-table">
+                      <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.32fr 2.0fr 0.32fr 0.5fr 0.6fr 0.9fr' }}>
+                        <span>Nr.</span>
+                        <span>Maßnahme</span>
+                        <span>STOP</span>
+                        <span>Pflicht</span>
+                        <span>Status</span>
+                        <span>Rechtsgrundlage</span>
+                      </div>
+                      {groupItems.map(({ m, nr }) => {
+                        const cat = m.measure.category;
+                        const top = cat === 'technisch' ? 'T' : cat === 'organisatorisch' ? 'O' : 'P';
+                        const confirmed = ackMap[m.measure.slug]?.confirmed ?? false;
+                        const obligation = m.obligation_type ?? (m.is_mandatory ? 'pflicht' : 'empfehlung');
+                        const obligationLabel = OBLIGATION_UI_LABELS[obligation];
+                        const obligationCls = obligation === 'pflicht' ? 'conf-low'
+                          : obligation === 'angebot' ? 'conf-medium' : 'conf-high';
+                        // Nur die erste, kanonische Quelle als Audit-Chip —
+                        // alles weitere steht in Anhang C.
+                        const primarySlug = m.measure.source_ref_slugs[0];
+                        const primaryRef = primarySlug ? refMap[primarySlug] : undefined;
+                        return (
+                          <div className="risk-table-row" key={m.measure.slug} style={{ display: 'grid', gridTemplateColumns: '0.32fr 2.0fr 0.32fr 0.5fr 0.6fr 0.9fr' }}>
+                            <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)', fontWeight: 600 }}>
+                              {String(nr).padStart(2, '0')}
+                            </div>
+                            <div className={m.is_mandatory ? 'pdf-mandatory-mark' : ''}>
+                              <strong>{m.measure.short_text}</strong>
+                              <div style={{ fontSize: 9.5, color: 'var(--text-3)', marginTop: 2, fontStyle: 'italic' }}>
+                                Detail → Anhang C · #{String(nr).padStart(2, '0')}
+                              </div>
+                            </div>
+                            <div style={{ fontSize: 11 }}>
+                              <span className="conf-badge">{top}</span>
+                            </div>
+                            <div style={{ fontSize: 11 }}>
+                              <span className={`conf-badge ${obligationCls}`}>{obligationLabel}</span>
+                            </div>
+                            <div style={{ fontSize: 11 }}>
+                              <span className={`conf-badge ${confirmed ? 'conf-high' : 'conf-low'}`}>
+                                {confirmed ? '✓ umgesetzt' : 'offen'}
+                              </span>
+                            </div>
+                            <div style={{ fontSize: 10.5 }}>
+                              {primaryRef ? (
+                                <span className="src-chip" title={primaryRef.title}>{primaryRef.citation}</span>
+                              ) : (
+                                <span style={{ color: 'var(--text-3)' }}>—</span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
             </section>
           ) : null}
 
-          {/* ─── Pflichtmaßnahmen — Audit-Tabelle mit lfd. Nr ──────── */}
+          {/* ─── Pflichtmaßnahmen — Audit-Tabelle mit konsistenter lfd. Nr ── */}
           {visibleMeasures.some((m) => m.is_mandatory) ? (
             <section className="pdf-section">
               <div className="pdf-section-num">Kapitel 5</div>
@@ -715,34 +718,37 @@ export default async function GbuVersionPage({
               <p>
                 Diese Maßnahmen ergeben sich direkt aus geltenden Vorschriften
                 (ArbSchG, DGUV, BetrSichV, GefStoffV — siehe Spalte
-                „Grundlage"). Vollständige Beschreibung mit Frist und
-                Verantwortlich siehe Kapitel 4.
+                „Grundlage"). Die laufende Nummer „#NN" ist identisch mit
+                Kapitel 4 und Anhang C; die ausführliche Beschreibung steht in{' '}
+                <strong>Anhang C</strong>.
               </p>
               <div className="risk-table">
-                <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.25fr 1.8fr 1.8fr 0.5fr' }}>
+                <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.32fr 1.8fr 1.8fr 0.5fr' }}>
                   <span>Nr.</span>
                   <span>Pflicht-Maßnahme</span>
                   <span>Rechtsgrundlage</span>
                   <span>Status</span>
                 </div>
-                {visibleMeasures.filter((m) => m.is_mandatory).map((m, idx) => {
-                  const confirmed = ackMap[m.measure.slug]?.confirmed ?? false;
-                  const reason = engineSnap.mandatory_reasons[m.measure.slug] ?? m.mandatory_reason;
-                  return (
-                    <div className="risk-table-row" key={`mand-${m.measure.slug}`} style={{ display: 'grid', gridTemplateColumns: '0.25fr 1.8fr 1.8fr 0.5fr' }}>
-                      <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)', fontWeight: 600 }}>
-                        {String(idx + 1).padStart(2, '0')}
+                {numberedMeasures
+                  .filter(({ m }) => m.is_mandatory)
+                  .map(({ m, nr }) => {
+                    const confirmed = ackMap[m.measure.slug]?.confirmed ?? false;
+                    const reason = engineSnap.mandatory_reasons[m.measure.slug] ?? m.mandatory_reason;
+                    return (
+                      <div className="risk-table-row" key={`mand-${m.measure.slug}`} style={{ display: 'grid', gridTemplateColumns: '0.32fr 1.8fr 1.8fr 0.5fr' }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)', fontWeight: 600 }}>
+                          {String(nr).padStart(2, '0')}
+                        </div>
+                        <div className="pdf-mandatory-mark"><strong>{m.measure.short_text}</strong></div>
+                        <div style={{ fontSize: 11.5 }}>{reason ?? 'Pflicht-Maßnahme.'}</div>
+                        <div>
+                          <span className={`conf-badge ${confirmed ? 'conf-high' : 'conf-low'}`}>
+                            {confirmed ? '✓ umgesetzt' : 'noch offen'}
+                          </span>
+                        </div>
                       </div>
-                      <div className="pdf-mandatory-mark"><strong>{m.measure.short_text}</strong></div>
-                      <div style={{ fontSize: 11.5 }}>{reason ?? 'Pflicht-Maßnahme.'}</div>
-                      <div>
-                        <span className={`conf-badge ${confirmed ? 'conf-high' : 'conf-low'}`}>
-                          {confirmed ? '✓ umgesetzt' : 'noch offen'}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
             </section>
           ) : null}
@@ -951,6 +957,108 @@ export default async function GbuVersionPage({
               <div><strong>Schema-Version</strong> <span>v{engineSnap.schema_version}</span></div>
             </div>
           </section>
+
+          {/* ─── Anhang C: Ausführliche Maßnahmen-Beschreibungen ────
+               Pfad B: Long-Text, Warum-Box (explainMeasureBasis),
+               Pflicht-Begründung und vollständige Quellenliste
+               leben hier — Kapitel 4 bleibt scanbar. Querverweis via
+               laufender Nummer (#NN). */}
+          {numberedMeasures.length > 0 ? (
+            <>
+              <div className="print-page-break" aria-hidden="true" />
+              <section className="pdf-section">
+                <div className="pdf-section-num">Anhang C</div>
+                <h3>Ausführliche Maßnahmen-Beschreibungen</h3>
+                <p>
+                  Dieser Anhang ergänzt den kompakten Audit-Plan in Kapitel 4 um
+                  die fachliche Tiefe: Wirkungsweise, Auslöser-Begründung
+                  („Warum"), Pflicht-Grundlage und vollständige Quellenliste je
+                  Maßnahme. Die laufende Nummer „#NN" entspricht 1:1 der Nummer
+                  in Kapitel 4 und Kapitel 5.
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
+                  {numberedMeasures.map(({ m, group, nr }) => {
+                    const cat = m.measure.category;
+                    const top = cat === 'technisch' ? 'T' : cat === 'organisatorisch' ? 'O' : 'P';
+                    const obligation = m.obligation_type ?? (m.is_mandatory ? 'pflicht' : 'empfehlung');
+                    const obligationLabel = OBLIGATION_UI_LABELS[obligation];
+                    const obligationCls = obligation === 'pflicht' ? 'conf-low'
+                      : obligation === 'angebot' ? 'conf-medium' : 'conf-high';
+                    const mandatoryReason = engineSnap.mandatory_reasons[m.measure.slug] ?? m.mandatory_reason;
+                    const why = explainMeasureBasis(m, riskNamesBySlug);
+                    const allRefs = m.measure.source_ref_slugs
+                      .map((s) => refMap[s])
+                      .filter(Boolean);
+                    return (
+                      <div
+                        key={`anhc-${m.measure.slug}`}
+                        className="appendix-c-card"
+                        style={{
+                          border: '1px solid var(--border, #d6e4f0)',
+                          borderRadius: 6,
+                          padding: '10px 12px',
+                          background: '#fff',
+                          pageBreakInside: 'avoid',
+                          breakInside: 'avoid'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap', marginBottom: 4 }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#0c3a5c', fontSize: 12 }}>
+                            #{String(nr).padStart(2, '0')}
+                          </span>
+                          <strong style={{ fontSize: 12.5, color: 'var(--text-1)' }}>{m.measure.short_text}</strong>
+                          <span className="conf-badge">{top}</span>
+                          <span className={`conf-badge ${obligationCls}`}>{obligationLabel}</span>
+                          <span style={{
+                            fontSize: 9.5, color: 'var(--text-3)',
+                            padding: '1px 7px', background: '#f4f8fb',
+                            border: '1px solid var(--border, #d6e4f0)',
+                            borderRadius: 100, fontWeight: 600
+                          }}>
+                            {UI_GROUP_LABELS[group]}
+                          </span>
+                        </div>
+                        {m.measure.long_text ? (
+                          <div style={{ fontSize: 11, color: 'var(--text-2)', lineHeight: 1.5, marginBottom: 6 }}>
+                            {m.measure.long_text}
+                          </div>
+                        ) : null}
+                        {why ? (
+                          <div style={{
+                            fontSize: 10.5, color: 'var(--text-2)', marginTop: 4, marginBottom: 6,
+                            padding: '5px 9px',
+                            background: 'var(--off, #f7f9fc)',
+                            borderLeft: '2px solid var(--petrol, #1B6CA8)',
+                            borderRadius: 4, lineHeight: 1.5
+                          }}>
+                            <strong style={{ color: 'var(--petrol, #0c3a5c)' }}>Warum:</strong> {why}
+                          </div>
+                        ) : null}
+                        {mandatoryReason ? (
+                          <div style={{ fontSize: 10.5, color: '#475569', marginTop: 4, marginBottom: 6, lineHeight: 1.5 }}>
+                            <strong style={{ color: '#0c3a5c' }}>Pflicht-Grundlage:</strong> {mandatoryReason}
+                          </div>
+                        ) : null}
+                        {allRefs.length > 0 ? (
+                          <div style={{ marginTop: 6, fontSize: 10.5 }}>
+                            <span style={{ color: 'var(--text-3)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', fontSize: 9.5, marginRight: 6 }}>
+                              Quellen:
+                            </span>
+                            {allRefs.map((r, i) => (
+                              <span key={r!.slug} style={{ marginRight: 6 }}>
+                                <span className="src-chip" title={r!.title}>{r!.citation}</span>
+                                {i < allRefs.length - 1 ? '' : null}
+                              </span>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            </>
+          ) : null}
 
           <div className="print-note">
             <strong>Hinweis.</strong> Diese Gefährdungsbeurteilung ist ein

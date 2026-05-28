@@ -1050,12 +1050,14 @@ button { font: inherit; cursor: pointer; }
   }
 
   /* Meta-Grid im Querformat: 4 Spalten — passt die 8 Felder
-     in 2 ruhige Zeilen statt 4 vertikalen Zeilen. */
+     in 2 ruhige Zeilen statt 4 vertikalen Zeilen.
+     Hinweis: `margin-top: auto` (Reste aus Portrait) erzeugte ein
+     großes Vakuum im Querformat — ersetzt durch festen Abstand. */
   .print-cover .pc-meta-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 5mm 10mm;
-    margin-top: auto;
+    margin-top: 6mm;
     margin-bottom: 8mm;
     padding-top: 6mm;
     border-top: 0.5pt solid #cbd5e1;
