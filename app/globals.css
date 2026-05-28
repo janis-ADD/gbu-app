@@ -1174,24 +1174,36 @@ button { font: inherit; cursor: pointer; }
     letter-spacing: .06em;
   }
 
-  /* ─── Risk/Measures-Tabellen: ruhig, kein Käfig ───────────────────── */
-  .risk-table { border: none !important; border-radius: 0 !important; }
+  /* ─── Audit-Tabellen — Muster-Form-Stil, kompakt + förmlich ─────────
+     Anlehnung an GDA-Muster: blaues Header-Band mit weißem Text,
+     dichte Reihen, formelle Linien. In unserem Petrol-Blau statt
+     Mustern-Marineblau. */
+  .risk-table {
+    border: 0.5pt solid #cbd5e1 !important;
+    border-radius: 0 !important;
+    overflow: hidden;
+  }
   .risk-table-head {
-    background: transparent !important;
-    padding: 2mm 0 2mm !important;
+    background: #0c3a5c !important;
+    color: #fff !important;
+    padding: 2mm 3mm !important;
     font-size: 8pt !important;
     font-weight: 700 !important;
-    color: #94a3b8 !important;
-    letter-spacing: .12em;
+    letter-spacing: .04em;
     text-transform: uppercase;
-    border-bottom: 0.5pt solid #cbd5e1;
+    border-bottom: none !important;
+  }
+  .risk-table-head > span {
+    color: #fff !important;
   }
   .risk-table-row {
-    padding: 3.5mm 0 !important;
+    padding: 2.5mm 3mm !important;
     border-top: none !important;
-    border-bottom: 0.25pt solid #e2e8f0;
+    border-bottom: 0.25pt solid #cbd5e1;
     page-break-inside: avoid;
-    column-gap: 8mm;
+    column-gap: 5mm;
+    font-size: 8.5pt;
+    line-height: 1.45;
   }
   .risk-table-row:last-child { border-bottom: none; }
   .risk-table-row > div:first-child { font-weight: 600; color: #0f172a; }
@@ -1207,18 +1219,22 @@ button { font: inherit; cursor: pointer; }
     background: transparent !important;
     border: 0.5pt solid #cbd5e1 !important;
     color: #1B6CA8 !important;
-    font-size: 8pt !important;
-    padding: 0.5pt 4pt !important;
-    border-radius: 6pt;
+    font-size: 7.5pt !important;
+    padding: 0.5pt 3pt !important;
+    border-radius: 4pt;
+    white-space: nowrap;
+    line-height: 1.4;
   }
   .src-chip::before { color: #1B6CA8 !important; margin-right: 1pt; }
 
   .conf-badge {
     background: transparent !important;
-    padding: 0.5pt 4pt !important;
-    font-size: 7.5pt !important;
+    padding: 0.5pt 3pt !important;
+    font-size: 7pt !important;
     border: 0.5pt solid #cbd5e1;
     color: #475569 !important;
+    white-space: nowrap;
+    line-height: 1.4;
   }
   .conf-badge::before { display: none; }
   .conf-badge.conf-low { color: #b45309 !important; border-color: #fcd34d; }
@@ -1338,17 +1354,19 @@ button { font: inherit; cursor: pointer; }
     font-family: var(--font-mono), 'Courier New', monospace;
   }
 
-  /* ─── Severity-Score-Pille (statt Mathe-Notation) ────────────────── */
+  /* ─── Severity-Score-Pille (kompakt, einzeilig — Muster-Stil) ───── */
   .severity-pill {
     display: inline-flex;
     align-items: center;
-    gap: 4pt;
-    padding: 1.5pt 5pt;
-    border-radius: 8pt;
+    gap: 3pt;
+    padding: 1pt 4pt;
+    border-radius: 6pt;
     font-family: var(--font-mono), 'Courier New', monospace;
-    font-size: 8.5pt;
+    font-size: 7.5pt;
     font-weight: 700;
     border: 0.5pt solid;
+    white-space: nowrap;
+    line-height: 1.3;
   }
   .severity-pill.sev-hoch    { color: #b45309; background: #fff7ed; border-color: #fcd34d; }
   .severity-pill.sev-mittel  { color: #1B6CA8; background: #eff6ff; border-color: #93c5fd; }
