@@ -1096,7 +1096,10 @@ button { font: inherit; cursor: pointer; }
 
   /* ─── Inhalts-Sektionen ───────────────────────────────────────────── */
   .pdf-section {
-    margin-bottom: 16mm;
+    /* 16mm im Querformat war ca. 8% jeder Seite — bei 7–8 Sektionen
+       eine ganze leere Seite Bottom-Margin. Auf 7mm reduziert; die
+       feine Top-Linie der nächsten h3 bringt die optische Trennung. */
+    margin-bottom: 7mm;
     page-break-inside: auto;
   }
   .pdf-section + .pdf-section { margin-top: 0; }
@@ -1157,15 +1160,17 @@ button { font: inherit; cursor: pointer; }
     column-count: auto;
   }
   /* Data-Box im Querformat: Label-Spalte schmaler, Value-Spalte
-     bekommt mehr Platz für längere Werte. */
+     bekommt mehr Platz für längere Werte.
+     Label fluide (minmax) damit data-box auch in 2-Spalten-Layouts
+     (z. B. Kapitel 6 konsolidiert) nicht überläuft. */
   .data-box > div {
     display: grid;
-    grid-template-columns: 65mm 1fr;
-    gap: 6mm;
-    padding: 2mm 0;
+    grid-template-columns: minmax(38mm, 55mm) 1fr;
+    gap: 4mm;
+    padding: 1.6mm 0;
     border-bottom: 0.25pt solid #e2e8f0;
     margin-bottom: 0;
-    font-size: 10pt;
+    font-size: 9.5pt;
   }
   .data-box > div:last-child { border-bottom: none; }
   .data-box > div strong {

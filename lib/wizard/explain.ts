@@ -156,9 +156,18 @@ export function explainMeasureBasis(
     }
   }
 
-  // Pflicht-Begründung
-  if (d.is_mandatory && d.mandatory_reason) {
+  // Pflicht-Begründung. Wenn die Engine als Pflicht-Grund nur
+  // ein Maschinen-Metadaten-Stub liefert (z. B.
+  // „Pflicht-Maßnahme für Risiko(en): leitern-tritte"), bringt
+  // das im Print-Text keinen Mehrwert — wir lassen den „weil"-
+  // Satz dann weg, statt eine kaputte Grammatik zu drucken.
+  const isReasonHumanText =
+    !!d.mandatory_reason &&
+    !/^Pflicht-Maßnahme für Risiko\(en\):/i.test(d.mandatory_reason);
+  if (d.is_mandatory && d.mandatory_reason && isReasonHumanText) {
     parts.push(`Sie ist verpflichtend, weil ${lowerFirst(d.mandatory_reason)}`);
+  } else if (d.is_mandatory) {
+    parts.push('Sie ist verpflichtend nach den unten genannten Quellen.');
   } else if (d.obligation_type === 'angebot') {
     parts.push(
       'Sie wird als Angebot eingestuft, weil die Tätigkeit nur gelegentlich und in geringer Belastung ausgeführt wird.'

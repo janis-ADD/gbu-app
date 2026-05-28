@@ -378,16 +378,12 @@ export default async function GbuVersionPage({
             {visibleMeasures.length > 0 ? (
               <li><span className="print-toc-num">Kapitel 4</span><span className="print-toc-label">Maßnahmenplan</span><span className="print-toc-page" /></li>
             ) : null}
-            {visibleMeasures.some((m) => m.is_mandatory) ? (
-              <li><span className="print-toc-num">Kapitel 5</span><span className="print-toc-label">Pflichtmaßnahmen — Übersicht</span><span className="print-toc-page" /></li>
-            ) : null}
             {missingControls.length > 0 ? (
-              <li><span className="print-toc-num">Kapitel 6</span><span className="print-toc-label">Offene Punkte</span><span className="print-toc-page" /></li>
+              <li><span className="print-toc-num">Kapitel 5</span><span className="print-toc-label">Offene Punkte</span><span className="print-toc-page" /></li>
             ) : null}
-            <li><span className="print-toc-num">Kapitel 7</span><span className="print-toc-label">Verantwortlichkeiten</span><span className="print-toc-page" /></li>
-            <li><span className="print-toc-num">Kapitel 8</span><span className="print-toc-label">Prüf- und Aktualisierungsintervalle</span><span className="print-toc-page" /></li>
+            <li><span className="print-toc-num">Kapitel 6</span><span className="print-toc-label">Verantwortlichkeiten &amp; Prüfintervalle</span><span className="print-toc-page" /></li>
             {usedRefs.length > 0 ? (
-              <li><span className="print-toc-num">Kapitel 9</span><span className="print-toc-label">Quellen und Rechtsgrundlagen</span><span className="print-toc-page" /></li>
+              <li><span className="print-toc-num">Kapitel 7</span><span className="print-toc-label">Quellen und Rechtsgrundlagen</span><span className="print-toc-page" /></li>
             ) : null}
             <li><span className="print-toc-num">Anhang A</span><span className="print-toc-label">Genehmigungsvermerk</span><span className="print-toc-page" /></li>
             <li><span className="print-toc-num">Anhang B</span><span className="print-toc-label">Reproduzierbarkeit und Audit</span><span className="print-toc-page" /></li>
@@ -506,7 +502,7 @@ export default async function GbuVersionPage({
                 {COPY.explainability.pdf.risksIntro} Sortierung absteigend nach
                 Risiko-Bewertung. Pflicht-Gefährdungen erfordern Betriebs­anweisung,
                 PSA-Bereitstellung und/oder Unterweisung gemäß den zugehörigen
-                Quellen (siehe Spalte „Quellen" und Kapitel 9).
+                Quellen (siehe Spalte „Quellen" und Kapitel 7).
               </p>
               <div className="risk-table">
                 <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.25fr 1.6fr 0.7fr 1.0fr 1.8fr' }}>
@@ -710,53 +706,18 @@ export default async function GbuVersionPage({
             </section>
           ) : null}
 
-          {/* ─── Pflichtmaßnahmen — Audit-Tabelle mit konsistenter lfd. Nr ── */}
-          {visibleMeasures.some((m) => m.is_mandatory) ? (
-            <section className="pdf-section">
-              <div className="pdf-section-num">Kapitel 5</div>
-              <h3>Pflichtmaßnahmen — Audit-Übersicht</h3>
-              <p>
-                Diese Maßnahmen ergeben sich direkt aus geltenden Vorschriften
-                (ArbSchG, DGUV, BetrSichV, GefStoffV — siehe Spalte
-                „Grundlage"). Die laufende Nummer „#NN" ist identisch mit
-                Kapitel 4 und Anhang C; die ausführliche Beschreibung steht in{' '}
-                <strong>Anhang C</strong>.
-              </p>
-              <div className="risk-table">
-                <div className="risk-table-head" style={{ display: 'grid', gridTemplateColumns: '0.32fr 1.8fr 1.8fr 0.5fr' }}>
-                  <span>Nr.</span>
-                  <span>Pflicht-Maßnahme</span>
-                  <span>Rechtsgrundlage</span>
-                  <span>Status</span>
-                </div>
-                {numberedMeasures
-                  .filter(({ m }) => m.is_mandatory)
-                  .map(({ m, nr }) => {
-                    const confirmed = ackMap[m.measure.slug]?.confirmed ?? false;
-                    const reason = engineSnap.mandatory_reasons[m.measure.slug] ?? m.mandatory_reason;
-                    return (
-                      <div className="risk-table-row" key={`mand-${m.measure.slug}`} style={{ display: 'grid', gridTemplateColumns: '0.32fr 1.8fr 1.8fr 0.5fr' }}>
-                        <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)', fontWeight: 600 }}>
-                          {String(nr).padStart(2, '0')}
-                        </div>
-                        <div className="pdf-mandatory-mark"><strong>{m.measure.short_text}</strong></div>
-                        <div style={{ fontSize: 11.5 }}>{reason ?? 'Pflicht-Maßnahme.'}</div>
-                        <div>
-                          <span className={`conf-badge ${confirmed ? 'conf-high' : 'conf-low'}`}>
-                            {confirmed ? '✓ umgesetzt' : 'noch offen'}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
-            </section>
-          ) : null}
+          {/* Kapitel 5 (separate Pflichtmaßnahmen-Tabelle) entfernt:
+              Die Pflicht-Information steht bereits in Kapitel 4
+              (Spalte „Pflicht" + Status) und in Anhang C. Eine eigene
+              Tabelle hätte nur dieselben Daten in dritter Form gezeigt
+              und die Rechtsgrundlage-Spalte mit Maschinen-Metadaten
+              („Pflicht-Maßnahme für Risiko(en): …") gefüllt. Spart 1–3
+              Seiten und entfernt Doppelung. */}
 
           {/* ─── Noch zu klären (sachlich, nicht panisch) ──────────── */}
           {missingControls.length > 0 ? (
             <section className="pdf-section pdf-missing-section">
-              <div className="pdf-section-num">Kapitel 6</div>
+              <div className="pdf-section-num">Kapitel 5</div>
               <h3>Noch zu klären</h3>
               <p>
                 {COPY.explainability.pdf.openIssuesIntro} Eine fachkundige Prüfung
@@ -781,73 +742,45 @@ export default async function GbuVersionPage({
             </section>
           ) : null}
 
-          {/* ─── Verantwortlichkeiten ─────────────────────────────── */}
-          <div className="print-page-break" aria-hidden="true" />
+          {/* ─── Verantwortlichkeiten + Prüfintervalle (konsolidiert) ──
+               Beide Kapitel sind sehr kurz; sie als getrennte Sektionen
+               mit eigener Seitenkopf-Note zu zeigen, hat im Audit-PDF
+               nur Platz verbraucht. Sie laufen jetzt in einer Sektion
+               nebeneinander. */}
           <section className="pdf-section">
-            <div className="pdf-section-num">Kapitel 7</div>
-            <h3>Verantwortlichkeiten</h3>
+            <div className="pdf-section-num">Kapitel 6</div>
+            <h3>Verantwortlichkeiten &amp; Prüfintervalle</h3>
             <p>
               ArbSchG §6 verlangt die schriftliche Dokumentation der
-              Verantwortlichkeit. Personennamen werden bewusst nicht erfasst,
-              sondern eine Rolle. Pflichtenübertragung im Sinne von ArbSchG §13
-              bleibt davon unberührt — die letzte Verantwortung trägt der
-              Arbeitgeber.
+              Verantwortlichkeit; ArbSchG §3 fordert ihre regelmäßige
+              Wirksamkeitsprüfung. Beides wird hier zusammengefasst.
             </p>
-            <div className="data-box">
-              <div><strong>Verantwortlich für Umsetzung der Maßnahmen</strong> <span>{responsibleRole ?? '—'}</span></div>
-              <div><strong>Erstellt / freigegeben am</strong> <span>{releasedDate}</span></div>
-              <div><strong>Pflicht-Disclaimer bestätigt</strong> <span>ja · siehe Anhang A · Cell 3</span></div>
-              <div><strong>Nächste Wirksamkeitsprüfung</strong> <span>{reviewDateFormatted} · {dueStatus.label}</span></div>
-              <div><strong>Aktualisierungs-Intervall</strong> <span>{intervalLabel(reviewInterval)}</span></div>
-            </div>
-            <div style={{
-              marginTop: 8, padding: '8px 10px',
-              fontSize: 10.5, color: 'var(--text-3)',
-              borderLeft: '2px solid var(--border)',
-              lineHeight: 1.55
-            }}>
-              <strong style={{ color: 'var(--text-2)' }}>Hinweis zur fachlichen Prüfung:</strong>{' '}
-              Die fachliche Prüfung durch eine Fachkraft für Arbeitssicherheit
-              (DGUV V2) und/oder den/die Sicherheitsbeauftragte:n ist im
-              Anhang A · Cell 2 zu dokumentieren.
-            </div>
-          </section>
-
-          {/* ─── Prüf- & Aktualisierungsintervalle ────────────────── */}
-          <section className="pdf-section">
-            <div className="pdf-section-num">Kapitel 8</div>
-            <h3>Prüf- und Aktualisierungsintervalle</h3>
-            <p>
-              Die Aktualität der Gefährdungsbeurteilung wird sowohl durch ein
-              regelmäßiges Intervall als auch durch konkrete Anlässe sichergestellt
-              (ArbSchG §3, §6).
-            </p>
-
-            <div className={`print-status-banner status-${dueStatus.kind}`}>
-              <div style={{ flex: 1 }}>
-                <div className="print-status-banner-label">Aktualitätsstatus</div>
-                <div className="print-status-banner-value">{dueStatus.label}</div>
-                <div className="print-status-banner-detail">{dueStatus.detail}</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 6 }}>
+              <div className="data-box" style={{ margin: 0 }}>
+                <div><strong>Verantwortlich für Umsetzung</strong> <span>{responsibleRole ?? '—'}</span></div>
+                <div><strong>Erstellt / freigegeben am</strong> <span>{releasedDate}</span></div>
+                <div><strong>Pflicht-Disclaimer bestätigt</strong> <span>ja · siehe Anhang A · Cell 3</span></div>
+                <div><strong>Fachliche Prüfung (DGUV V2)</strong> <span style={{ color: 'var(--text-3)' }}>siehe Anhang A · Cell 2</span></div>
               </div>
-            </div>
-
-            <div className="data-box">
-              <div><strong>Nächste Wirksamkeitsprüfung</strong> <span>{reviewDateFormatted}</span></div>
-              <div><strong>Standard-Intervall</strong> <span>{intervalLabel(reviewInterval)}</span></div>
-              <div>
-                <strong>Außerplanmäßige Anlässe</strong>
-                <span>
-                  {reviewTriggers.length === 0
-                    ? <em style={{ color: 'var(--text-3)' }}>keine festgelegt</em>
-                    : reviewTriggers.map((t) => TRIGGER_LABELS[t] ?? t).join(' · ')}
-                </span>
+              <div className="data-box" style={{ margin: 0 }}>
+                <div><strong>Nächste Wirksamkeitsprüfung</strong> <span>{reviewDateFormatted}</span></div>
+                <div><strong>Aktualitätsstatus</strong> <span>{dueStatus.label}</span></div>
+                <div><strong>Standard-Intervall</strong> <span>{intervalLabel(reviewInterval)}</span></div>
+                <div>
+                  <strong>Außerplanmäßige Anlässe</strong>
+                  <span>
+                    {reviewTriggers.length === 0
+                      ? <em style={{ color: 'var(--text-3)' }}>keine festgelegt</em>
+                      : reviewTriggers.map((t) => TRIGGER_LABELS[t] ?? t).join(' · ')}
+                  </span>
+                </div>
               </div>
             </div>
           </section>
 
           {usedRefs.length > 0 && (
             <section className="pdf-section">
-              <div className="pdf-section-num">Kapitel 9</div>
+              <div className="pdf-section-num">Kapitel 7</div>
               <h3>Quellen &amp; Rechtsgrundlagen</h3>
               <div className="source-list">
                 <ol>
@@ -959,105 +892,87 @@ export default async function GbuVersionPage({
           </section>
 
           {/* ─── Anhang C: Ausführliche Maßnahmen-Beschreibungen ────
-               Pfad B: Long-Text, Warum-Box (explainMeasureBasis),
-               Pflicht-Begründung und vollständige Quellenliste
-               leben hier — Kapitel 4 bleibt scanbar. Querverweis via
-               laufender Nummer (#NN). */}
+               Pfad B (kompakt): Long-Text + 1-Satz Warum + Quellen-Chips.
+               Pflicht-Grundlage wird NICHT zusätzlich gedruckt — sie
+               steckt bereits im Warum-Satz. Karten dürfen seitenintern
+               brechen, damit die Seiten dicht laufen. */}
           {numberedMeasures.length > 0 ? (
-            <>
-              <div className="print-page-break" aria-hidden="true" />
-              <section className="pdf-section">
-                <div className="pdf-section-num">Anhang C</div>
-                <h3>Ausführliche Maßnahmen-Beschreibungen</h3>
-                <p>
-                  Dieser Anhang ergänzt den kompakten Audit-Plan in Kapitel 4 um
-                  die fachliche Tiefe: Wirkungsweise, Auslöser-Begründung
-                  („Warum"), Pflicht-Grundlage und vollständige Quellenliste je
-                  Maßnahme. Die laufende Nummer „#NN" entspricht 1:1 der Nummer
-                  in Kapitel 4 und Kapitel 5.
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
-                  {numberedMeasures.map(({ m, group, nr }) => {
-                    const cat = m.measure.category;
-                    const top = cat === 'technisch' ? 'T' : cat === 'organisatorisch' ? 'O' : 'P';
-                    const obligation = m.obligation_type ?? (m.is_mandatory ? 'pflicht' : 'empfehlung');
-                    const obligationLabel = OBLIGATION_UI_LABELS[obligation];
-                    const obligationCls = obligation === 'pflicht' ? 'conf-low'
-                      : obligation === 'angebot' ? 'conf-medium' : 'conf-high';
-                    const mandatoryReason = engineSnap.mandatory_reasons[m.measure.slug] ?? m.mandatory_reason;
-                    const why = explainMeasureBasis(m, riskNamesBySlug);
-                    const allRefs = m.measure.source_ref_slugs
-                      .map((s) => refMap[s])
-                      .filter(Boolean);
-                    return (
-                      <div
-                        key={`anhc-${m.measure.slug}`}
-                        className="appendix-c-card"
-                        style={{
+            <section className="pdf-section">
+              <div className="pdf-section-num">Anhang C</div>
+              <h3>Ausführliche Maßnahmen-Beschreibungen</h3>
+              <p style={{ marginBottom: 8 }}>
+                Detail-Anhang zum Audit-Plan in Kapitel 4: Wirkungsweise je
+                Maßnahme, Auslöser-Begründung („Warum") und vollständige
+                Quellenliste. Die laufende Nummer „#NN" entspricht 1:1 der
+                Nummer in Kapitel 4.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginTop: 6 }}>
+                {numberedMeasures.map(({ m, group, nr }) => {
+                  const cat = m.measure.category;
+                  const top = cat === 'technisch' ? 'T' : cat === 'organisatorisch' ? 'O' : 'P';
+                  const obligation = m.obligation_type ?? (m.is_mandatory ? 'pflicht' : 'empfehlung');
+                  const obligationLabel = OBLIGATION_UI_LABELS[obligation];
+                  const obligationCls = obligation === 'pflicht' ? 'conf-low'
+                    : obligation === 'angebot' ? 'conf-medium' : 'conf-high';
+                  const why = explainMeasureBasis(m, riskNamesBySlug);
+                  const allRefs = m.measure.source_ref_slugs
+                    .map((s) => refMap[s])
+                    .filter(Boolean);
+                  return (
+                    <div
+                      key={`anhc-${m.measure.slug}`}
+                      className="appendix-c-card"
+                      style={{
+                        borderTop: '1px solid var(--border, #e2e8f0)',
+                        padding: '6px 0 2px',
+                        background: '#fff'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, flexWrap: 'wrap', marginBottom: 2 }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#0c3a5c', fontSize: 10.5 }}>
+                          #{String(nr).padStart(2, '0')}
+                        </span>
+                        <strong style={{ fontSize: 11.5, color: 'var(--text-1)', flex: 1, minWidth: '60mm' }}>
+                          {m.measure.short_text}
+                        </strong>
+                        <span className="conf-badge">{top}</span>
+                        <span className={`conf-badge ${obligationCls}`}>{obligationLabel}</span>
+                        <span style={{
+                          fontSize: 8.5, color: 'var(--text-3)',
+                          padding: '0 6px', background: '#f4f8fb',
                           border: '1px solid var(--border, #d6e4f0)',
-                          borderRadius: 6,
-                          padding: '10px 12px',
-                          background: '#fff',
-                          pageBreakInside: 'avoid',
-                          breakInside: 'avoid'
-                        }}
-                      >
-                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap', marginBottom: 4 }}>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#0c3a5c', fontSize: 12 }}>
-                            #{String(nr).padStart(2, '0')}
-                          </span>
-                          <strong style={{ fontSize: 12.5, color: 'var(--text-1)' }}>{m.measure.short_text}</strong>
-                          <span className="conf-badge">{top}</span>
-                          <span className={`conf-badge ${obligationCls}`}>{obligationLabel}</span>
-                          <span style={{
-                            fontSize: 9.5, color: 'var(--text-3)',
-                            padding: '1px 7px', background: '#f4f8fb',
-                            border: '1px solid var(--border, #d6e4f0)',
-                            borderRadius: 100, fontWeight: 600
-                          }}>
-                            {UI_GROUP_LABELS[group]}
-                          </span>
-                        </div>
-                        {m.measure.long_text ? (
-                          <div style={{ fontSize: 11, color: 'var(--text-2)', lineHeight: 1.5, marginBottom: 6 }}>
-                            {m.measure.long_text}
-                          </div>
-                        ) : null}
-                        {why ? (
-                          <div style={{
-                            fontSize: 10.5, color: 'var(--text-2)', marginTop: 4, marginBottom: 6,
-                            padding: '5px 9px',
-                            background: 'var(--off, #f7f9fc)',
-                            borderLeft: '2px solid var(--petrol, #1B6CA8)',
-                            borderRadius: 4, lineHeight: 1.5
-                          }}>
-                            <strong style={{ color: 'var(--petrol, #0c3a5c)' }}>Warum:</strong> {why}
-                          </div>
-                        ) : null}
-                        {mandatoryReason ? (
-                          <div style={{ fontSize: 10.5, color: '#475569', marginTop: 4, marginBottom: 6, lineHeight: 1.5 }}>
-                            <strong style={{ color: '#0c3a5c' }}>Pflicht-Grundlage:</strong> {mandatoryReason}
-                          </div>
-                        ) : null}
-                        {allRefs.length > 0 ? (
-                          <div style={{ marginTop: 6, fontSize: 10.5 }}>
-                            <span style={{ color: 'var(--text-3)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', fontSize: 9.5, marginRight: 6 }}>
-                              Quellen:
-                            </span>
-                            {allRefs.map((r, i) => (
-                              <span key={r!.slug} style={{ marginRight: 6 }}>
-                                <span className="src-chip" title={r!.title}>{r!.citation}</span>
-                                {i < allRefs.length - 1 ? '' : null}
-                              </span>
-                            ))}
-                          </div>
-                        ) : null}
+                          borderRadius: 100, fontWeight: 600
+                        }}>
+                          {UI_GROUP_LABELS[group]}
+                        </span>
                       </div>
-                    );
-                  })}
-                </div>
-              </section>
-            </>
+                      {m.measure.long_text ? (
+                        <div style={{ fontSize: 10, color: 'var(--text-2)', lineHeight: 1.45, marginBottom: 3 }}>
+                          {m.measure.long_text}
+                        </div>
+                      ) : null}
+                      {why ? (
+                        <div style={{
+                          fontSize: 9.5, color: 'var(--text-2)',
+                          marginBottom: 3, lineHeight: 1.45
+                        }}>
+                          <strong style={{ color: 'var(--petrol, #0c3a5c)' }}>Warum:</strong> {why}
+                        </div>
+                      ) : null}
+                      {allRefs.length > 0 ? (
+                        <div style={{ fontSize: 9.5, lineHeight: 1.8 }}>
+                          {allRefs.map((r) => (
+                            <span key={r!.slug} style={{ marginRight: 4 }}>
+                              <span className="src-chip" title={r!.title}>{r!.citation}</span>
+                            </span>
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
           ) : null}
 
           <div className="print-note">
