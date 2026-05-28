@@ -1,4 +1,5 @@
-import { createClient } from '@/lib/supabase/server';
+import { unstable_cache } from 'next/cache';
+import { createAnonClient } from '@/lib/supabase/server';
 import type {
   RaBgCatalog,
   RaLegalRef,
@@ -8,38 +9,30 @@ import type {
 } from '@/lib/db/types';
 
 /**
- * Loader für Stammdaten. RLS erlaubt Lesen für `authenticated`.
- * Wird in Server Components / Server Actions verwendet.
+ * Loader für Stammdaten. Catalog-Tabellen sind seit Migration 0015 für
+ * `anon` lesbar (kein PII, reine Referenzdaten). Wir nutzen deshalb hier
+ * `createAnonClient()` — der greift NICHT auf `cookies()` aus `next/headers`
+ * zu und kann sicher innerhalb von `unstable_cache`-Callbacks verwendet
+ * werden.
  *
- * ─── TEMP DEBUG (Real User Validation Sprint) ─────────────────────────
- * Vormals: jeder Loader war in `unstable_cache(...)` gewrappt
- *          (10-Min-TTL, Tag 'catalogs').
+ * PERFORMANCE: Stammdaten ändern sich nur durch Migrationen — wir cachen sie
+ * mit `unstable_cache` (10 min TTL). Pro Wizard-Render würden sonst 3-4
+ * Catalog-Queries gegen Supabase fliegen.
  *
- * Befund: `unstable_cache`-Callbacks laufen ohne Request-Kontext.
- * `createClient()` ruft aber `cookies()` aus `next/headers` auf — das ist
- * in einer cached function entweder verboten (wirft) oder liefert null.
- * Effekt: erster Fetch lieferte `[]`, die 10-Min-TTL hielt das leere Array
- * danach für jeden weiteren Request → BG-Liste blieb auch nach erfolgreicher
- * DB-Migration leer.
- *
- * Workaround hier: jede Catalog-Funktion liest direkt, kein unstable_cache.
- * Performance: pro Wizard-Render 3–4 zusätzliche Roundtrips gegen 6/29/19/35
- * Zeilen — vernachlässigbar.
- *
- * Permanenter Fix folgt separat: entweder
- *   (a) RLS-Policies für Catalog-Tabellen auf `to anon, authenticated`
- *       öffnen (Catalog ist public-reference data), oder
- *   (b) auf `react.cache(...)` umstellen (per-request Dedup, kein
- *       cross-request-Cache).
- *
- * Diagnose-Logging unten ist bewusst console.error/log mit pg_*-Feldern
- * — umgeht die DSGVO-Whitelist, weil hier RLS-/Verbindungs-Ursachen
- * sichtbar sein müssen. Keine PII in den Logs.
+ * OBSERVABILITY: Jeder Loader loggt im Erfolgsfall `count`, im Fehlerfall
+ * die Supabase-Error-Felder (pg_code/message/details/hint). Diese
+ * `console.error`-Zeilen umgehen die `logSafe`-Whitelist bewusst — sie
+ * enthalten KEIN PII (nur DB-Status), sind aber notwendig, damit
+ * Schema-/RLS-Probleme nicht still verschluckt werden (vgl. Real User
+ * Validation Sprint, Iteration 2).
  */
+
+const CATALOG_TTL = 60 * 10; // 10 Minuten
+const CATALOG_TAGS = ['catalogs'];
 
 async function fetchBgCatalog(): Promise<RaBgCatalog[]> {
   try {
-    const supabase = createClient();
+    const supabase = createAnonClient();
     const { data, error } = await supabase
       .from('ra_bg_catalog')
       .select('slug, name, description, industries, data_source, is_complete')
@@ -51,13 +44,11 @@ async function fetchBgCatalog(): Promise<RaBgCatalog[]> {
       });
       return [];
     }
-    console.log('[catalog.bg.fetch] ok', { count: (data ?? []).length });
     return (data ?? []) as RaBgCatalog[];
   } catch (err) {
     console.error('[catalog.bg.fetch] threw', {
       name: err instanceof Error ? err.name : null,
-      message: err instanceof Error ? err.message : String(err),
-      stack: err instanceof Error ? err.stack?.split('\n').slice(0, 4).join('\n') : null
+      message: err instanceof Error ? err.message : String(err)
     });
     return [];
   }
@@ -65,7 +56,7 @@ async function fetchBgCatalog(): Promise<RaBgCatalog[]> {
 
 async function fetchRiskCatalog(): Promise<RaRiskCatalog[]> {
   try {
-    const supabase = createClient();
+    const supabase = createAnonClient();
     const { data, error } = await supabase
       .from('ra_risk_catalog')
       .select('slug, name, category, typical_areas, source_ref_slugs, data_source, trigger_conditions, severity_default, likelihood_default, requires_betriebsanweisung, requires_psa, requires_unterweisung')
@@ -77,7 +68,6 @@ async function fetchRiskCatalog(): Promise<RaRiskCatalog[]> {
       });
       return [];
     }
-    console.log('[catalog.risk.fetch] ok', { count: (data ?? []).length });
     return (data ?? []) as RaRiskCatalog[];
   } catch (err) {
     console.error('[catalog.risk.fetch] threw', {
@@ -89,7 +79,7 @@ async function fetchRiskCatalog(): Promise<RaRiskCatalog[]> {
 
 async function fetchMeasureCatalog(): Promise<RaMeasureCatalog[]> {
   try {
-    const supabase = createClient();
+    const supabase = createAnonClient();
     const { data, error } = await supabase
       .from('ra_measure_catalog')
       .select('slug, short_text, long_text, category, applies_to_risks, source_ref_slugs, confidence, data_source, is_mandatory_when')
@@ -101,7 +91,6 @@ async function fetchMeasureCatalog(): Promise<RaMeasureCatalog[]> {
       });
       return [];
     }
-    console.log('[catalog.measure.fetch] ok', { count: (data ?? []).length });
     return (data ?? []) as RaMeasureCatalog[];
   } catch (err) {
     console.error('[catalog.measure.fetch] threw', {
@@ -113,7 +102,7 @@ async function fetchMeasureCatalog(): Promise<RaMeasureCatalog[]> {
 
 async function fetchAllLegalRefs(): Promise<RaLegalRef[]> {
   try {
-    const supabase = createClient();
+    const supabase = createAnonClient();
     const { data, error } = await supabase
       .from('ra_legal_refs')
       .select('slug, kind, citation, title, url, bg_slug, reviewed_by, reviewed_at, data_source')
@@ -125,7 +114,6 @@ async function fetchAllLegalRefs(): Promise<RaLegalRef[]> {
       });
       return [];
     }
-    console.log('[catalog.legal.fetch] ok', { count: (data ?? []).length });
     return (data ?? []) as RaLegalRef[];
   } catch (err) {
     console.error('[catalog.legal.fetch] threw', {
@@ -137,7 +125,7 @@ async function fetchAllLegalRefs(): Promise<RaLegalRef[]> {
 
 async function fetchTrainingCatalog(): Promise<RaTrainingCatalog[]> {
   try {
-    const supabase = createClient();
+    const supabase = createAnonClient();
     const { data, error } = await supabase
       .from('ra_training_catalog')
       .select('slug, name, related_risks, memberspot_id, data_source')
@@ -149,7 +137,6 @@ async function fetchTrainingCatalog(): Promise<RaTrainingCatalog[]> {
       });
       return [];
     }
-    console.log('[catalog.training.fetch] ok', { count: (data ?? []).length });
     return (data ?? []) as RaTrainingCatalog[];
   } catch (err) {
     console.error('[catalog.training.fetch] threw', {
@@ -159,21 +146,45 @@ async function fetchTrainingCatalog(): Promise<RaTrainingCatalog[]> {
   }
 }
 
-/* ─── Public Loader (TEMP: kein unstable_cache, siehe Header-Doku) ──── */
+/* ─── Gecachte öffentliche Loader ────────────────────────────────────── */
 
-export const listBgCatalog       = fetchBgCatalog;
-export const listRiskCatalog     = fetchRiskCatalog;
-export const listMeasureCatalog  = fetchMeasureCatalog;
-export const listTrainingCatalog = fetchTrainingCatalog;
+export const listBgCatalog = unstable_cache(
+  fetchBgCatalog,
+  ['catalog:bg'],
+  { revalidate: CATALOG_TTL, tags: CATALOG_TAGS }
+);
+
+export const listRiskCatalog = unstable_cache(
+  fetchRiskCatalog,
+  ['catalog:risks'],
+  { revalidate: CATALOG_TTL, tags: CATALOG_TAGS }
+);
+
+export const listMeasureCatalog = unstable_cache(
+  fetchMeasureCatalog,
+  ['catalog:measures'],
+  { revalidate: CATALOG_TTL, tags: CATALOG_TAGS }
+);
+
+export const listTrainingCatalog = unstable_cache(
+  fetchTrainingCatalog,
+  ['catalog:training'],
+  { revalidate: CATALOG_TTL, tags: CATALOG_TAGS }
+);
+
+/** Vollständige Legal-Refs (gecacht). */
+const listAllLegalRefs = unstable_cache(
+  fetchAllLegalRefs,
+  ['catalog:legal:all'],
+  { revalidate: CATALOG_TTL, tags: CATALOG_TAGS }
+);
 
 /**
- * Legal-Refs. Wenn `slugs` übergeben wird, filtern wir den Vollsatz
+ * Legal-Refs. Wenn `slugs` übergeben wird, filtern wir den gecachten Vollsatz
  * in-memory (kein extra Roundtrip). Ohne Argument: alle Refs.
- *
- * TEMP: voher gecached via unstable_cache — siehe Header.
  */
 export async function listLegalRefs(slugs?: string[]): Promise<RaLegalRef[]> {
-  const all = await fetchAllLegalRefs();
+  const all = await listAllLegalRefs();
   if (!slugs || slugs.length === 0) return all;
   const wanted = new Set(slugs);
   return all.filter((r) => wanted.has(r.slug));
