@@ -1297,31 +1297,58 @@ button { font: inherit; cursor: pointer; }
   .print-approval-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 8mm 14mm;
+    gap: 8mm 10mm;
   }
+  /* TEMP: alte global-Border deaktiviert — die neuen Cells (v4) tragen
+     eigene Unterschriftslinien per inline-style. */
   .print-approval-cell {
-    border-bottom: 0.5pt solid #475569;
-    padding: 8mm 0 1mm;
+    border-bottom: none !important;
+    padding: 0 !important;
+    min-height: 50mm;
     font-size: 8.5pt;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    font-weight: 600;
+    color: #475569;
+    font-weight: 500;
   }
   .print-approval-cell strong {
     display: block;
-    font-size: 10.5pt;
-    color: #0f172a;
+    color: #0c3a5c;
     text-transform: none;
     letter-spacing: 0;
-    font-weight: 600;
-    margin-bottom: 2mm;
+    font-weight: 700;
   }
   .print-approval-foot {
     margin-top: 6mm;
+    padding-top: 4mm;
+    border-top: 0.25pt solid #cbd5e1;
     font-size: 8pt;
     color: #64748b;
-    line-height: 1.5;
+    line-height: 1.55;
+  }
+
+  /* ─── Audit-Tabellen — Anti-Waisen + bessere Page-Breaks ─────────── */
+
+  /* Sektion-Header sollen nicht alleine am Seitenende stehen */
+  .pdf-section h3 {
+    page-break-after: avoid;
+  }
+  .pdf-section > p {
+    page-break-after: avoid;
+  }
+
+  /* Tabellen-Header darf nicht alleine am Seitenende landen */
+  .risk-table-head {
+    page-break-after: avoid;
+  }
+
+  /* Kennzahlen-Grid in Kapitel 1: zusammenhalten */
+  .pdf-section .data-box {
+    page-break-inside: avoid;
+  }
+
+  /* ─── Anhang-A-Signaturlinien (v4 — inline borderTop im JSX) ──────── */
+  .print-approval-cell > div[style*="border-top"] {
+    border-top-color: #475569 !important;
+    border-top-width: 0.5pt !important;
   }
 
   /* ─── Status-Banner für Aktualität ───────────────────────────────── */

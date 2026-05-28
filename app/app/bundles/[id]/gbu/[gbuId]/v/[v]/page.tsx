@@ -275,7 +275,7 @@ export default async function GbuVersionPage({
         {/* ─── Versteckte string-set-Quellen für @page Running-Header ── */}
         <span className="print-doc-title">Gefährdungsbeurteilung — {gbu.title}</span>
         <span className="print-doc-version">v{version.version_number} · {company.company_name ?? '—'}</span>
-        <span className="print-doc-hash">Snapshot {snapshotHashShort} · Engine {engineVersionDisplay}</span>
+        <span className="print-doc-hash">Kennung {snapshotHashShort} · Berechnung {engineVersionDisplay}</span>
 
         {/* ─── PDF-Cover (nur Print) ─────────────────────────────────── */}
         <div className="print-cover">

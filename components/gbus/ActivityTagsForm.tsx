@@ -255,7 +255,7 @@ function GuidedContextSection({
         <GuidedQuestion
           name="intensity"
           question="Wie häufig wird diese Tätigkeit ausgeführt?"
-          help="Damit erkennt das System, ob es sich um eine seltene Sonderarbeit oder eine alltägliche Tätigkeit handelt."
+          help="Damit lässt sich einordnen, ob es sich um eine seltene Sonderarbeit oder eine alltägliche Tätigkeit handelt — die Bewertung wird entsprechend justiert."
           options={INTENSITY_QUESTIONS}
           value={intensity ?? ''}
         />
